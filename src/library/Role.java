@@ -25,7 +25,7 @@ public class Role implements DatabaseEntry {
     }
 
     /**
-     * Parametized constructor. Creates a new <code>Role</code> object with the
+     * Parameterized constructor. Creates a new <code>Role</code> object with the
      * given role name and ID number
      *
      * @param r role name
@@ -37,7 +37,7 @@ public class Role implements DatabaseEntry {
     }
 
     /**
-     * Parametized constructor. Creates a new <code>Role</code> object with the
+     * Parameterized constructor. Creates a new <code>Role</code> object with the
      * given role name. Sets the role ID from the database using the given name
      *
      * @param r role name

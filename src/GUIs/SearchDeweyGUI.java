@@ -3,7 +3,9 @@
  Ross van der Heyde
  15 January 2015
  */
-package library;
+package GUIs;
+
+import library.Driver;
 
 /**
  *

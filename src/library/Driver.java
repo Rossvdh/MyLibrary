@@ -188,7 +188,7 @@ public class Driver {
                     break;
                 }
                 case 3: {//dewey level 1
-                    query = "{CALL getTopicOne()}";
+                    query = "{CALL getAllTopicOne()}";
                     break;
                 }
                 case 4: {//Roles

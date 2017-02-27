@@ -3,7 +3,10 @@
  Ross van der Heyde
  26 January 2015
  */
-package library;
+package GUIs;
+
+import library.Borrower;
+import library.Driver;
 
 /**
  *  JFrame for adding a new borrower to the database. 

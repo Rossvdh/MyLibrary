@@ -3,7 +3,10 @@
  Ross van der Heyde
  Started: 7 December 2014
  */
-package library;
+package GUIs;
+
+import library.Driver;
+import library.Shop;
 
 /**
  *

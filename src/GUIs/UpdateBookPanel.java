@@ -1,19 +1,37 @@
-/*Panel for updateing and deleting books
+/*Panel for updating and deleting books
  Ross van der Heyde
  Started 19 January 2014*/
-package library;
+package GUIs;
 
 import java.awt.Color;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextPane;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import library.AutoCompletion;
+import library.Book;
+import library.BookType;
+import library.Driver;
+import library.Fiction;
+import library.Genre;
+import library.NonFiction;
+import library.Series;
+import library.Shop;
 
 /**
+ * A <code>JPanel</code> that provides functionality and interface for updating
+ * and deleting books from the database.
  *
- * @author ross
+ * @author Ross van der Heyde
  */
 public class UpdateBookPanel extends javax.swing.JPanel {
 
     /**
-     * Creates new form UpdateBookPanel
+     * Creates new form UpdateBookPanel.
+     *
+     * @param d <code>Driver</code> that provides some methods.
      */
     public UpdateBookPanel(Driver d) {
         initComponents();
@@ -21,7 +39,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
         radDum.setVisible(false);
         setComboUpdateModel();
 
-        comboSGT.setVisible(false);
+        comboNewValue.setVisible(false);
         comboDewey1.setVisible(false);
         comboDewey2.setVisible(false);
         comboDewey3.setVisible(false);
@@ -59,7 +77,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
         butUpdate = new javax.swing.JButton();
         butClearAll = new javax.swing.JButton();
         butClearTextPane = new javax.swing.JButton();
-        comboSGT = new javax.swing.JComboBox();
+        comboNewValue = new javax.swing.JComboBox();
         comboDewey1 = new javax.swing.JComboBox();
         comboDewey2 = new javax.swing.JComboBox();
         comboDewey3 = new javax.swing.JComboBox();
@@ -72,14 +90,18 @@ public class UpdateBookPanel extends javax.swing.JPanel {
         jLabel3.setText("<html><b>Delete</b>");
 
         butDelete.setText("Delete");
+        butDelete.setToolTipText("Delete the book from the database.");
         butDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butDeleteActionPerformed(evt);
             }
         });
 
+        tfDeleteID.setToolTipText("Enter the ID number of the book to delete.");
+
         groupUpdate.add(radFiction);
         radFiction.setText("Fiction");
+        radFiction.setToolTipText("Select whether the book to update is fiction or non-fiction");
         radFiction.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 radFictionItemStateChanged(evt);
@@ -88,12 +110,14 @@ public class UpdateBookPanel extends javax.swing.JPanel {
 
         groupUpdate.add(radNonFiction);
         radNonFiction.setText("Non-fiction");
+        radNonFiction.setToolTipText("Select whether the book to update is fiction or non-fiction");
 
         groupUpdate.add(radDum);
         radDum.setText("dum");
 
         updateMessPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Messages", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP));
 
+        textPane.setToolTipText("Messages from the database appear here.");
         jScrollPane1.setViewportView(textPane);
 
         javax.swing.GroupLayout updateMessPanelLayout = new javax.swing.GroupLayout(updateMessPanel);
@@ -117,7 +141,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
 
         jLabel2.setText("Update:");
 
-        comboUpdate.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboUpdate.setToolTipText("Select the attribute tht you wish to update.");
         comboUpdate.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 comboUpdateItemStateChanged(evt);
@@ -126,9 +150,14 @@ public class UpdateBookPanel extends javax.swing.JPanel {
 
         jLabel4.setText("Book ID:");
 
+        tfUpdateID.setToolTipText("Enter the ID number of the book to update.");
+
         lNewValue.setText("New value:");
 
+        tfNewValue.setToolTipText("Enter the new value for the attribut to update.");
+
         butUpdate.setText("Update");
+        butUpdate.setToolTipText("Update the book's attribute");
         butUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butUpdateActionPerformed(evt);
@@ -136,6 +165,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
         });
 
         butClearAll.setText("Clear all");
+        butClearAll.setToolTipText("Clear text from all text fields and the text area.");
         butClearAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butClearAllActionPerformed(evt);
@@ -143,13 +173,14 @@ public class UpdateBookPanel extends javax.swing.JPanel {
         });
 
         butClearTextPane.setText("Clear messages");
+        butClearTextPane.setToolTipText("Remove the messages from the message area.");
         butClearTextPane.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butClearTextPaneActionPerformed(evt);
             }
         });
 
-        comboSGT.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboNewValue.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         comboDewey1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         comboDewey1.addItemListener(new java.awt.event.ItemListener() {
@@ -173,7 +204,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(radDum)
-                .addContainerGap(1023, Short.MAX_VALUE))
+                .addContainerGap(1087, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -185,17 +216,12 @@ public class UpdateBookPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 583, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 637, Short.MAX_VALUE)
                                 .addComponent(butUpdate))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lUpdateBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(44, 44, 44)
-                                        .addComponent(radFiction)
-                                        .addGap(49, 49, 49)
-                                        .addComponent(radNonFiction))
+                                    .addComponent(lUpdateBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(12, 12, 12)
@@ -208,7 +234,12 @@ public class UpdateBookPanel extends javax.swing.JPanel {
                                                 .addGap(6, 6, 6)
                                                 .addComponent(jLabel2)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(comboUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(radFiction)
+                                                        .addGap(10, 10, 10)
+                                                        .addComponent(radNonFiction))
+                                                    .addComponent(comboUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(410, 410, 410)
                                         .addComponent(jLabel4)
@@ -219,7 +250,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(tfNewValue, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
-                                            .addComponent(comboSGT, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(comboNewValue, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(comboDewey1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(comboDewey2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(comboDewey3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -236,10 +267,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lUpdateBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(radFiction)
-                            .addComponent(radNonFiction))
+                        .addComponent(lUpdateBook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -250,7 +278,10 @@ public class UpdateBookPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(radFiction)
+                            .addComponent(radNonFiction))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -263,7 +294,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
                             .addComponent(lNewValue)
                             .addComponent(butUpdate))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboSGT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(comboNewValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(comboDewey1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -281,7 +312,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    //sproc DONE
+    //get ID and deleting from database
     private void butDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butDeleteActionPerformed
         //same delete method for fiction and nonFiction
         Book book = new Book(Integer.parseInt(tfDeleteID.getText()));
@@ -294,96 +325,95 @@ public class UpdateBookPanel extends javax.swing.JPanel {
         } else {
             driver.appendToPane(textPane, "Book could not be deleted.\n", Color.red);
         }
-
-        /*if (radFiction.isSelected()) {
-        //fiction
-        Fiction book = new Fiction(Integer.parseInt(tfDeleteID.getText()));
-        
-        //perform deletion and inform user of success or failure.
-        if (book.deleteFromDatabase()) {
-        driver.appendToPane(textPane, "Book deleted successfully.\n", Color.green);
-        } else {
-        driver.appendToPane(textPane, "Book could not be deleted.\n", Color.red);
-        }
-        
-        } else if (radNonFiction.isSelected()) {
-        //nonFiction
-        NonFiction book = new NonFiction(Integer.parseInt(tfDeleteID.getText()));
-        
-        if (book.deleteFromDatabase()) {
-        driver.appendToPane(textPane, "Book deleted successfully.\n", Color.green);
-        } else {
-        driver.appendToPane(textPane, "Book could not be deleted.\n", Color.red);
-        }
-        
-        } else {
-        //neither selected
-        driver.errorMessageNormal("Please select whether the book is fiction or non-fiction.");
-        }*/
     }//GEN-LAST:event_butDeleteActionPerformed
 
+    //get field to update and new value, then update the Book in the database
     private void butUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butUpdateActionPerformed
         if (radFiction.isSelected()) {
+            /*Object[] tempFields = {"Title", "Author", "First published",
+            "Price", "Place bought", "Month bought", "Year bought",
+            "Series", "Number in series", "Genre", "Type of book"};*/
             //fiction
             //<editor-fold defaultstate="collapsed" desc="fiction">
             Fiction book = new Fiction(Integer.parseInt(tfUpdateID.getText()));
 
             boolean success = false;
+            String newValue = "";
 
             switch (comboUpdate.getSelectedIndex()) {
-                case 5: {
-                    //genre
-                    //get genre ID
-                    Genre gen = new Genre(comboSGT.getSelectedItem().toString());
-                    int id = gen.getId();
-
-                    //execute update
-                    success = book.updateInDatabase("genre", Integer.toString(id));
-
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6: {
+                    success = updateGeneralAttributes();
                     break;
                 }
-                case 6: {
-                    //type
-                    //get type ID
-                    BookType type = new BookType(comboSGT.getSelectedItem().toString());
-                    int id = type.getID();
+                case 7: {
+                    //7 series
+                    Series ser = new Series(comboNewValue.getSelectedItem().toString());
 
-                    success = book.updateInDatabase("typeOfBook", Integer.toString(id));
+                    newValue = Integer.toString(ser.getId());
+
+                    success = book.updateInDatabase(comboUpdate.getSelectedItem().toString(), newValue);
+
                     break;
                 }
                 case 8: {
-                    //shop
-                    Shop shop = new Shop(comboSGT.getSelectedItem().toString());
-                    int id = shop.getID();
+                    //number in series
+                    newValue = tfNewValue.getText();
+                    success = book.updateInDatabase("noInSeries", newValue);
+                    break;
+                }
+                case 9: {
+                    //9 genre
+                    Genre gen = new Genre(comboNewValue.getSelectedItem().toString());
 
-                    success = book.updateInDatabase("placeBought", Integer.toString(id));
+                    newValue = Integer.toString(gen.getId());
+
+                    success = book.updateInDatabase(comboUpdate.getSelectedItem().toString(), newValue);
+                    break;
+                }
+                case 10: {
+                    //10 type
+                    BookType type = new BookType(comboNewValue.getSelectedItem().toString());
+
+                    newValue = Integer.toString(type.getID());
+
+                    success = book.updateInDatabase(comboUpdate.getSelectedItem().toString(), newValue);
                     break;
                 }
                 default: {
-                    comboSGT.setVisible(true);
-                    //execute update
-                    success = book.updateInDatabase(comboUpdate.getSelectedItem().toString(),
-                            tfNewValue.getText());
+                    driver.errorMessageNormal("Please select an attribute to update.");
+                    success = false;
                 }
             }
 
             //inform user of success/failure
             if (success) {
                 //success
-                driver.appendToPane(textPane, "Book updated successfully.\n", Color.green);
+                driver.appendToPane(textPane, "Book " + book.getID() + " updated successfully.\n", Color.green);
             } else {
                 //fail
-                driver.appendToPane(textPane, "Book could not be updated.\n", Color.red);
+                driver.appendToPane(textPane, "Book " + book.getID() + " could not be updated.\n", Color.red);
             }
-//</editor-fold>
+            //</editor-fold>
+
         } else if (radNonFiction.isSelected()) {
             //nonFiction
             //<editor-fold defaultstate="collapsed" desc="nonFiction">
+            /*Object[] tempFields = {"Title", "Author",
+                "First published", "Price", "Place bought",
+                "Month bought", "Year bought", "Dewey Number"};*/
             NonFiction book = new NonFiction(Integer.parseInt(tfUpdateID.getText()));
 
             boolean success = false;
 
-            if (comboUpdate.getSelectedIndex() == 2) {
+            DefaultComboBoxModel temp = (DefaultComboBoxModel) comboUpdate.getModel();
+
+            if (comboUpdate.getSelectedIndex() == temp.getIndexOf("Dewey Number")) {
                 //dewey number
 
                 //get new dewey number
@@ -396,27 +426,25 @@ public class UpdateBookPanel extends javax.swing.JPanel {
 
             } else {
                 //not dewey number
-                success = book.updateInDatabase(comboUpdate.getSelectedItem().toString(),
-                        tfNewValue.getText());
+                success = updateGeneralAttributes();
             }
 
             //inform user
             if (success) {
                 //success
-                driver.appendToPane(textPane, "Book updated successfully.\n", Color.green);
+                driver.appendToPane(textPane, "Book " + book.getID() + " updated successfully.\n", Color.green);
             } else {
                 //fail
-                driver.appendToPane(textPane, "Book could not be updated.\n", Color.red);
+                driver.appendToPane(textPane, "Book  " + book.getID() + "could not be updated.\n", Color.red);
             }
 //</editor-fold>
-
         } else {
             //niether selected
             driver.errorMessageNormal("Please select either fiction or non-fiction.");
         }
     }//GEN-LAST:event_butUpdateActionPerformed
 
-    //clear all text
+//clear all text
     private void butClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butClearAllActionPerformed
         textPane.setText("");
         tfDeleteID.setText("");
@@ -437,71 +465,104 @@ public class UpdateBookPanel extends javax.swing.JPanel {
     //set combos and textFields eidtable or enabled depending on what is selected.
     private void comboUpdateItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboUpdateItemStateChanged
         String item = comboUpdate.getSelectedItem().toString();
-        if (item.equals("Genre")) {
-            //genre
-            comboSGT.setModel(driver.getComboBoxModel(1));
-            comboSGT.setVisible(true);
+        switch (item) {
+            case "Author": {
+                comboNewValue.setModel(driver.getComboBoxModel(6));
+                comboNewValue.setEditable(true);
+                AutoCompletion.enable(comboNewValue);
 
-            comboDewey1.setVisible(false);
-            comboDewey2.setVisible(false);
-            comboDewey3.setVisible(false);
+                comboNewValue.setVisible(true);
+                comboDewey1.setVisible(false);
+                comboDewey2.setVisible(false);
+                comboDewey3.setVisible(false);
+                tfNewValue.setEditable(false);
+                tfNewValue.setBackground(Color.gray);
+                break;
+            }
+            case "Genre": {
+                //genre
+                comboNewValue.setModel(driver.getComboBoxModel(1));
+                comboNewValue.setVisible(true);
+                comboNewValue.setEditable(false);
 
-            tfNewValue.setEditable(false);
-            tfNewValue.setBackground(Color.gray);
-        } else if (item.equals("Type of book")) {
-            //type of book
-            comboSGT.setModel(driver.getComboBoxModel(2));
-            comboSGT.setVisible(true);
+                comboDewey1.setVisible(false);
+                comboDewey2.setVisible(false);
+                comboDewey3.setVisible(false);
+                tfNewValue.setEditable(false);
+                tfNewValue.setBackground(Color.gray);
+                break;
+            }
+            case "Type of book": {
+                //type of book
+                comboNewValue.setModel(driver.getComboBoxModel(2));
+                comboNewValue.setVisible(true);
+                comboNewValue.setEditable(false);
 
-            comboDewey1.setVisible(false);
-            comboDewey2.setVisible(false);
-            comboDewey3.setVisible(false);
+                comboDewey1.setVisible(false);
+                comboDewey2.setVisible(false);
+                comboDewey3.setVisible(false);
+                tfNewValue.setEditable(false);
+                tfNewValue.setBackground(new Color(214, 217, 223));
+                break;
+            }
+            case "Series": {
+                comboNewValue.setModel(driver.getComboBoxModel(5));
+                comboNewValue.setEditable(true);
+                AutoCompletion.enable(comboNewValue);
 
-            tfNewValue.setEditable(false);
-            tfNewValue.setBackground(new Color(214, 217, 223));
+                comboNewValue.setVisible(true);
+                comboDewey1.setVisible(false);
+                comboDewey2.setVisible(false);
+                comboDewey3.setVisible(false);
+                tfNewValue.setEditable(false);
+                tfNewValue.setBackground(Color.gray);
+                break;
+            }
+            case "Place bought": {
+                //shop
+                comboNewValue.setModel(driver.getComboBoxModel(0));
+                comboNewValue.setVisible(true);
+                comboNewValue.setEditable(false);
 
-        } else if (item.equals("Place bought")) {
-            //shop
-            comboSGT.setModel(driver.getComboBoxModel(0));
-            comboSGT.setVisible(true);
+                comboDewey1.setVisible(false);
+                comboDewey2.setVisible(false);
+                comboDewey3.setVisible(false);
+                tfNewValue.setEditable(false);
+                tfNewValue.setBackground(new Color(214, 217, 223));
+                break;
+            }
+            case "Dewey Number": {
+                //set dewey combos
+                comboDewey1.setModel(driver.getComboBoxModel(3));
+                comboDewey1.setVisible(true);
+                comboDewey2.setVisible(true);
+                comboDewey3.setVisible(true);
+                comboNewValue.setVisible(false);
+                comboNewValue.setEditable(false);
 
-            comboDewey1.setVisible(false);
-            comboDewey2.setVisible(false);
-            comboDewey3.setVisible(false);
+                tfNewValue.setEditable(false);
+                tfNewValue.setBackground(new Color(214, 217, 223));
+                break;
+            }
+            default: {
+                tfNewValue.setEditable(true);
+                tfNewValue.setBackground(Color.white);
+                comboDewey1.setVisible(false);
+                comboDewey2.setVisible(false);
+                comboDewey3.setVisible(false);
+                comboNewValue.setVisible(false);
+                comboNewValue.setEditable(false);
 
-            tfNewValue.setEditable(false);
-            tfNewValue.setBackground(new Color(214, 217, 223));
-
-        } else if (item.equals("Dewey Number")) {
-            //set dewey combos
-            comboDewey1.setModel(driver.getComboBoxModel(3));
-
-            comboDewey1.setVisible(true);
-            comboDewey2.setVisible(true);
-            comboDewey3.setVisible(true);
-
-            comboSGT.setVisible(false);
-
-            tfNewValue.setEditable(false);
-            tfNewValue.setBackground(new Color(214, 217, 223));
-
-        } else {
-            tfNewValue.setEditable(true);
-            tfNewValue.setBackground(Color.white);
-
-            comboDewey1.setVisible(false);
-            comboDewey2.setVisible(false);
-            comboDewey3.setVisible(false);
-            comboSGT.setVisible(false);
+                break;
+            }
         }
     }//GEN-LAST:event_comboUpdateItemStateChanged
 
     private void comboDewey1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboDewey1ItemStateChanged
-        //set model for dewey2
-
         //get dewey level 1 number
         int dew1 = comboDewey1.getSelectedIndex() * 100;
 
+        //set model for dewey2
         DefaultComboBoxModel model = driver.getDewey2Model(dew1, comboDewey1.getSelectedItem());
 
         //set dew2's model
@@ -509,13 +570,11 @@ public class UpdateBookPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_comboDewey1ItemStateChanged
 
     private void comboDewey2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboDewey2ItemStateChanged
-        //set model for dewey3
-
         //get dewey level 2 number
         int dew2 = (comboDewey1.getSelectedIndex() * 100) + comboDewey2.getSelectedIndex() * 10;
 
+        //set model for dewey3
         comboDewey3.setModel(driver.getDewey3Model(dew2, comboDewey2.getSelectedItem()));
-
     }//GEN-LAST:event_comboDewey2ItemStateChanged
 
     //set model of comboUpdate depending on whether fiction or nonFiction is selected
@@ -524,16 +583,16 @@ public class UpdateBookPanel extends javax.swing.JPanel {
 
         if (radDum.isSelected() || radFiction.isSelected()) {
             //set to fiction Fields
-            Object[] tempFields = {"Title", "Author", "Series", "Number in series",
-                "First published", "Genre", "Type of book", "Price", "Place bought",
-                "Month bought", "Year bought"};
+            Object[] tempFields = {"Title", "Author", "First published",
+                "Price", "Place bought", "Month bought", "Year bought",
+                "Series", "Number in series", "Genre", "Type of book"};
 
             fields = tempFields;
         } else {
             //set to nonFiction fields
-            Object[] tempFields = {"Title", "Author", "Dewey Number",
+            Object[] tempFields = {"Title", "Author",
                 "First published", "Price", "Place bought",
-                "Month bought", "Year bought"};
+                "Month bought", "Year bought", "Dewey Number"};
             fields = tempFields;
         }
 
@@ -563,6 +622,63 @@ public class UpdateBookPanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Update a book's attributes in the database.
+     *
+     * @return boolean indicating successful update
+     */
+    private boolean updateGeneralAttributes() {
+        //get attribute to update
+        String field = comboUpdate.getSelectedItem().toString();
+
+        //get new value
+        String newValue;
+        if (field.equals("Author")) {
+            //You will have to re-think updating authors completely
+            newValue = comboUpdate.getSelectedItem().toString();
+        } else if (field.equals("Place bought")) {
+            Shop shop = new Shop(comboNewValue.getSelectedItem().toString());
+
+            newValue = Integer.toString(shop.getID());
+
+        } else {
+            newValue = tfNewValue.getText();
+        }
+
+        //create book
+        Book book = new Book(Integer.parseInt(tfUpdateID.getText()));
+
+        if (book.updateInDatabase(field, newValue)) {
+            appendToPane(textPane, "The book " + book.getID() + " was updated successfully.\n", Color.green);
+            return true;
+        } else {
+            appendToPane(textPane, "The book " + book.getID() + " was could not be updated.\n", Color.red);
+            return false;
+        }
+
+    }
+
+    /**
+     * Add text to JTextPane for messages
+     *
+     * @param tp JTextPane to add text tor
+     * @param msg Text to be added
+     * @param c Colour of text
+     */
+    private void appendToPane(JTextPane tp, String msg, Color c) {
+        StyleContext sc = StyleContext.getDefaultStyleContext();
+        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
+
+        aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
+        aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+
+        int len = tp.getDocument().getLength();
+        tp.setCaretPosition(len);
+        tp.setCharacterAttributes(aset, false);
+        tp.replaceSelection(msg);
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton butClearAll;
     private javax.swing.JButton butClearTextPane;
@@ -571,7 +687,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox comboDewey1;
     private javax.swing.JComboBox comboDewey2;
     private javax.swing.JComboBox comboDewey3;
-    private javax.swing.JComboBox comboSGT;
+    private javax.swing.JComboBox comboNewValue;
     private javax.swing.JComboBox comboUpdate;
     private javax.swing.ButtonGroup groupUpdate;
     private javax.swing.JLabel jLabel1;

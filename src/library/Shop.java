@@ -22,13 +22,11 @@ public class Shop implements DatabaseEntry {
     private String area = "";
     private String phone = "";
     private String email = "";
-    private Driver d = null;
 
     /**
      * Default constructor. Creates a new <code>Shop</code> object
      */
     public Shop() {
-        d = new Driver();
     }
 
     /**
@@ -38,12 +36,11 @@ public class Shop implements DatabaseEntry {
      * @param i ID number of this <code>Shop</code>
      */
     public Shop(int i) {
-        d = new Driver();
         id = i;
     }
 
     /**
-     * Parametized constructor. Sets this <code>Shop</code> object's id using
+     * Parameterized constructor. Sets this <code>Shop</code> object's id using
      * the given shop name.
      *
      * @param name the name of the <code>Shop</code>
@@ -62,7 +59,6 @@ public class Shop implements DatabaseEntry {
      * @param e E-mail address of this <code>Shop</code>.
      */
     public Shop(String n, String a, String ph, String e) {
-        d = new Driver();
         name = n;
         area = a;
         phone = ph;
@@ -77,7 +73,6 @@ public class Shop implements DatabaseEntry {
      */
     public Shop(Shop copy) {
         this.id = copy.id;
-        this.d = copy.d;
         this.name = copy.name;
         this.area = copy.area;
         this.email = copy.email;
@@ -144,7 +139,7 @@ public class Shop implements DatabaseEntry {
     public boolean addToDatabase() {
         //addShop`(name VARCHAR(50), ar VARCHAR(50), ph VARCHAR(12), address VARCHAR(100))
 
-        CallableStatement cstmt = d.getCallStatement("{CALL addShop(?,?,?,?)}");
+        CallableStatement cstmt = DRIVER.getCallStatement("{CALL addShop(?,?,?,?)}");
         int num = 0;
 
         try {
@@ -155,7 +150,7 @@ public class Shop implements DatabaseEntry {
 
             num = cstmt.executeUpdate();
         } catch (SQLException se) {
-            d.errorMessageNormal("From Shop.addToDatabase: " + se);
+            DRIVER.errorMessageNormal("From Shop.addToDatabase: " + se);
             se.printStackTrace();
         }
 
@@ -178,7 +173,7 @@ public class Shop implements DatabaseEntry {
                 + " = '" + newValue + "' WHERE id = " + id;
 
         //execute query and return boolean
-        return d.modifyQuery(q);
+        return DRIVER.modifyQuery(q);
     }
 
     /**
@@ -196,7 +191,7 @@ public class Shop implements DatabaseEntry {
         // 2 - cancel
 
         if (c == 0) {
-            CallableStatement cstmt = d.getCallStatement("{CALL deleteShop(?)}");
+            CallableStatement cstmt = DRIVER.getCallStatement("{CALL deleteShop(?)}");
             int num = 0;
 
             try {
@@ -206,7 +201,7 @@ public class Shop implements DatabaseEntry {
 
                 return num == 1;
             } catch (SQLException se) {
-                d.errorMessageNormal("From Shop.deleteShop: " + se);
+                DRIVER.errorMessageNormal("From Shop.deleteShop: " + se);
                 se.printStackTrace();
             }
 
@@ -219,16 +214,16 @@ public class Shop implements DatabaseEntry {
      */
     public void setNameFromDatabase() {
         try {
-            ResultSet rs = d.query("SELECT shopName FROM Shops WHERE id = " + id);
+            ResultSet rs = DRIVER.query("SELECT shopName FROM Shops WHERE id = " + id);
 
             if (rs.next()) {
                 name = rs.getString(1);
                 rs.close();
             } else {
-                d.errorMessageNormal("Shop with ID " + id + " was not found.");
+                DRIVER.errorMessageNormal("Shop with ID " + id + " was not founDRIVER.");
             }
         } catch (SQLException se) {
-            d.errorMessageNormal("From Shop.deleteShop: " + se);
+            DRIVER.errorMessageNormal("From Shop.deleteShop: " + se);
         }
     }
 

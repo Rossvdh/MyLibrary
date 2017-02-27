@@ -27,8 +27,8 @@ public class NonFiction extends Book implements DatabaseEntry {
     }
 
     /**
-     * Paramertized constructor. Creates a new <code>Book</code> object with the
-     * given ID number
+     * Parameterized constructor. Creates a new <code>Book</code> object with
+     * the given ID number
      *
      * @param i
      */
@@ -39,8 +39,8 @@ public class NonFiction extends Book implements DatabaseEntry {
     }
 
     /**
-     * Parametized constructor. Creates a new <code>Book</code> object with the
-     * given attributes.
+     * Parameterized constructor. Creates a new <code>Book</code> object with
+     * the given attributes.
      *
      * @param t title of <code>Book</code>
      * @param m month <code>Book</code> was bought
@@ -66,6 +66,18 @@ public class NonFiction extends Book implements DatabaseEntry {
     public NonFiction(NonFiction copy) {
         super(copy);
         this.dewey = copy.dewey;
+    }
+
+    /**
+     * Create a <code>NonFiction</code> Object from the given <code>Book</code>.
+     * This method was created because one can not simply cast a
+     * <code>Book</code> to a <code>NonFiction</code> object.
+     *
+     * @param b <code>Book</code> to convert to a <code>NonFiction</code>
+     */
+    public NonFiction(Book b) {
+        super(b);
+
     }
 
     /**
@@ -126,12 +138,16 @@ public class NonFiction extends Book implements DatabaseEntry {
 
                 boolean success = cstmt.executeUpdate() == 1;
 
+                //update this object
                 if (success) {
                     dewey = Integer.parseInt(newValue);
                     return true;
+                } else {
+                    System.out.println("library.NonFiction.updateInDatabase() " + id + "could not be added");
                 }
 
             } catch (SQLException ex) {
+                System.out.println("library.NonFiction.updateInDatabase() - " + ex);
                 ex.printStackTrace();
             }
 

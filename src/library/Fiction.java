@@ -8,10 +8,10 @@ package library;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Arrays;
 
 /**
+ * This class represents a fiction book that can be added to the Fiction table
+ * in the database. It inherits from <code>Book</code>
  *
  * @author Ross
  */
@@ -31,7 +31,7 @@ public class Fiction extends Book {
     }
 
     /**
-     * Paramertized constructor. Creates a new <code>Fiction</code> object with
+     * Parameterized constructor. Creates a new <code>Fiction</code> object with
      * the given ID number
      *
      * @param i
@@ -41,14 +41,20 @@ public class Fiction extends Book {
         //getAuthorFromDatabase();
         //getTitleFromDatabase();
     }
-    
-    public Fiction(Book b){
+
+    /**
+     * Create a <code>Fiction</code> Object from the given <code>Book</code>.
+     * This method was created because one can not simply cast a
+     * <code>Book</code> to a <code>Fiction</code> object.
+     *
+     * @param b <code>Book</code> to convert to a <code>Fiction</code>
+     */
+    public Fiction(Book b) {
         super(b);
-        
     }
 
     /**
-     * Parametized constructor. Creates a new <code>Fiction</code> object with
+     * Parameterized constructor. Creates a new <code>Fiction</code> object with
      * the given attributes.
      *
      * @param t title of <code>Fiction</code>
@@ -145,39 +151,53 @@ public class Fiction extends Book {
     @Override
     public boolean updateInDatabase(String field, String newValue) {
 
+        field = field.toLowerCase();
+
         //get list with fields in Fiction
-        String[] fieldsAr = {"series", "noInSeries", "typeOfBook", "genre"};
-        List<String> fields = Arrays.asList(fieldsAr);
+//        , "noinseries", "typeofbook", 
+        String query = "";
 
-        if (fields.contains(field)) {
-            //perform update
-            String q = "UPDATE Fiction SET " + field + " = '" + newValue
-                    + "' WHERE id = " + id;
-
-            if (DRIVER.modifyQuery(q)) {
-                //determine which attribute to update
-                switch (fields.indexOf(field)) {
-                    case 0: {
-                        throw new UnsupportedOperationException("Updating series");
-                    }
-                    case 1: {
-                        number = Integer.parseInt(newValue);
-                        break;
-                    }
-                    case 2: {
-                        throw new UnsupportedOperationException("Updating type of book");
-                    }
-                    case 3: {
-                        throw new UnsupportedOperationException("Updating genre");
-                    }
-                }
-
-                return true;
+        switch (field) {
+            case "series": {
+                query = "{CALL updateFictionSeries(?,?)}";
+                break;
             }
-        } else {
-            //call updateBook in Superclass
-            return super.updateInDatabase(field, newValue);
+            case "genre": {
+                query = "{CALL updateFictionGenre(?,?)}";
+                break;
+            }
+            case "type of book": {
+                query = "{CALL updateFictionType(?,?)}";
+                break;
+            }
+            case "noinseries": {
+                query = "{CALL updateFictionNoInSeries(?,?)}";
+                break;
+            }
+            default: {
+                System.out.println("library.Fiction.updateInDatabase() - invalid field");
+                DRIVER.errorMessageNormal("Please select a valid Fiction field.");
+                return false;
+            }
         }
+
+        try {
+            CallableStatement cstmt = DRIVER.getCallStatement(query);
+            cstmt.setInt(1, id);
+            cstmt.setInt(2, Integer.parseInt(newValue));
+
+            return cstmt.executeUpdate() == 1;
+        } catch (SQLException sQLException) {
+            System.out.println("library.Fiction.updateInDatabase() SQLEx - "
+                    + sQLException);
+            sQLException.printStackTrace();
+        } catch (NumberFormatException nfe) {
+            DRIVER.errorMessageNormal("Please enter a digits only");
+            System.out.println("library.Fiction.updateInDatabase() NFE - "
+                    + nfe);
+            nfe.printStackTrace();
+        }
+
         return false;
     }
 

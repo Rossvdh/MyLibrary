@@ -2,12 +2,18 @@
  Panel with functions for loaning books.
  Ross van der Heyde
  */
-package library;
+package GUIs;
 
+import GUIs.AddBorrower;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JTable;
+import library.Book;
+import library.Borrower;
+import library.Driver;
+import library.Fiction;
+import library.NonFiction;
 
 /**
  *
@@ -183,7 +189,6 @@ public class LoansPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(butDelete)
                                 .addGap(1, 1, 1)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(butViewLoans)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(butViewBorrowers)
@@ -243,7 +248,7 @@ public class LoansPanel extends javax.swing.JPanel {
 
                 Book book = createBook();//create book
 
-                if (!book.onLoan) {
+                if (!book.isOnLoan()) {
                     //book is not on loan, can be loaned out
 
                     //perform loan, inform user of success
@@ -256,7 +261,7 @@ public class LoansPanel extends javax.swing.JPanel {
 
                 } else {
                     //is on loan
-                    driver.errorMessageNormal("\"" + book.title + "\" is already on loan.");
+                    driver.errorMessageNormal("\"" + book.getTitle() + "\" is already on loan.");
 
                 }
 
@@ -265,11 +270,11 @@ public class LoansPanel extends javax.swing.JPanel {
 
                 Book book = createBook();
 
-                if (book.onLoan) {
+                if (book.isOnLoan()) {
                     //book is on loan, and can be returned
 
                     if (bor.returnBook(book, date)) {
-                        driver.infoMessageNormal("\"" + book.title + "\" has been returned.");
+                        driver.infoMessageNormal("\"" + book.getTitle() + "\" has been returned.");
 
                     } else {
                         driver.infoMessageNormal("The book could not be returned.");
@@ -277,7 +282,7 @@ public class LoansPanel extends javax.swing.JPanel {
 
                 } else {
                     //not on loan
-                    driver.infoMessageNormal("\"" + book.title + "\" is not on loan.");
+                    driver.infoMessageNormal("\"" + book.getTitle() + "\" is not on loan.");
                 }
 
             } else {

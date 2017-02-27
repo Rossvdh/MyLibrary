@@ -2,7 +2,10 @@
 Ross van der Heyde
 17 Feb 2017
  */
-package library;
+package GUIs;
+
+import library.Driver;
+import library.Series;
 
 /**
  *

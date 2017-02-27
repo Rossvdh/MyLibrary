@@ -4,13 +4,15 @@
  Ross van der Heyde 
  Started: 12 December 2014
  */
-package library;
+package GUIs;
 
 import java.awt.Color;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JTable;
+import library.Driver;
+import library.Shop;
 
 /**
  *

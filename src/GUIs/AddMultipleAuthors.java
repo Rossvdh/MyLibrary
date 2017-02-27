@@ -2,10 +2,14 @@
 Ross van der Heyde
 18 Feb 2017
  */
-package library;
+package GUIs;
 
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import library.Author;
+import library.Driver;
+import library.Role;
+import library.AutoCompletion;
 
 /**
  *
@@ -21,6 +25,9 @@ public class AddMultipleAuthors extends javax.swing.JFrame {
 
         iniRolesComboBox();
         comboRoles.setSelectedItem("Author");
+
+        comboAuthor.setModel(driver.getComboBoxModel(6));
+        AutoCompletion.enable(comboAuthor);
     }
 
     /**
@@ -38,12 +45,12 @@ public class AddMultipleAuthors extends javax.swing.JFrame {
         butAddRoles = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
-        tfAuthor = new javax.swing.JTextField();
         labRole = new javax.swing.JLabel();
         butInsert = new javax.swing.JButton();
         comboRoles = new javax.swing.JComboBox<>();
         butClear = new javax.swing.JButton();
         butAddAuthors = new javax.swing.JButton();
+        comboAuthor = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add multiple authors for the book");
@@ -93,6 +100,9 @@ public class AddMultipleAuthors extends javax.swing.JFrame {
             }
         });
 
+        comboAuthor.setEditable(true);
+        comboAuthor.setToolTipText("Select the author's name");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -102,15 +112,17 @@ public class AddMultipleAuthors extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labName))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(labName)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(comboAuthor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labRole)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(comboRoles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(comboRoles, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(butInsert))))
+                                .addComponent(butInsert))
+                            .addComponent(labRole)))
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(butNewAuthors)
@@ -133,9 +145,9 @@ public class AddMultipleAuthors extends javax.swing.JFrame {
                     .addComponent(labRole))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butInsert)
-                    .addComponent(comboRoles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboRoles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -155,6 +167,7 @@ public class AddMultipleAuthors extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_butCancelActionPerformed
 
+    //open new AddRoles GUI
     private void butAddRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAddRolesActionPerformed
         this.setVisible(false);
 
@@ -169,15 +182,16 @@ public class AddMultipleAuthors extends javax.swing.JFrame {
         addR.setVisible(true);
     }//GEN-LAST:event_butAddRolesActionPerformed
 
+    //get the author data, append to text area, add to list of authors
     private void butInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butInsertActionPerformed
-        Role rol = new Role();
-        rol.setRole((String) comboRoles.getSelectedItem());
+        //get role name and create Role
+        Role rol = new Role(comboRoles.getSelectedItem().toString());
+
+        //get name of author
+        String authorName = comboAuthor.getSelectedItem().toString();
 
         //create new Author and their role
-        Author auth = new Author();
-
-        auth.setName(tfAuthor.getText());
-        auth.setRole(rol);
+        Author auth = new Author(authorName, rol);
 
         //add to list of Authors
         bookAuthors.add(auth);
@@ -186,12 +200,13 @@ public class AddMultipleAuthors extends javax.swing.JFrame {
         textArea.append(auth.getName() + ", " + auth.getRole().getRole() + "\n");
 
         //clear author text field and role comboBox
-        tfAuthor.setText("");
+        comboAuthor.setSelectedIndex(-1);
         comboRoles.setSelectedItem("Author");
     }//GEN-LAST:event_butInsertActionPerformed
 
+    //remove text from text fields and text areas, select nothing in comboBoxes
     private void butClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butClearActionPerformed
-        tfAuthor.setText("");
+        comboAuthor.setSelectedIndex(-1);
         comboRoles.setSelectedItem("Author");
         textArea.setText("");
     }//GEN-LAST:event_butClearActionPerformed
@@ -267,12 +282,13 @@ public class AddMultipleAuthors extends javax.swing.JFrame {
     private javax.swing.JButton butClear;
     private javax.swing.JButton butInsert;
     private javax.swing.JButton butNewAuthors;
+    private javax.swing.JComboBox<String> comboAuthor;
     private javax.swing.JComboBox<String> comboRoles;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labName;
     private javax.swing.JLabel labRole;
     private javax.swing.JTextArea textArea;
-    private javax.swing.JTextField tfAuthor;
     // End of variables declaration//GEN-END:variables
    private ArrayList<Author> bookAuthors = new ArrayList();
+    final private Driver driver = new Driver();
 }

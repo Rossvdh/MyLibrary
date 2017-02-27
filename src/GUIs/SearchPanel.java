@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package library;
+package GUIs;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -24,6 +24,10 @@ import javax.swing.PopupFactory;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicBorders;
 import javax.swing.table.DefaultTableModel;
+import library.BookType;
+import library.Driver;
+import library.Genre;
+import library.Shop;
 
 /**
  *

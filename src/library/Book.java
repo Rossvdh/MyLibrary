@@ -40,8 +40,8 @@ public class Book implements DatabaseEntry {
     }
 
     /**
-     * Paramertized constructor. Creates a new <code>Book</code> object with the
-     * given ID number
+     * Parameterized constructor. Creates a new <code>Book</code> object with
+     * the given ID number
      *
      * @param i
      */
@@ -54,8 +54,8 @@ public class Book implements DatabaseEntry {
     }
 
     /**
-     * Parametized constructor. Creates a new <code>Book</code> object with the
-     * given attributes.
+     * Parameterized constructor. Creates a new <code>Book</code> object with
+     * the given attributes.
      *
      * @param t title of <code>Book</code>
      * @param m month <code>Book</code> was bought
@@ -99,17 +99,17 @@ public class Book implements DatabaseEntry {
     public void getTitleFromDatabase() {
         try {
             CallableStatement cstmt = DRIVER.getCallStatement("{CALL getBookTitle(?)}");
-
+            
             cstmt.setInt(1, id);
-
+            
             ResultSet rs = cstmt.executeQuery();
-
+            
             if (rs.next()) {
                 title = rs.getString(1);
             } else {
                 System.out.println("library.Book.getTitleFromDatabase() title for book " + id + " not found.");
             }
-
+            
         } catch (SQLException se) {
             System.out.println("library.Book.getTitleFromDatabase(): " + se);
             se.printStackTrace();
@@ -123,20 +123,20 @@ public class Book implements DatabaseEntry {
     public void getAuthorFromDatabase() {
         try {
             CallableStatement cstmt = DRIVER.getCallStatement("{CALL getBookAuthors(?)}");
-
+            
             cstmt.setInt(1, id);
-
+            
             ResultSet rs = cstmt.executeQuery();
-
+            
             while (rs.next()) {
                 Author auth = new Author();
-
+                
                 auth.setID(rs.getInt(1));
                 auth.setName(rs.getString(2));
-
+                
                 addAuthor(auth);
             }
-
+            
         } catch (SQLException se) {
             System.out.println("library.Book.getAuthorFromDatabase(): " + se);
             se.printStackTrace();
@@ -184,11 +184,11 @@ public class Book implements DatabaseEntry {
             insert link entry
         return boolean        
          */
-
+        
         try {
             //`addBook`(tit VARCHAR(100), cost INT, shop INT, month INT, year INT, pub INT)
             CallableStatement cstmt = DRIVER.getCallStatement("{CALL addBook(?,?,?,?,?,?)}");
-
+            
             cstmt.setString(1, title);
             cstmt.setDouble(2, price);
             System.out.println("library.Book.addToDatabase() shop: " + shop.toString());
@@ -196,19 +196,19 @@ public class Book implements DatabaseEntry {
             cstmt.setInt(4, month);
             cstmt.setInt(5, year);
             cstmt.setInt(6, published);
-
+            
             boolean success = cstmt.executeUpdate() == 1;
-
+            
             if (success) {
                 //get max ID
                 cstmt = DRIVER.getCallStatement("{CALL getMaxBookID()}");
-
+                
                 ResultSet rs = cstmt.executeQuery();
 
                 //get max ID from ResultSet
                 if (rs.next()) {
                     id = rs.getInt(1);
-
+                    
                 } else {
                     DRIVER.errorMessageNormal("No max Book ID found");
                     return false;
@@ -217,12 +217,12 @@ public class Book implements DatabaseEntry {
 
                 //add Authors
                 return addLinkEntries();
-
+                
             } else {
                 DRIVER.errorMessageNormal("The book \"" + title + "\" could not be added");
                 return false;
             }
-
+            
         } catch (SQLException se) {
             se.printStackTrace();
         }
@@ -240,12 +240,70 @@ public class Book implements DatabaseEntry {
      */
     @Override
     public boolean updateInDatabase(String field, String newValue) {
-        //create query
-        String query = "UPDATE AllBooks SET " + field + " = '" + newValue
-                + "' WHERE id = " + id;
-
-        //eecute and return
-        return DRIVER.modifyQuery(query);
+        /*title
+        author
+        price
+        placebought
+        mnth
+        yr
+        firstpub*/
+        field = field.toLowerCase();
+        
+        CallableStatement cstmt;
+        
+        try {
+            switch (field) {
+                case "title": {
+                    cstmt = DRIVER.getCallStatement("{CALL updateBooksTitle(?,?)}");
+                    
+                    cstmt.setString(2, newValue);
+                    break;
+                }
+                case "price": {
+                    cstmt = DRIVER.getCallStatement("{CALL updateBooksPrice(?,?)}");
+                    
+                    cstmt.setDouble(2, Double.parseDouble(newValue));
+                    break;
+                }
+                case "place bought": {
+                    cstmt = DRIVER.getCallStatement("{CALL updateBooksShop(?,?)}");
+                    
+                    cstmt.setInt(2, Integer.parseInt(newValue));
+                    break;
+                }
+                case "month bought": {
+                    cstmt = DRIVER.getCallStatement("{CALL updateBooksMonth(?,?)}");
+                    
+                    cstmt.setInt(2, Integer.parseInt(newValue));
+                    break;
+                }
+                case "year bought": {
+                    cstmt = DRIVER.getCallStatement("{CALL updateBooksYear(?,?)}");
+                    
+                    cstmt.setInt(2, Integer.parseInt(newValue));
+                    break;
+                }
+                case "first published": {
+                    cstmt = DRIVER.getCallStatement("{CALL updateBooksFirstPub(?,?)}");
+                    
+                    cstmt.setInt(2, Integer.parseInt(newValue));
+                    break;
+                }
+                default: {
+                    DRIVER.errorMessageNormal("Please select a valid field to update.");
+                    return false;
+                }
+            }
+            
+            cstmt.setInt(1, id);
+            
+            return cstmt.executeUpdate() == 1;
+            
+        } catch (SQLException se) {
+            System.out.println("library.Book.updateInDatabase() - se: " + se);
+            se.printStackTrace();
+            return false;
+        }
     }
 
     /**
@@ -256,16 +314,16 @@ public class Book implements DatabaseEntry {
     @Override
     public boolean deleteFromDatabase() {
         try {
-
+            
             int c = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete \"" + title + "\" by "
                     + authors + "?");
-
+            
             if (c == 0) {
                 //delete
                 CallableStatement cstmt = DRIVER.getCallStatement("{CALL deleteBook(?)}");
-
+                
                 cstmt.setInt(1, id);
-
+                
                 return cstmt.executeUpdate() == 1;
             } else {
                 System.out.println("library.Book.deleteFromDatabase() - user chose not to delete " + title);
@@ -275,7 +333,7 @@ public class Book implements DatabaseEntry {
             DRIVER.errorMessageNormal("From Book.deleteFromDatabase: " + se);
             se.printStackTrace();
         }
-
+        
         return false;
     }
 
@@ -334,11 +392,11 @@ public class Book implements DatabaseEntry {
     @Override
     public String toString() {
         String authorsString = "";
-
+        
         for (Author author : authors) {
             authorsString += author + ", ";
         }
-
+        
         return title + " - " + authorsString;
     }
 
@@ -490,6 +548,15 @@ public class Book implements DatabaseEntry {
     }
 
     /**
+     * Determines if this <code>Book</code> is currently on loan
+     *
+     * @return true if on loan
+     */
+    public boolean isOnLoan() {
+        return onLoan;
+    }
+
+    /**
      * Adds an <code>Author</code> to the list of this <code>Book</code>'s
      * <code>Author</code>s
      *
@@ -519,23 +586,30 @@ public class Book implements DatabaseEntry {
      */
     public boolean addLinkEntries() {
         boolean allAdded = true;
-
+        
         for (Author author : authors) {
             try {
                 //addLinkEntry(author INT, book INT, role INT)
                 CallableStatement cstmt = DRIVER.getCallStatement("{CALL addLinkEntry(?,?,?)}");
-
+                
                 System.out.println("library.Book.addLinkEntries(). author: " + author);
-
+                
                 cstmt.setInt(1, author.getID());
                 cstmt.setInt(2, id);
                 cstmt.setInt(3, author.getRole().getRoleID());
-
+                
                 allAdded &= cstmt.executeUpdate() == 1;
-
+                
+                if (allAdded) {
+                    System.out.println("library.Book.addLinkEntries() " + author.getName() + " added");
+                } else {
+                    System.out.println("library.Book.addLinkEntries() " + author.getName() + " could not be added");
+                }
+                
             } catch (SQLException se) {
                 System.out.println("library.Book.addLinkEntries(): SQLException when adding " + author);
                 allAdded = false;
+                se.printStackTrace();
             }
         }
         return allAdded;
