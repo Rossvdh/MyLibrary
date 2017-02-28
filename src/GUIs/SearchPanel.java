@@ -30,13 +30,17 @@ import library.Genre;
 import library.Shop;
 
 /**
+ * Provides interface for searching the database for books and displaying the
+ * results.
  *
  * @author ross
  */
 public class SearchPanel extends javax.swing.JPanel {
 
     /**
-     * Creates new form SearchPanel
+     * Creates new form SearchPanel.
+     *
+     * @param d An instance of <code>Driver</code>
      */
     public SearchPanel(Driver d) {
         initComponents();

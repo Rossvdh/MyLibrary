@@ -32,6 +32,7 @@ public class Author implements DatabaseEntry {
 
     /**
      * Construct an <code>Author</code> with the given ID
+     * @param i ID number of the author
      */
     public Author(int i) {    //Using ID only
         id = i;

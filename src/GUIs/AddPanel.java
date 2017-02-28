@@ -35,6 +35,8 @@ public class AddPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form NewJPanel.
+     *
+     * @param d An instance of <code>Driver</code>
      */
     public AddPanel(Driver d) {
         driver = d;

@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
+ * A class representing a shop. A shop has an ID number, name, area/suburb,
+ * contact number, and an e-mail address.
  *
  * @author Ross
  */
@@ -114,7 +116,7 @@ public class Shop implements DatabaseEntry {
      * Determines of this <code>Shop</code> is equal to the given
      * <code>Object</code>
      *
-     * @param other
+     * @param other <code>Object</code> to test equality with
      * @return boolean indicating equality
      */
     @Override
@@ -168,12 +170,43 @@ public class Shop implements DatabaseEntry {
      */
     @Override
     public boolean updateInDatabase(String field, String newValue) {
-        //create query
-        String q = "UPDATE Shops SET " + field
-                + " = '" + newValue + "' WHERE id = " + id;
+        field = field.toLowerCase();
+        CallableStatement cstmt;
 
-        //execute query and return boolean
-        return DRIVER.modifyQuery(q);
+        switch (field) {
+            case "shop name": {
+                cstmt = DRIVER.getCallStatement("{CALL updateShopsName(?,?)}");
+                break;
+            }
+            case "area": {
+                cstmt = DRIVER.getCallStatement("{CALL updateShopsArea(?,?)}");
+                break;
+            }
+            case "phone": {
+                cstmt = DRIVER.getCallStatement("{CALL updateShopsPhone(?,?)}");
+                break;
+            }
+            case "email": {
+                cstmt = DRIVER.getCallStatement("{CALL updateShopsEmail(?,?)}");
+                break;
+            }
+            default: {
+                System.out.println("library.Shop.updateInDatabase() invalid field:" + field);
+                DRIVER.errorMessageNormal("Please select a valid field");
+                return false;
+            }
+        }
+
+        try {
+            cstmt.setInt(1, id);
+            cstmt.setString(2, newValue);
+
+            return cstmt.executeUpdate() == 1;
+        } catch (SQLException se) {
+            System.out.println("library.Shop.updateInDatabase() SQLE - " + se);
+            se.printStackTrace();
+            return false;
+        }
     }
 
     /**
@@ -327,4 +360,50 @@ public class Shop implements DatabaseEntry {
         phone = ph;
     }
 
+    /**
+     * Search the database for shops with the given field matching the given
+     * criterion.
+     *
+     * @param field to search by
+     * @param criterion to search for.
+     * @return <code>ResultSet</code> with results of search
+     */
+    public static ResultSet search(String field, String criterion) {
+        field = field.toLowerCase();
+        CallableStatement cstmt;
+        try {
+            switch (field) {
+                case "area": {
+                    cstmt = DRIVER.getCallStatement("{CALL searchShopArea(?)}");
+                    cstmt.setString(1, criterion);
+                    break;
+                }
+                case "id":{
+                    cstmt = DRIVER.getCallStatement("{CALL searchShopID(?)}");
+                    cstmt.setInt(1, Integer.parseInt(criterion));
+                    break;
+                }
+                case "shop name":{
+                    cstmt = DRIVER.getCallStatement("{CALL searchShopName(?)}");
+                    cstmt.setString(1, criterion);
+                    
+                    break;
+                }
+                default: {
+                    System.out.println("library.Shop.search() invalid field");
+                    DRIVER.errorMessageNormal("Please select a valid field");
+                    return null;
+                }
+            }
+
+
+            ResultSet rs = cstmt.executeQuery();
+
+            return rs;
+        } catch (SQLException se) {
+            System.out.println("library.Shop.search() SQLE - " + se);
+            se.printStackTrace();
+            return null;
+        }
+    }
 }

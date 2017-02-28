@@ -1,8 +1,9 @@
 /*Testing possiblity of an interface for library
 Ross van der Heyde
 18 February 2017. Room was painted*/
-
 package library;
+
+import java.sql.ResultSet;
 
 /**
  * An interface for all classes of objects that can be added to the database.
@@ -17,7 +18,6 @@ public interface DatabaseEntry {
 
     //TODO: initialize attributes from ID? (if it has an ID, it is in the Database)
     //TODO: get ID from name/title/type etc?
-    
     /**
      * Adds this <code>DatabaseEntry</code> object to the database. This method
      * will set the object's id attribute and then return a boolean indicating
@@ -40,13 +40,30 @@ public interface DatabaseEntry {
     /**
      * Updates the given field of this <code>DatabaseEntry</code> object in the
      * database. The class variable's value in this <code>Object</code> will
-     * also be updated.
-     * This method will return a boolean indicating the successfulness
-     * of the update.
+     * also be updated. This method will return a boolean indicating the
+     * successfulness of the update.
      *
      * @param field The field to update
      * @param newValue The new value of the field to update.
      * @return boolean indicating successful update in the database
      */
     public boolean updateInDatabase(String field, String newValue);
+
+    /**
+     * A method that search the database for <code>DatabaseEntry</code>s that
+     * have the matching criterion in the given field. If the criterion is a
+     * <code>String</code>, then the field is matched using LIKE. If it is a
+     * number, it is matched with =.<br>
+     * This method is static, so requires an implementation in this interface.
+     * It just returns null. So this method must be implementing in all
+     * implementing subclasses, even though the compiler will not have an error
+     * if it is not implemented.
+     *
+     * @param field The field to search by
+     * @param criterion What is being searched for.
+     * @return <code>ResultSet</code> containing the results of the search.
+     */
+    public static ResultSet search(String field, String criterion) {
+        return null;
+    }
 }

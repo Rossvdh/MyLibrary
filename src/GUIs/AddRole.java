@@ -35,6 +35,7 @@ public class AddRole extends javax.swing.JFrame {
         butAdd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Add a new role | MyLibrary");
 
         butCancel.setText("Cancel");
         butCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -45,7 +46,10 @@ public class AddRole extends javax.swing.JFrame {
 
         labRole.setText("Role description:");
 
+        tfRole.setToolTipText("Description/title of the role (e.g. author, illustrator, researcher, etc.)");
+
         butAdd.setText("Add");
+        butAdd.setToolTipText("Add the role to the database.");
         butAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butAddActionPerformed(evt);

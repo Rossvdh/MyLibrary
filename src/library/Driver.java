@@ -304,7 +304,7 @@ public class Driver {
     /**
      * PLace contents of resultSet into DefaultTableModel
      *
-     * @param rs
+     * @param rs <code>ResultSet</code> from which to build the model.
      * @return defaultTableModel containing contents of rs
      */
     public DefaultTableModel buildTableModel(ResultSet rs) {

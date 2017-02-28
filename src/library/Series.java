@@ -30,6 +30,8 @@ public class Series implements DatabaseEntry {
 
     /**
      * Parameterized constructor for <code>Series</code>
+     * @param n Name of this <code>Series</code>
+     * @param nb number of books in this <code>Series</code>
      */
     public Series(String n, int nb) {
         name = n;
@@ -89,7 +91,7 @@ public class Series implements DatabaseEntry {
     /**
      * Set this <code>Series</code>'s id
      *
-     * @param id
+     * @param id ID number
      */
     public void setId(int id) {
         this.id = id;
@@ -98,7 +100,7 @@ public class Series implements DatabaseEntry {
     /**
      * Set this <code>Series</code>'s name
      *
-     * @param name
+     * @param name Name of the series
      */
     public void setName(String name) {
         this.name = name;
@@ -107,7 +109,7 @@ public class Series implements DatabaseEntry {
     /**
      * Set the number of books in this <code>Series</code>.
      *
-     * @param numBooks
+     * @param numBooks number of books in the <code>Series</code>
      */
     public void setNumBooks(int numBooks) {
         this.numBooks = numBooks;
@@ -117,7 +119,7 @@ public class Series implements DatabaseEntry {
      * Determines if this <code>Series</code> and the given <code>Object</code>
      * are equal. Note that this is a generated method
      *
-     * @param obj
+     * @param obj <code>Object</code> to test equality of.
      * @return boolean indicating equality
      */
     @Override

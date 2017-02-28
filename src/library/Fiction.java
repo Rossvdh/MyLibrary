@@ -32,14 +32,12 @@ public class Fiction extends Book {
 
     /**
      * Parameterized constructor. Creates a new <code>Fiction</code> object with
-     * the given ID number
+     * the given ID number. Also initializes title and author.
      *
-     * @param i
+     * @param i ID number of this <code>Fiction</code> book.
      */
     public Fiction(int i) {
         super(i);
-        //getAuthorFromDatabase();
-        //getTitleFromDatabase();
     }
 
     /**
@@ -83,7 +81,7 @@ public class Fiction extends Book {
      * Copy constructor. Creates a new Fiction object equal to the one given as
      * parameter
      *
-     * @param copy
+     * @param copy <code>Fiction</code> to create a copy of.
      */
     public Fiction(Fiction copy) {  //copy constructor
         super(copy);

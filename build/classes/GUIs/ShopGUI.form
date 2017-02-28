@@ -117,12 +117,24 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfName">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="The nameof the shop"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfArea">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Area or suburb where the shop is located."/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfPhone">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Contact number for the shop."/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfEmail">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="E-mail address of the shop."/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="butCancel">
       <Properties>
@@ -135,6 +147,7 @@
     <Component class="javax.swing.JButton" name="butAdd">
       <Properties>
         <Property name="text" type="java.lang.String" value="Add"/>
+        <Property name="toolTipText" type="java.lang.String" value="Add the new shop to the database"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butAddActionPerformed"/>

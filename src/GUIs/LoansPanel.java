@@ -16,13 +16,17 @@ import library.Fiction;
 import library.NonFiction;
 
 /**
+ * A <code>JPanel</code> that provides the interface for managing loans:
+ * borrowing and returning books.
  *
  * @author ross
  */
 public class LoansPanel extends javax.swing.JPanel {
 
     /**
-     * Creates new form LoansPanel
+     * Creates new form LoansPanel.
+     *
+     * @param d An instance of <code>Driver</code>
      */
     public LoansPanel(Driver d) {
         initComponents();

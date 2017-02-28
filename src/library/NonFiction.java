@@ -28,9 +28,9 @@ public class NonFiction extends Book implements DatabaseEntry {
 
     /**
      * Parameterized constructor. Creates a new <code>Book</code> object with
-     * the given ID number
+     * the given ID number. Also initializes title and author.
      *
-     * @param i
+     * @param i ID number of this <code>Fiction</code> book.
      */
     public NonFiction(int i) {    //ID only
         super(i);

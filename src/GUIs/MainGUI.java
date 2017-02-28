@@ -34,6 +34,9 @@ public class MainGUI extends javax.swing.JFrame {
 
         tabPane.add(new UpdateBookPanel(driver));
         tabPane.setTitleAt(1, "Update books"); //set title of panel on tabbed pane
+        
+        tabPane.add(new ShopPanel(driver));
+        tabPane.setTitleAt(2, "Shops");
 
         //commented out becasue search need lots of changes.
 //        tabPane.add(new SearchPanel(driver));
@@ -41,8 +44,6 @@ public class MainGUI extends javax.swing.JFrame {
         //commented out because loans doesnt work
         /*tabPane.add(new LoansPanel(driver));
         tabPane.setTitleAt(3, "Loans");*/
-        //tabPane.add(new ShopPanel(driver));
-        //tabPane.setTitleAt(2, "Shops");
     }
 
     /**

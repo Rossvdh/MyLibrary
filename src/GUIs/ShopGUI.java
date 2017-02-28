@@ -1,5 +1,4 @@
-/*
- MyLibrary 3. GUI to add new shop
+/*MyLibrary 3. GUI to add new shop
  Ross van der Heyde
  Started: 7 December 2014
  */
@@ -9,13 +8,15 @@ import library.Driver;
 import library.Shop;
 
 /**
+ * This class provides the interface and functionality for adding new shops to
+ * the database.
  *
  * @author Ross
  */
 public class ShopGUI extends javax.swing.JFrame {
 
     /**
-     * Creates new form ShopGUI
+     * Creates new form ShopGUI.
      */
     public ShopGUI() {
         initComponents();
@@ -56,6 +57,14 @@ public class ShopGUI extends javax.swing.JFrame {
         lEmail.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         lEmail.setText("e-mail:");
 
+        tfName.setToolTipText("The nameof the shop");
+
+        tfArea.setToolTipText("Area or suburb where the shop is located.");
+
+        tfPhone.setToolTipText("Contact number for the shop.");
+
+        tfEmail.setToolTipText("E-mail address of the shop.");
+
         butCancel.setText("Cancel");
         butCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -64,6 +73,7 @@ public class ShopGUI extends javax.swing.JFrame {
         });
 
         butAdd.setText("Add");
+        butAdd.setToolTipText("Add the new shop to the database");
         butAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butAddActionPerformed(evt);
@@ -124,6 +134,7 @@ public class ShopGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //get information, create Shop object, add to database.
     private void butAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAddActionPerformed
         //create new shop
         Shop shop = new Shop(tfName.getText(), tfArea.getText(),
@@ -138,7 +149,7 @@ public class ShopGUI extends javax.swing.JFrame {
         } else {
             d.infoMessageNormal("Shop could not be added to the database.");
         }
-        
+
         //close window
         this.dispose();
     }//GEN-LAST:event_butAddActionPerformed

@@ -8,13 +8,17 @@ package GUIs;
 import library.Driver;
 
 /**
+ * Provides interface for entering (a range of) Dewey numbers and searching for
+ * them.
  *
  * @author ross
  */
 public class SearchDeweyGUI extends javax.swing.JFrame {
 
     /**
-     * Creates new form SearchDeweyGUI
+     * Creates new form SearchDeweyGUI.
+     *
+     * @param d An instance of <code>Driver</code>
      */
     public SearchDeweyGUI(Driver d) {
         initComponents();
