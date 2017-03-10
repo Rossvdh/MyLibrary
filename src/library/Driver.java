@@ -512,7 +512,7 @@ public class Driver {
         ArrayList<String> authors = new ArrayList();
 
         try {
-            CallableStatement cstmt = getCallStatement("{CALL getAuthors(?)}");
+            CallableStatement cstmt = getCallStatement("{CALL getBookAuthors(?)}");
 
             cstmt.setInt(1, bookID);
 

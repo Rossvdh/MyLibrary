@@ -7,6 +7,7 @@ package GUIs;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.util.List;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseWheelEvent;
@@ -14,7 +15,6 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,6 +24,7 @@ import javax.swing.PopupFactory;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicBorders;
 import javax.swing.table.DefaultTableModel;
+import library.AutoCompletion;
 import library.BookType;
 import library.Driver;
 import library.Genre;
@@ -66,20 +67,16 @@ public class SearchPanel extends javax.swing.JPanel {
         lKeyword = new javax.swing.JLabel();
         tfKeyword = new javax.swing.JTextField();
         butSearchText = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
-        comboSearchNumber = new javax.swing.JComboBox();
         comboCrit = new javax.swing.JComboBox();
-        tfSearchNumber = new javax.swing.JTextField();
-        butSearchNumber = new javax.swing.JButton();
         searchPane = new javax.swing.JScrollPane();
         butClear = new javax.swing.JButton();
         butViewAll = new javax.swing.JButton();
-        jSeparator2 = new javax.swing.JSeparator();
         butDewey = new javax.swing.JButton();
-        comboSGT = new javax.swing.JComboBox();
+        comboSearchItem = new javax.swing.JComboBox();
         radFiction = new javax.swing.JRadioButton();
-        radNon = new javax.swing.JRadioButton();
+        radNonFiction = new javax.swing.JRadioButton();
         radDum = new javax.swing.JRadioButton();
+        radAllBooks = new javax.swing.JRadioButton();
 
         jScrollPane1.setViewportView(jTree1);
 
@@ -87,7 +84,7 @@ public class SearchPanel extends javax.swing.JPanel {
 
         lSearchBy.setText("Search by:");
 
-        comboSearchBy.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ID", "Title", "Author", "Shop bought", "Series", "Genre", "Type of Book" }));
+        comboSearchBy.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ID", "Title", "Price", "Place bought", "Month bought", "Year bought", "Month and year bought", "First published" }));
         comboSearchBy.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 comboSearchByItemStateChanged(evt);
@@ -103,16 +100,7 @@ public class SearchPanel extends javax.swing.JPanel {
             }
         });
 
-        comboSearchNumber.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Price", "Date bought", "Year bought", "First published" }));
-
         comboCrit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Less than/before", "equal to/in", "Greater than/after" }));
-
-        butSearchNumber.setText("Search");
-        butSearchNumber.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butSearchNumberActionPerformed(evt);
-            }
-        });
 
         butClear.setText("Clear");
         butClear.addActionListener(new java.awt.event.ActionListener() {
@@ -136,8 +124,6 @@ public class SearchPanel extends javax.swing.JPanel {
             }
         });
 
-        comboSGT.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         groupSearch.add(radFiction);
         radFiction.setText("Fiction");
         radFiction.addItemListener(new java.awt.event.ItemListener() {
@@ -146,16 +132,19 @@ public class SearchPanel extends javax.swing.JPanel {
             }
         });
 
-        groupSearch.add(radNon);
-        radNon.setText("Non-fiction");
-        radNon.addItemListener(new java.awt.event.ItemListener() {
+        groupSearch.add(radNonFiction);
+        radNonFiction.setText("Non-fiction");
+        radNonFiction.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                radNonItemStateChanged(evt);
+                radNonFictionItemStateChanged(evt);
             }
         });
 
         groupSearch.add(radDum);
         radDum.setText("dum");
+
+        groupSearch.add(radAllBooks);
+        radAllBooks.setText("All books");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -164,7 +153,18 @@ public class SearchPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(comboSearchBy, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(comboCrit, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lKeyword)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfKeyword, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(comboSearchItem, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addComponent(butSearchText))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(radDum)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -173,32 +173,16 @@ public class SearchPanel extends javax.swing.JPanel {
                         .addComponent(butViewAll)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(butClear))
-                    .addComponent(jSeparator1)
                     .addComponent(searchPane)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lSearchBy)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(radFiction)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(radNon)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboSearchBy, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(radNonFiction)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lKeyword)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfKeyword, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(comboSGT, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(butSearchText))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(comboSearchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(comboCrit, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(tfSearchNumber)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(butSearchNumber)))
+                        .addComponent(radAllBooks)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(16, 16, 16))
         );
         layout.setVerticalGroup(
@@ -207,25 +191,19 @@ public class SearchPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lSearchBy)
+                    .addComponent(radFiction)
+                    .addComponent(radNonFiction)
+                    .addComponent(radAllBooks))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboSearchBy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboCrit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lKeyword)
                     .addComponent(tfKeyword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(butSearchText)
-                    .addComponent(comboSGT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(radFiction)
-                    .addComponent(radNon))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboSearchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboCrit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfSearchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(butSearchNumber))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(searchPane, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
+                    .addComponent(comboSearchItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(butSearchText))
+                .addGap(18, 18, 18)
+                .addComponent(searchPane, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(butViewAll)
@@ -292,10 +270,10 @@ public class SearchPanel extends javax.swing.JPanel {
             }
             case 3: {
                 //shop. NOT WORKING FOR NONFICTION
-                cstmt = driver.getCallStatement("{CALL searchShop(?)}");
+                cstmt = driver.getCallStatement("{CALL searchBooksPlaceBought(?)}");
 
                 //get shop ID
-                Shop shop = new Shop(comboSGT.getSelectedItem().toString());
+                Shop shop = new Shop(comboSearchItem.getSelectedItem().toString());
                 int shopID = shop.getID();
 
                 try {
@@ -329,7 +307,7 @@ public class SearchPanel extends javax.swing.JPanel {
                 cstmt = driver.getCallStatement("{CALL searchGenre(?)}");
 
                 //get genre ID to search for
-                Genre gen = new Genre(comboSGT.getSelectedItem().toString());
+                Genre gen = new Genre(comboSearchItem.getSelectedItem().toString());
                 int genreID = gen.getId();
 
                 try {
@@ -346,7 +324,7 @@ public class SearchPanel extends javax.swing.JPanel {
                 cstmt = driver.getCallStatement("{CALL searchType(?)}");
 
                 //get type ID to search for
-                BookType type = new BookType(comboSGT.getSelectedItem().toString());
+                BookType type = new BookType(comboSearchItem.getSelectedItem().toString());
                 int typeID = type.getID();
 
                 try {
@@ -395,11 +373,9 @@ public class SearchPanel extends javax.swing.JPanel {
      */
     private void butClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butClearActionPerformed
         tfKeyword.setText("");
-        tfSearchNumber.setText("");
         searchPane.setViewportView(null);
         comboCrit.setSelectedIndex(0);
         comboSearchBy.setSelectedIndex(0);
-        comboSearchNumber.setSelectedIndex(0);
         radDum.setSelected(true);
     }//GEN-LAST:event_butClearActionPerformed
 
@@ -415,7 +391,7 @@ public class SearchPanel extends javax.swing.JPanel {
             //fiction. SPROC DONE
             query = "{CALL viewFiction()}";
 
-        } else if (radNon.isSelected()) {
+        } else if (radNonFiction.isSelected()) {
             //non-fiction. SPROC DONE
             query = "{CALL viewNonFiction()}";
 
@@ -425,7 +401,6 @@ public class SearchPanel extends javax.swing.JPanel {
         }
 
         ResultSet rs = null;
-        JTable myTable = null;
 
         //get callable statement
         try {
@@ -467,91 +442,74 @@ public class SearchPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_butDeweyActionPerformed
 
     /**
-     * search by year, month & year, price and firstPublished
-     *
-     * @param evt
-     */
-    private void butSearchNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butSearchNumberActionPerformed
-        //buil call statement string
-        String[] search = {"Price", "Date", "Year", "Pub"}; //field to search by
-        String[] operator = {"Less", "Equal", "Greater"};
-
-        int searchIndex = comboSearchNumber.getSelectedIndex();
-
-        String param = searchIndex == 1 ? "(?,?)}" : "(?)}";
-
-        //concat strings to get get e.g. {CALL searchPriceLess(?)}
-        String sproc = "{CALL search" + search[searchIndex]
-                + operator[comboCrit.getSelectedIndex()] + param;
-
-        //create callableStatement
-        CallableStatement cstmt = driver.getCallStatement(sproc);
-
-        ResultSet rs = null;
-        try {
-            //set parameter
-            if (searchIndex == 1) {// if Date was selected use setString method
-                //date
-                String date = tfSearchNumber.getText();
-
-                String[] temp = date.split("/");
-
-                cstmt.setInt(1, Integer.parseInt(temp[0]));
-                cstmt.setInt(2, Integer.parseInt(temp[1]));
-            } else {
-                //number
-                cstmt.setInt(1, Integer.parseInt(tfSearchNumber.getText()));
-            }
-
-            //execute query
-            rs = cstmt.executeQuery();
-
-            displayTable(rs);
-
-            rs.close();
-            cstmt.close();
-        } catch (SQLException se) {
-            driver.errorMessageNormal("from searchPanel.butSearchNumberAP: " + se);
-            se.printStackTrace();
-        }
-
-    }//GEN-LAST:event_butSearchNumberActionPerformed
-
-    /**
      * if shop, genre or type selected, blank tfKeyword and set comboSGT model
      * to selected
      *
      * @param evt
      */
     private void comboSearchByItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboSearchByItemStateChanged
+        String selected = comboSearchBy.getSelectedItem().toString();
+        selected = selected.toLowerCase();
 
-        switch (comboSearchBy.getSelectedIndex()) {
-            case 3: {
+        switch (selected) {
+            case "place bought": {
                 //shop
-                comboSGT.setModel(driver.getComboBoxModel(0));
-                sgtSelected();
+                comboSearchItem.setModel(driver.getComboBoxModel(0));
+                searchByComboBox();
                 break;
             }
-            case 5: {
+            case "genre": {
                 //genre
-                comboSGT.setModel(driver.getComboBoxModel(1));
-                sgtSelected();
+                comboSearchItem.setModel(driver.getComboBoxModel(1));
+                searchByComboBox();
                 break;
             }
-            case 6: {
+            case "type of book": {
                 //type
-                comboSGT.setModel(driver.getComboBoxModel(2));
-                sgtSelected();
+                comboSearchItem.setModel(driver.getComboBoxModel(2));
+                searchByComboBox();
                 break;
             }
-            default: {
-                //input search term via textfield, so dim comboBo and enable textField
+            case "author": {
+                comboSearchItem.setModel(driver.getComboBoxModel(6));
+                AutoCompletion.enable(comboSearchItem);
+                searchByComboBox();
 
-                //ID, title, author or series
+                break;
+            }
+            case "series": {
+                comboSearchItem.setModel(driver.getComboBoxModel(5));
+                AutoCompletion.enable(comboSearchItem);
+                searchByComboBox();
+
+                break;
+            }
+            case "price":
+            case "month bought":
+            case "year bought":
+            case "month and year bought":
+            case "first published": {
+                comboCrit.setEnabled(true);
+
                 tfKeyword.setEditable(true);
                 tfKeyword.setBackground(Color.white);
 
-                comboSGT.setEnabled(false);
+                comboSearchItem.setEnabled(false);
+                break;
+            }
+            case "id":
+            case "title": {
+                tfKeyword.setEditable(true);
+                tfKeyword.setBackground(Color.white);
+
+                comboSearchItem.setEnabled(false);
+                comboCrit.setEnabled(false);
+
+                break;
+            }
+            default: {
+                System.out.println("GUIs.SearchPanel.comboSearchByItemStateChanged() - Something went wrong.");
+                break;
             }
         }
 
@@ -564,39 +522,52 @@ public class SearchPanel extends javax.swing.JPanel {
      * @param evt
      */
     private void radFictionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_radFictionItemStateChanged
+        String[] ar;
+
         if (radFiction.isSelected()) {
             //fiction
-            String[] ar = {"ID", "Title", "Author", "Shop bought", "Series", "Genre", "Type of Book"};
+            String[] temp = {"ID", "Title", "Price", "Place bought", "Month bought", "Year bought",
+                "Month and year bought", "First published",
+                "Series", "Type Of Book", "Genre"};
+            ar = temp;
 
-            DefaultComboBoxModel<String> model = new DefaultComboBoxModel(ar);
-
-            comboSearchBy.setModel(model);
-
-        } else if (radNon.isSelected()) {
+        } else if (radNonFiction.isSelected()) {
             //nonFiction
-            String[] ar = {"ID", "Title", "Author", "Shop bought"};
+            String[] temp = {"ID", "Title", "Price", "Place bought", "Month bought", "Year bought",
+                "Month and year bought", "First published",
+                "Dewey number"};
+            ar = temp;
 
-            DefaultComboBoxModel<String> model = new DefaultComboBoxModel(ar);
-
-            comboSearchBy.setModel(model);
-
-            tfKeyword.setEditable(true);
-            tfKeyword.setBackground(Color.white);
-            comboSGT.setEnabled(false);
+        } else {
+            //allBooks or dum selected
+            String[] temp = {"ID", "Title", "Price", "Place bought", "Month bought", "Year bought",
+                "Month and year bought", "First published"};
+            ar = temp;
         }
+
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel(ar);
+
+        comboSearchBy.setModel(model);
+
+        tfKeyword.setEditable(true);
+        tfKeyword.setBackground(Color.white);
+        comboSearchItem.setEnabled(false);
     }//GEN-LAST:event_radFictionItemStateChanged
 
-    private void radNonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_radNonItemStateChanged
+    private void radNonFictionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_radNonFictionItemStateChanged
         radFictionItemStateChanged(evt);
-    }//GEN-LAST:event_radNonItemStateChanged
+    }//GEN-LAST:event_radNonFictionItemStateChanged
 
     //if search by shop, genre or type is selected,
     //set tfKeyword uneditable and set comboSGT enabled
-    private void sgtSelected() {
+    private void searchByComboBox() {
         tfKeyword.setEditable(false);
         tfKeyword.setBackground(new Color(214, 217, 223));
 
-        comboSGT.setEnabled(true);
+        comboSearchItem.setEnabled(true);
+        comboCrit.setEnabled(false);
+
+        comboCrit.setEnabled(false);
     }
 
     /**
@@ -637,7 +608,7 @@ public class SearchPanel extends javax.swing.JPanel {
     }
 
     /**
-     * Display the contents of the given ResultSet in a JTAble
+     * Display the contents of the given ResultSet in a JTable
      *
      * @param rs ResultSet to display
      */
@@ -648,29 +619,27 @@ public class SearchPanel extends javax.swing.JPanel {
         //add column for author
         int numRows = model.getRowCount();
 
-        Vector<String> clickAuthor = new Vector<String>();
+        List<String> clickAuthor = new ArrayList();
 
         for (int i = 0; i < numRows; i++) {
             clickAuthor.add("click for Authors");
         }
 
-        model.addColumn("Author", clickAuthor);
+        model.addColumn("Author", clickAuthor.toArray());
 
         //set table model
         final JTable myTable = new JTable(model);
         myTable.setEnabled(false);
 
         //Listen for wheel scroll
-        myTable.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-            public void mouseWheelMoved(MouseWheelEvent mwe) {
-                //hide popup if not null
-                if (popup != null) {
-                    popup.hide();
-                }
-
-                //dispatch event to parent to retain default scrolling behaviour
-                myTable.getParent().dispatchEvent(mwe);
+        myTable.addMouseWheelListener((MouseWheelEvent mwe) -> {
+            //hide popup if not null
+            if (popup != null) {
+                popup.hide();
             }
+
+            //dispatch event to parent to retain default scrolling behaviour
+            myTable.getParent().dispatchEvent(mwe);
         });
 
 //        Add mouseListener to Table to listner for click
@@ -706,26 +675,22 @@ public class SearchPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton butClear;
     private javax.swing.JButton butDewey;
-    private javax.swing.JButton butSearchNumber;
     private javax.swing.JButton butSearchText;
     private javax.swing.JButton butViewAll;
     private javax.swing.JComboBox comboCrit;
-    private javax.swing.JComboBox comboSGT;
     private javax.swing.JComboBox comboSearchBy;
-    private javax.swing.JComboBox comboSearchNumber;
+    private javax.swing.JComboBox comboSearchItem;
     private javax.swing.ButtonGroup groupSearch;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTree jTree1;
     private javax.swing.JLabel lKeyword;
     private javax.swing.JLabel lSearchBy;
+    private javax.swing.JRadioButton radAllBooks;
     private javax.swing.JRadioButton radDum;
     private javax.swing.JRadioButton radFiction;
-    private javax.swing.JRadioButton radNon;
+    private javax.swing.JRadioButton radNonFiction;
     private javax.swing.JScrollPane searchPane;
     private javax.swing.JTextField tfKeyword;
-    private javax.swing.JTextField tfSearchNumber;
     // End of variables declaration//GEN-END:variables
     private Driver driver = null;
     Popup popup = null;

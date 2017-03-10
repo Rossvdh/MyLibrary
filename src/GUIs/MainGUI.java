@@ -38,9 +38,10 @@ public class MainGUI extends javax.swing.JFrame {
         tabPane.add(new ShopPanel(driver));
         tabPane.setTitleAt(2, "Shops");
 
+        tabPane.add(new SearchPanel(driver));
+        tabPane.setTitleAt(3, "Search");
+
         //commented out becasue search need lots of changes.
-//        tabPane.add(new SearchPanel(driver));
-//        tabPane.setTitleAt(2, "Search");
         //commented out because loans doesnt work
         /*tabPane.add(new LoansPanel(driver));
         tabPane.setTitleAt(3, "Loans");*/

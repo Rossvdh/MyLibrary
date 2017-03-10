@@ -37,9 +37,21 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jSeparator2" alignment="1" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="comboSearchBy" min="-2" pref="137" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="comboCrit" min="-2" pref="191" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="lKeyword" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="tfKeyword" pref="276" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="comboSearchItem" min="-2" pref="200" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                      <Component id="butSearchText" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="radDum" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
@@ -49,33 +61,16 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="butClear" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
                   <Component id="searchPane" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="lSearchBy" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                       <Component id="radFiction" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="radNon" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="comboSearchBy" min="-2" pref="184" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                      <Component id="lKeyword" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="tfKeyword" pref="98" max="32767" attributes="0"/>
+                      <Component id="radNonFiction" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="comboSGT" min="-2" pref="264" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                      <Component id="butSearchText" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="comboSearchNumber" min="-2" pref="175" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                      <Component id="comboCrit" min="-2" pref="191" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                      <Component id="tfSearchNumber" max="32767" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="butSearchNumber" min="-2" max="-2" attributes="0"/>
+                      <Component id="radAllBooks" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
@@ -88,27 +83,21 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lSearchBy" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="radFiction" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="radNonFiction" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="radAllBooks" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="comboSearchBy" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="comboCrit" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lKeyword" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="tfKeyword" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="comboSearchItem" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="butSearchText" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="comboSGT" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="radFiction" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="radNon" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="jSeparator1" min="-2" pref="6" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="comboSearchNumber" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="comboCrit" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="tfSearchNumber" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="butSearchNumber" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="jSeparator2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="searchPane" pref="433" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="searchPane" pref="486" max="32767" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="butViewAll" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -130,14 +119,15 @@
     <Component class="javax.swing.JComboBox" name="comboSearchBy">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="7">
+          <StringArray count="8">
             <StringItem index="0" value="ID"/>
             <StringItem index="1" value="Title"/>
-            <StringItem index="2" value="Author"/>
-            <StringItem index="3" value="Shop bought"/>
-            <StringItem index="4" value="Series"/>
-            <StringItem index="5" value="Genre"/>
-            <StringItem index="6" value="Type of Book"/>
+            <StringItem index="2" value="Price"/>
+            <StringItem index="3" value="Place bought"/>
+            <StringItem index="4" value="Month bought"/>
+            <StringItem index="5" value="Year bought"/>
+            <StringItem index="6" value="Month and year bought"/>
+            <StringItem index="7" value="First published"/>
           </StringArray>
         </Property>
       </Properties>
@@ -160,20 +150,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butSearchTextActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JSeparator" name="jSeparator1">
-    </Component>
-    <Component class="javax.swing.JComboBox" name="comboSearchNumber">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Price"/>
-            <StringItem index="1" value="Date bought"/>
-            <StringItem index="2" value="Year bought"/>
-            <StringItem index="3" value="First published"/>
-          </StringArray>
-        </Property>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JComboBox" name="comboCrit">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -184,16 +160,6 @@
           </StringArray>
         </Property>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="tfSearchNumber">
-    </Component>
-    <Component class="javax.swing.JButton" name="butSearchNumber">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Search"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butSearchNumberActionPerformed"/>
-      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="searchPane">
 
@@ -216,8 +182,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butViewAllActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JSeparator" name="jSeparator2">
-    </Component>
     <Component class="javax.swing.JButton" name="butDewey">
       <Properties>
         <Property name="text" type="java.lang.String" value="Search by Dewey number"/>
@@ -226,15 +190,10 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butDeweyActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JComboBox" name="comboSGT">
+    <Component class="javax.swing.JComboBox" name="comboSearchItem">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
     </Component>
@@ -249,7 +208,7 @@
         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="radFictionItemStateChanged"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JRadioButton" name="radNon">
+    <Component class="javax.swing.JRadioButton" name="radNonFiction">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="groupSearch"/>
@@ -257,7 +216,7 @@
         <Property name="text" type="java.lang.String" value="Non-fiction"/>
       </Properties>
       <Events>
-        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="radNonItemStateChanged"/>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="radNonFictionItemStateChanged"/>
       </Events>
     </Component>
     <Component class="javax.swing.JRadioButton" name="radDum">
@@ -266,6 +225,14 @@
           <ComponentRef name="groupSearch"/>
         </Property>
         <Property name="text" type="java.lang.String" value="dum"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JRadioButton" name="radAllBooks">
+      <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="groupSearch"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="All books"/>
       </Properties>
     </Component>
   </SubComponents>
