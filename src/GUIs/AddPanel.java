@@ -47,11 +47,16 @@ public class AddPanel extends javax.swing.JPanel {
         comboShop.setModel(driver.getComboBoxModel(0));
         comboGenre.setModel(driver.getComboBoxModel(1));
         comboType.setModel(driver.getComboBoxModel(2));
-        //deweyOne and roles not necessary
+        
+//deweyOne and roles not necessary
         comboSeries.setModel(driver.getComboBoxModel(5));
         AutoCompletion.enable(comboSeries); //enable autocompletion
+        comboSeries.setSelectedIndex(-1);
+        
         comboAuthor.setModel(driver.getComboBoxModel(6));
         AutoCompletion.enable(comboAuthor);
+        comboAuthor.setSelectedIndex(-1);
+        
 
         //set models for dew2 and dew3 comboBoxes
         comboDew1ItemStateChanged(null);
@@ -67,6 +72,7 @@ public class AddPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup = new javax.swing.ButtonGroup();
         radFiction = new javax.swing.JRadioButton();
         radNonFic = new javax.swing.JRadioButton();
         radAddDum = new javax.swing.JRadioButton();
@@ -113,14 +119,17 @@ public class AddPanel extends javax.swing.JPanel {
         butAddNewAuthors = new javax.swing.JButton();
         comboAuthor = new javax.swing.JComboBox<>();
 
+        buttonGroup.add(radFiction);
         radFiction.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         radFiction.setText("Fiction");
         radFiction.setToolTipText("Select whether you are adding a fiction or non-fiction book.");
 
+        buttonGroup.add(radNonFic);
         radNonFic.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         radNonFic.setText("Non-fiction");
         radNonFic.setToolTipText("Select whether you are adding a fiction or non-fiction book.");
 
+        buttonGroup.add(radAddDum);
         radAddDum.setText("dumb");
 
         lTitle.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -806,6 +815,7 @@ public class AddPanel extends javax.swing.JPanel {
     private javax.swing.JButton butAddShop;
     private javax.swing.JButton butClear;
     private javax.swing.JButton butClearMess;
+    private javax.swing.ButtonGroup buttonGroup;
     private javax.swing.JComboBox<String> comboAuthor;
     private javax.swing.JComboBox comboDew1;
     private javax.swing.JComboBox comboDew2;
