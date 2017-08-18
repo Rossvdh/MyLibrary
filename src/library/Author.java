@@ -2,6 +2,9 @@
  * Author class
  * Ross van der Heyde
  * started: 30 November 2014
+ * a new line has been added here,
+ * because I am testing push/pulls on github
+ #another line just in case
  */
 package library;
 
