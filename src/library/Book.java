@@ -315,10 +315,10 @@ public class Book implements DatabaseEntry {
     public boolean deleteFromDatabase() {
         try {
 
-            int c = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete \"" + title + "\" by "
+            int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete \"" + title + "\" by "
                     + authors + "?");
 
-            if (c == 0) {
+            if (choice == 0) {
                 //delete
                 CallableStatement cstmt = DRIVER.getCallStatement("{CALL deleteBook(?)}");
 

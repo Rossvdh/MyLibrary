@@ -5,6 +5,7 @@
  */
 package GUIs;
 
+import java.awt.event.KeyEvent;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import library.Driver;
@@ -50,11 +51,21 @@ public class GenreGUI extends javax.swing.JFrame {
                 butAddGenreActionPerformed(evt);
             }
         });
+        butAddGenre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butAddGenreKeyReleased(evt);
+            }
+        });
 
         butCancel.setText("Cancel");
         butCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butCancelActionPerformed(evt);
+            }
+        });
+        butCancel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butCancelKeyReleased(evt);
             }
         });
 
@@ -123,6 +134,18 @@ public class GenreGUI extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_butAddGenreActionPerformed
+
+    private void butAddGenreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butAddGenreKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butAddGenreActionPerformed(null);
+        }
+    }//GEN-LAST:event_butAddGenreKeyReleased
+
+    private void butCancelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butCancelKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butCancelActionPerformed(null);
+        }
+    }//GEN-LAST:event_butCancelKeyReleased
 
     /**
      * @param args the command line arguments

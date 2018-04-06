@@ -7,6 +7,7 @@
 package GUIs;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -92,6 +93,11 @@ public class ShopPanel extends javax.swing.JPanel {
                 butUpdateActionPerformed(evt);
             }
         });
+        butUpdate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butUpdateKeyReleased(evt);
+            }
+        });
 
         lShopDelete.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         lShopDelete.setText("<html><b><u>Delete a shop</u></b>");
@@ -107,6 +113,11 @@ public class ShopPanel extends javax.swing.JPanel {
         butShopDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butShopDeleteActionPerformed(evt);
+            }
+        });
+        butShopDelete.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butShopDeleteKeyReleased(evt);
             }
         });
 
@@ -154,6 +165,11 @@ public class ShopPanel extends javax.swing.JPanel {
                 butSearchActionPerformed(evt);
             }
         });
+        butSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butSearchKeyReleased(evt);
+            }
+        });
 
         lUpdateThis.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         lUpdateThis.setText("Update:");
@@ -180,6 +196,11 @@ public class ShopPanel extends javax.swing.JPanel {
             butClearActionPerformed(evt);
         }
     });
+    butClear.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            butClearKeyReleased(evt);
+        }
+    });
 
     tfNewValue.setToolTipText("New value of the attribute.");
 
@@ -193,11 +214,21 @@ public class ShopPanel extends javax.swing.JPanel {
             butViewAllActionPerformed(evt);
         }
     });
+    butViewAll.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            butViewAllKeyReleased(evt);
+        }
+    });
 
     butAdd.setText("Add new shop");
     butAdd.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             butAddActionPerformed(evt);
+        }
+    });
+    butAdd.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            butAddKeyReleased(evt);
         }
     });
 
@@ -423,6 +454,42 @@ public class ShopPanel extends javax.swing.JPanel {
 
         sg.setVisible(true);
     }//GEN-LAST:event_butAddActionPerformed
+
+    private void butShopDeleteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butShopDeleteKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butShopDeleteActionPerformed(null);
+        }
+    }//GEN-LAST:event_butShopDeleteKeyReleased
+
+    private void butUpdateKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butUpdateKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butUpdateActionPerformed(null);
+        }
+    }//GEN-LAST:event_butUpdateKeyReleased
+
+    private void butSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butSearchKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butSearchActionPerformed(null);
+        }
+    }//GEN-LAST:event_butSearchKeyReleased
+
+    private void butAddKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butAddKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butAddActionPerformed(null);
+        }
+    }//GEN-LAST:event_butAddKeyReleased
+
+    private void butViewAllKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butViewAllKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butViewAllActionPerformed(null);
+        }
+    }//GEN-LAST:event_butViewAllKeyReleased
+
+    private void butClearKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butClearKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butClearActionPerformed(null);
+        }
+    }//GEN-LAST:event_butClearKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

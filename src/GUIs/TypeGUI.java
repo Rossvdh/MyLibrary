@@ -5,6 +5,7 @@
  */
 package GUIs;
 
+import java.awt.event.KeyEvent;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import library.Driver;
@@ -49,12 +50,22 @@ public class TypeGUI extends javax.swing.JFrame {
                 butAddActionPerformed(evt);
             }
         });
+        butAdd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butAddKeyReleased(evt);
+            }
+        });
 
         butCancel.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         butCancel.setText("Cancel");
         butCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butCancelActionPerformed(evt);
+            }
+        });
+        butCancel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butCancelKeyReleased(evt);
             }
         });
 
@@ -97,7 +108,8 @@ public class TypeGUI extends javax.swing.JFrame {
 
     /**
      * Adds a new type of book to the database
-     * @param evt 
+     *
+     * @param evt
      */
     private void butAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAddActionPerformed
         Driver driver = new Driver();
@@ -126,6 +138,18 @@ public class TypeGUI extends javax.swing.JFrame {
     private void butCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_butCancelActionPerformed
+
+    private void butAddKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butAddKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butAddActionPerformed(null);
+        }
+    }//GEN-LAST:event_butAddKeyReleased
+
+    private void butCancelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butCancelKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butCancelActionPerformed(null);
+        }
+    }//GEN-LAST:event_butCancelKeyReleased
 
     /**
      * @param args the command line arguments

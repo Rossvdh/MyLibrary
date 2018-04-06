@@ -5,6 +5,7 @@
  */
 package GUIs;
 
+import java.awt.event.KeyEvent;
 import library.Driver;
 
 /**
@@ -62,6 +63,11 @@ public class SearchDeweyGUI extends javax.swing.JFrame {
         butSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butSearchActionPerformed(evt);
+            }
+        });
+        butSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butSearchKeyReleased(evt);
             }
         });
 
@@ -141,6 +147,12 @@ public class SearchDeweyGUI extends javax.swing.JFrame {
             driver.errorMessageNormal("Please select between or exaclty.");
         }
     }//GEN-LAST:event_butSearchActionPerformed
+
+    private void butSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butSearchKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butSearchActionPerformed(null);
+        }
+    }//GEN-LAST:event_butSearchKeyReleased
 
     public String getDeweyQuery() {
         return query;

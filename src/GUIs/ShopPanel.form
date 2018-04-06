@@ -217,6 +217,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butUpdateActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butUpdateKeyReleased"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lShopDelete">
@@ -250,6 +251,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butShopDeleteActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butShopDeleteKeyReleased"/>
       </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="shopMessPanel">
@@ -351,6 +353,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butSearchActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butSearchKeyReleased"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lUpdateThis">
@@ -394,6 +397,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butClearActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butClearKeyReleased"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tfNewValue">
@@ -416,6 +420,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butViewAllActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butViewAllKeyReleased"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="butAdd">
@@ -424,6 +429,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butAddActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butAddKeyReleased"/>
       </Events>
     </Component>
   </SubComponents>

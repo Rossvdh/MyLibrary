@@ -4,6 +4,7 @@
  */
 package GUIs;
 
+import java.awt.event.KeyEvent;
 import library.Driver;
 import library.Shop;
 
@@ -71,12 +72,22 @@ public class ShopGUI extends javax.swing.JFrame {
                 butCancelActionPerformed(evt);
             }
         });
+        butCancel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butCancelKeyReleased(evt);
+            }
+        });
 
         butAdd.setText("Add");
         butAdd.setToolTipText("Add the new shop to the database");
         butAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butAddActionPerformed(evt);
+            }
+        });
+        butAdd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butAddKeyReleased(evt);
             }
         });
 
@@ -157,6 +168,18 @@ public class ShopGUI extends javax.swing.JFrame {
     private void butCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_butCancelActionPerformed
+
+    private void butAddKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butAddKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butAddActionPerformed(null);
+        }
+    }//GEN-LAST:event_butAddKeyReleased
+
+    private void butCancelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butCancelKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butCancelActionPerformed(null);
+        }
+    }//GEN-LAST:event_butCancelKeyReleased
 
     /**
      * @param args the command line arguments

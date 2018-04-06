@@ -148,6 +148,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butSearchTextActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butSearchTextKeyReleased"/>
       </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="comboCrit">
@@ -171,6 +172,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butClearActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butClearKeyReleased"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="butViewAll">
@@ -180,6 +182,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butViewAllActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butViewAllKeyReleased"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="butDewey">
@@ -188,6 +191,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butDeweyActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butDeweyKeyReleased"/>
       </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="comboSearchItem">

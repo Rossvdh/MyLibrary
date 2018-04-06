@@ -320,7 +320,9 @@ public class UpdateBookPanel extends javax.swing.JPanel {
 
         System.out.println("library.UpdateBookPanel.butDeleteActionPerformed(). book.toString(): " + book);
 
-        if (book.deleteFromDatabase()) {
+        boolean wasDeleted = book.deleteFromDatabase();
+        
+        if(wasDeleted ) {
             driver.appendToPane(textPane, "Book deleted successfully.\n", Color.green);
         } else {
             driver.appendToPane(textPane, "Book could not be deleted.\n", Color.red);

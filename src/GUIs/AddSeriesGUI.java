@@ -4,6 +4,7 @@ Ross van der Heyde
  */
 package GUIs;
 
+import java.awt.event.KeyEvent;
 import library.Driver;
 import library.Series;
 
@@ -49,11 +50,21 @@ public class AddSeriesGUI extends javax.swing.JFrame {
                 butAddActionPerformed(evt);
             }
         });
+        butAdd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butAddKeyReleased(evt);
+            }
+        });
 
         butCancel.setText("Cancel");
         butCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butCancelActionPerformed(evt);
+            }
+        });
+        butCancel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butCancelKeyReleased(evt);
             }
         });
 
@@ -125,6 +136,18 @@ public class AddSeriesGUI extends javax.swing.JFrame {
 
         this.dispose();
     }//GEN-LAST:event_butAddActionPerformed
+
+    private void butAddKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butAddKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butAddActionPerformed(null);
+        }
+    }//GEN-LAST:event_butAddKeyReleased
+
+    private void butCancelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butCancelKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butCancelActionPerformed(null);
+        }
+    }//GEN-LAST:event_butCancelKeyReleased
 
     /**
      * @param args the command line arguments

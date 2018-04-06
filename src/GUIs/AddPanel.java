@@ -5,6 +5,7 @@ Ross van der Heyde
 package GUIs;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextPane;
@@ -47,20 +48,21 @@ public class AddPanel extends javax.swing.JPanel {
         comboShop.setModel(driver.getComboBoxModel(0));
         comboGenre.setModel(driver.getComboBoxModel(1));
         comboType.setModel(driver.getComboBoxModel(2));
-        
+
 //deweyOne and roles not necessary
         comboSeries.setModel(driver.getComboBoxModel(5));
         AutoCompletion.enable(comboSeries); //enable autocompletion
         comboSeries.setSelectedIndex(-1);
-        
+
         comboAuthor.setModel(driver.getComboBoxModel(6));
         AutoCompletion.enable(comboAuthor);
         comboAuthor.setSelectedIndex(-1);
-        
 
         //set models for dew2 and dew3 comboBoxes
         comboDew1ItemStateChanged(null);
         comboDew2ItemStateChanged(null);
+
+//        butAdd.setFocusPainted(true);
     }
 
     /**
@@ -165,6 +167,11 @@ public class AddPanel extends javax.swing.JPanel {
                 butAddAuthorsActionPerformed(evt);
             }
         });
+        butAddAuthors.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butAddAuthorsKeyReleased(evt);
+            }
+        });
 
         comboShop.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         comboShop.setToolTipText("Select the shop where the book was bought.");
@@ -174,6 +181,11 @@ public class AddPanel extends javax.swing.JPanel {
         butAddShop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butAddShopActionPerformed(evt);
+            }
+        });
+        butAddShop.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butAddShopKeyReleased(evt);
             }
         });
 
@@ -209,6 +221,11 @@ public class AddPanel extends javax.swing.JPanel {
                 addGenreActionPerformed(evt);
             }
         });
+        addGenre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                addGenreKeyReleased(evt);
+            }
+        });
 
         addType.setText("Add new type");
         addType.setToolTipText("Add a new type of book.");
@@ -217,11 +234,21 @@ public class AddPanel extends javax.swing.JPanel {
                 addTypeActionPerformed(evt);
             }
         });
+        addType.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                addTypeKeyReleased(evt);
+            }
+        });
 
         butAddSeries.setText("Add new series");
         butAddSeries.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butAddSeriesActionPerformed(evt);
+            }
+        });
+        butAddSeries.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butAddSeriesKeyReleased(evt);
             }
         });
 
@@ -367,12 +394,22 @@ public class AddPanel extends javax.swing.JPanel {
                 butClearActionPerformed(evt);
             }
         });
+        butClear.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butClearKeyReleased(evt);
+            }
+        });
 
         butAdd.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         butAdd.setText("Add");
         butAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butAddActionPerformed(evt);
+            }
+        });
+        butAdd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butAddKeyReleased(evt);
             }
         });
 
@@ -405,12 +442,22 @@ public class AddPanel extends javax.swing.JPanel {
                 butClearMessActionPerformed(evt);
             }
         });
+        butClearMess.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butClearMessKeyReleased(evt);
+            }
+        });
 
         butAddNewAuthors.setText("Add new author(s)");
         butAddNewAuthors.setToolTipText("Add new authors to the database.");
         butAddNewAuthors.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butAddNewAuthorsActionPerformed(evt);
+            }
+        });
+        butAddNewAuthors.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butAddNewAuthorsKeyReleased(evt);
             }
         });
 
@@ -539,7 +586,7 @@ public class AddPanel extends javax.swing.JPanel {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 multipleAuthors = ama.getAuthors();
 
-                comboAuthor.setSelectedIndex(-1);
+                comboAuthor.setSelectedItem("Various");
             }
         });
     }//GEN-LAST:event_butAddAuthorsActionPerformed
@@ -782,6 +829,60 @@ public class AddPanel extends javax.swing.JPanel {
             }
         });
     }//GEN-LAST:event_butAddNewAuthorsActionPerformed
+
+    private void butAddAuthorsKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butAddAuthorsKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butAddAuthorsActionPerformed(null);
+        }
+    }//GEN-LAST:event_butAddAuthorsKeyReleased
+
+    private void butAddNewAuthorsKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butAddNewAuthorsKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butAddNewAuthorsActionPerformed(null);
+        }
+    }//GEN-LAST:event_butAddNewAuthorsKeyReleased
+
+    private void butAddShopKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butAddShopKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butAddSeriesActionPerformed(null);
+        }
+    }//GEN-LAST:event_butAddShopKeyReleased
+
+    private void addGenreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addGenreKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            addGenreActionPerformed(null);
+        }
+    }//GEN-LAST:event_addGenreKeyReleased
+
+    private void addTypeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addTypeKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            addTypeActionPerformed(null);
+        }
+    }//GEN-LAST:event_addTypeKeyReleased
+
+    private void butAddKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butAddKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butAddActionPerformed(null);
+        }
+    }//GEN-LAST:event_butAddKeyReleased
+
+    private void butAddSeriesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butAddSeriesKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butAddSeriesActionPerformed(null);
+        }
+    }//GEN-LAST:event_butAddSeriesKeyReleased
+
+    private void butClearMessKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butClearMessKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butClearMessActionPerformed(null);
+        }
+    }//GEN-LAST:event_butClearMessKeyReleased
+
+    private void butClearKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butClearKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butClearActionPerformed(null);
+        }
+    }//GEN-LAST:event_butClearKeyReleased
 
     /**
      * Add text to JTextPane for messages

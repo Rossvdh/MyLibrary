@@ -265,6 +265,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butAddAuthorsActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butAddAuthorsKeyReleased"/>
       </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="comboShop">
@@ -287,6 +288,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butAddShopActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butAddShopKeyReleased"/>
       </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="addFictionPanel">
@@ -443,6 +445,7 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addGenreActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="addGenreKeyReleased"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="addType">
@@ -452,6 +455,7 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addTypeActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="addTypeKeyReleased"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="butAddSeries">
@@ -460,6 +464,7 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butAddSeriesActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butAddSeriesKeyReleased"/>
           </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="comboSeries">
@@ -637,6 +642,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butClearActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butClearKeyReleased"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="butAdd">
@@ -648,6 +654,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butAddActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butAddKeyReleased"/>
       </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="pMessage">
@@ -705,6 +712,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butClearMessActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butClearMessKeyReleased"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="butAddNewAuthors">
@@ -714,6 +722,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butAddNewAuthorsActionPerformed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="butAddNewAuthorsKeyReleased"/>
       </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="comboAuthor">

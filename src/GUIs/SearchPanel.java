@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.util.List;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelEvent;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -99,6 +100,11 @@ public class SearchPanel extends javax.swing.JPanel {
                 butSearchTextActionPerformed(evt);
             }
         });
+        butSearchText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butSearchTextKeyReleased(evt);
+            }
+        });
 
         comboCrit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Less than/before", "equal to/in", "Greater than/after" }));
 
@@ -106,6 +112,11 @@ public class SearchPanel extends javax.swing.JPanel {
         butClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butClearActionPerformed(evt);
+            }
+        });
+        butClear.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butClearKeyReleased(evt);
             }
         });
 
@@ -116,11 +127,21 @@ public class SearchPanel extends javax.swing.JPanel {
                 butViewAllActionPerformed(evt);
             }
         });
+        butViewAll.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butViewAllKeyReleased(evt);
+            }
+        });
 
         butDewey.setText("Search by Dewey number");
         butDewey.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butDeweyActionPerformed(evt);
+            }
+        });
+        butDewey.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                butDeweyKeyReleased(evt);
             }
         });
 
@@ -557,6 +578,30 @@ public class SearchPanel extends javax.swing.JPanel {
     private void radNonFictionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_radNonFictionItemStateChanged
         radFictionItemStateChanged(evt);
     }//GEN-LAST:event_radNonFictionItemStateChanged
+
+    private void butSearchTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butSearchTextKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butSearchTextActionPerformed(null);
+        }
+    }//GEN-LAST:event_butSearchTextKeyReleased
+
+    private void butDeweyKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butDeweyKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butDeweyActionPerformed(null);
+        }
+    }//GEN-LAST:event_butDeweyKeyReleased
+
+    private void butViewAllKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butViewAllKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butViewAllActionPerformed(null);
+        }
+    }//GEN-LAST:event_butViewAllKeyReleased
+
+    private void butClearKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butClearKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butClearActionPerformed(null);
+        }
+    }//GEN-LAST:event_butClearKeyReleased
 
     //if search by shop, genre or type is selected,
     //set tfKeyword uneditable and set comboSGT enabled
