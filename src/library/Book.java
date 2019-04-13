@@ -12,6 +12,7 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 import javax.swing.JOptionPane;
 
 /**
@@ -28,7 +29,7 @@ public class Book implements DatabaseEntry {
     protected int year;
     protected double price;
     protected Shop shop;
-    protected ArrayList<Author> authors = new ArrayList<Author>();
+    protected ArrayList<Author> authors = new ArrayList<>();
     protected int published;
     protected boolean onLoan = false;//is the book on loan or not
 
@@ -164,6 +165,14 @@ public class Book implements DatabaseEntry {
             //check if title and author are the same
             return (this.title.equals(otherB.title) && this.authors.equals(otherB.authors));
         }
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 41 * hash + Objects.hashCode(this.title);
+        hash = 41 * hash + Objects.hashCode(this.authors);
+        return hash;
     }
 
     /**

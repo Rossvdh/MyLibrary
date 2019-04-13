@@ -67,33 +67,34 @@ public class Driver {
      * @return Statement with database connection
      */
     //<editor-fold defaultstate="collapsed" desc="comment">
-    /*public PreparedStatement getPrepStatement(String query) {
-     PreparedStatement stmt = null;
-    
-     //using mysql
-     try {
-     //STEP 1: Register JDBC driver
-     Class.forName("com.mysql.jdbc.Driver");
-    
-     //STEP 2: Open a connection
-     System.out.println("Connecting to database...");
-     //give dataBase url, username and password;
-     Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/library", "ross", "scientiaSITpotentia");
-    
-     //STEP 3: create statement
-     System.out.println("Creating statement...");
-     stmt = conn.prepareStatement(query);
-     stmt.closeOnCompletion();//closes stmt when all ResultSets are closed
-    
-     } catch (ClassNotFoundException ce) {
-     errorMessageCritical("From driver.getStatement ce: " + ce);
-     } catch (SQLException se) {
-     errorMessageCritical("From driver.getStatement se: " + se);
-     }
-    
-     return stmt;
-     }*/
+    public PreparedStatement getPrepStatement(String query) {
+        PreparedStatement stmt = null;
+
+        //using mysql
+        try {
+            //STEP 1: Register JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+
+            //STEP 2: Open a connection
+            System.out.println("Connecting to database...");
+            //give dataBase url, username and password;
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/library", "ross", "scientiaSITpotentia");
+
+            //STEP 3: create statement
+            System.out.println("Creating statement...");
+            stmt = conn.prepareStatement(query);
+            stmt.closeOnCompletion();//closes stmt when all ResultSets are closed
+
+        } catch (ClassNotFoundException ce) {
+            errorMessageCritical("From driver.getStatement ce: " + ce);
+        } catch (SQLException se) {
+            errorMessageCritical("From driver.getStatement se: " + se);
+        }
+
+        return stmt;
+    }
 //</editor-fold>
+
     /**
      * Returns a CallableStatement with ? that need to be filled
      *
@@ -127,8 +128,7 @@ public class Driver {
     }
 
     /**
-     * Returns comboBoxModel of given comboBox.
-     * The codes are as follows:
+     * Returns comboBoxModel of given comboBox. The codes are as follows:
      * <table>
      * <caption>Codes for comboBox models</caption>
      * <tr>
@@ -280,7 +280,6 @@ public class Driver {
      */
     /* public int getGenreID(String g) {
     }*/
-
     /**
      * Get Shop's ID based on name
      *
@@ -290,7 +289,6 @@ public class Driver {
     /*public int getShopID(String n) {
     
     }*/
-
     /**
      * Get TypeOfBook ID, given type
      *
@@ -300,9 +298,8 @@ public class Driver {
     /*public int getTypeID(String t) {
     
     }*/
-
     /**
-     * PLace contents of resultSet into DefaultTableModel
+     * Place contents of resultSet into DefaultTableModel
      *
      * @param rs <code>ResultSet</code> from which to build the model.
      * @return defaultTableModel containing contents of rs
@@ -364,9 +361,9 @@ public class Driver {
      * comboBox
      * @return DefaultComboBoxMOdel containing tens (010, 020, 030....)
      */
-    public DefaultComboBoxModel getDewey2Model(int dew1, Object first) {
+    public DefaultComboBoxModel<String> getDewey2Model(int dew1, String first) {
         //declare comboBoxModel for comboDew2s
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
 
         try {
             model.addElement(first);//add 000 level topic to model

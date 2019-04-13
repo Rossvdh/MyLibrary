@@ -5,11 +5,19 @@
  */
 package GUIs;
 
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import javax.swing.*;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle;
+import javax.swing.border.*;
 import library.Borrower;
 import library.Driver;
 
 /**
- *  JFrame for adding a new borrower to the database. 
+ * JFrame for adding a new borrower to the database.
+ *
  * @author ross
  */
 public class AddBorrower extends javax.swing.JFrame {
@@ -31,257 +39,279 @@ public class AddBorrower extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // Generated using JFormDesigner Evaluation license - Ross
     private void initComponents() {
+        pAdd = new JPanel();
+        lNumber = new JLabel();
+        lName = new JLabel();
+        tfEmail = new JTextField();
+        tfNumber = new JTextField();
+        tfName = new JTextField();
+        lEmail = new JLabel();
+        butAdd = new JButton();
+        pDelete = new JPanel();
+        lBorID = new JLabel();
+        tfDelID = new JTextField();
+        butDelete = new JButton();
+        pUpdate = new JPanel();
+        lField = new JLabel();
+        lNewValue = new JLabel();
+        lUpdateID = new JLabel();
+        tfUpdateID = new JTextField();
+        tfNewValue = new JTextField();
+        comboUpdate = new JComboBox<>();
+        butUpdate = new JButton();
+        butCancel = new JButton();
 
-        pAdd = new javax.swing.JPanel();
-        lNumber = new javax.swing.JLabel();
-        lName = new javax.swing.JLabel();
-        tfEmail = new javax.swing.JTextField();
-        tfNumber = new javax.swing.JTextField();
-        tfName = new javax.swing.JTextField();
-        lEmail = new javax.swing.JLabel();
-        butCancel = new javax.swing.JButton();
-        butAdd = new javax.swing.JButton();
-        pDelete = new javax.swing.JPanel();
-        lBorID = new javax.swing.JLabel();
-        tfDelID = new javax.swing.JTextField();
-        butCancel1 = new javax.swing.JButton();
-        butDelete = new javax.swing.JButton();
-        pUpdate = new javax.swing.JPanel();
-        lField = new javax.swing.JLabel();
-        lNewValue = new javax.swing.JLabel();
-        lUpdateID = new javax.swing.JLabel();
-        tfUpdateID = new javax.swing.JTextField();
-        tfNewValue = new javax.swing.JTextField();
-        comboUpdate = new javax.swing.JComboBox();
-        butUpdate = new javax.swing.JButton();
-        butCancel2 = new javax.swing.JButton();
+        //======== this ========
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        Container contentPane = getContentPane();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        //======== pAdd ========
+        {
+            pAdd.setBorder(new EtchedBorder());
 
-        pAdd.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+            // JFormDesigner evaluation mark
+            pAdd.setBorder(new javax.swing.border.CompoundBorder(
+                new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
+                    "JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
+                    javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+                    java.awt.Color.red), pAdd.getBorder())); pAdd.addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
 
-        lNumber.setText("Contact number:");
 
-        lName.setText("Full name:");
+            //---- lNumber ----
+            lNumber.setText("Contact number:");
 
-        lEmail.setText("E-mail address:");
+            //---- lName ----
+            lName.setText("Full name:");
 
-        butCancel.setText("Cancel");
-        butCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butCancelActionPerformed(evt);
-            }
-        });
+            //---- lEmail ----
+            lEmail.setText("E-mail address:");
 
-        butAdd.setText("Add");
-        butAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butAddActionPerformed(evt);
-            }
-        });
+            //---- butAdd ----
+            butAdd.setText("Add");
+            butAdd.addActionListener(e -> butAddActionPerformed(e));
+            butAdd.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    butAddKeyReleased(e);
+                }
+            });
 
-        javax.swing.GroupLayout pAddLayout = new javax.swing.GroupLayout(pAdd);
-        pAdd.setLayout(pAddLayout);
-        pAddLayout.setHorizontalGroup(
-            pAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(pAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pAddLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(pAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pAddLayout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addComponent(butAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(20, 20, 20)
-                            .addComponent(butCancel))
+            GroupLayout pAddLayout = new GroupLayout(pAdd);
+            pAdd.setLayout(pAddLayout);
+            pAddLayout.setHorizontalGroup(
+                pAddLayout.createParallelGroup()
+                    .addGroup(pAddLayout.createParallelGroup()
                         .addGroup(pAddLayout.createSequentialGroup()
-                            .addGroup(pAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addContainerGap()
+                            .addGroup(pAddLayout.createParallelGroup()
                                 .addComponent(lNumber)
-                                .addComponent(lName, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(lEmail, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addComponent(lName, GroupLayout.Alignment.TRAILING)
+                                .addComponent(lEmail, GroupLayout.Alignment.TRAILING))
                             .addGap(18, 18, 18)
-                            .addGroup(pAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(pAddLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                 .addComponent(tfName)
                                 .addComponent(tfNumber)
-                                .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(0, 80, Short.MAX_VALUE)))
-                    .addContainerGap()))
-        );
-        pAddLayout.setVerticalGroup(
-            pAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 204, Short.MAX_VALUE)
-            .addGroup(pAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pAddLayout.createSequentialGroup()
-                    .addGap(38, 38, 38)
-                    .addGroup(pAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lName)
-                        .addComponent(tfName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addGroup(pAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lNumber)
-                        .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addGroup(pAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lEmail)
-                        .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(18, 18, 18)
-                    .addGroup(pAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(tfEmail, GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))
+                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(GroupLayout.Alignment.TRAILING, pAddLayout.createSequentialGroup()
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(butAdd, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+            );
+            pAddLayout.setVerticalGroup(
+                pAddLayout.createParallelGroup()
+                    .addGroup(pAddLayout.createParallelGroup()
+                        .addGroup(pAddLayout.createSequentialGroup()
+                            .addGap(38, 38, 38)
+                            .addGroup(pAddLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(lName)
+                                .addComponent(tfName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(pAddLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(lNumber)
+                                .addComponent(tfNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(pAddLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(lEmail)
+                                .addComponent(tfEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                            .addContainerGap(84, Short.MAX_VALUE)))
+                    .addGroup(GroupLayout.Alignment.TRAILING, pAddLayout.createSequentialGroup()
+                        .addContainerGap(165, Short.MAX_VALUE)
                         .addComponent(butAdd)
-                        .addComponent(butCancel))
-                    .addContainerGap(14, Short.MAX_VALUE)))
-        );
+                        .addGap(41, 41, 41))
+            );
+        }
 
-        pDelete.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        //======== pDelete ========
+        {
+            pDelete.setBorder(new EtchedBorder());
 
-        lBorID.setText("Borrower ID:");
+            //---- lBorID ----
+            lBorID.setText("Borrower ID:");
 
-        butCancel1.setText("Cancel");
-        butCancel1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butCancel1ActionPerformed(evt);
+            //---- butDelete ----
+            butDelete.setText("Delete");
+            butDelete.addActionListener(e -> butDeleteActionPerformed(e));
+            butDelete.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    butDeleteKeyReleased(e);
+                }
+            });
+
+            GroupLayout pDeleteLayout = new GroupLayout(pDelete);
+            pDelete.setLayout(pDeleteLayout);
+            pDeleteLayout.setHorizontalGroup(
+                pDeleteLayout.createParallelGroup()
+                    .addGroup(pDeleteLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(pDeleteLayout.createParallelGroup()
+                            .addGroup(pDeleteLayout.createSequentialGroup()
+                                .addComponent(lBorID)
+                                .addGap(38, 38, 38)
+                                .addComponent(tfDelID))
+                            .addGroup(GroupLayout.Alignment.TRAILING, pDeleteLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(butDelete, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
+            );
+            pDeleteLayout.setVerticalGroup(
+                pDeleteLayout.createParallelGroup()
+                    .addGroup(pDeleteLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addGroup(pDeleteLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(lBorID)
+                            .addComponent(tfDelID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(butDelete)
+                        .addContainerGap())
+            );
+        }
+
+        //======== pUpdate ========
+        {
+            pUpdate.setBorder(new EtchedBorder());
+
+            //---- lField ----
+            lField.setText("Field to update:");
+
+            //---- lNewValue ----
+            lNewValue.setText("New value:");
+
+            //---- lUpdateID ----
+            lUpdateID.setText("Borrower ID:");
+
+            //---- comboUpdate ----
+            comboUpdate.setModel(new DefaultComboBoxModel<>(new String[] {
+                "Name",
+                "Contact number",
+                "E-mail address"
+            }));
+
+            //---- butUpdate ----
+            butUpdate.setText("Update");
+            butUpdate.addActionListener(e -> butUpdateActionPerformed(e));
+            butUpdate.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    butUpdateKeyReleased(e);
+                }
+            });
+
+            GroupLayout pUpdateLayout = new GroupLayout(pUpdate);
+            pUpdate.setLayout(pUpdateLayout);
+            pUpdateLayout.setHorizontalGroup(
+                pUpdateLayout.createParallelGroup()
+                    .addGroup(pUpdateLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(pUpdateLayout.createParallelGroup()
+                            .addGroup(pUpdateLayout.createSequentialGroup()
+                                .addGroup(pUpdateLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lNewValue)
+                                    .addComponent(lUpdateID)
+                                    .addComponent(lField))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pUpdateLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                                    .addComponent(comboUpdate, GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+                                    .addComponent(tfUpdateID)
+                                    .addComponent(tfNewValue)))
+                            .addGroup(GroupLayout.Alignment.TRAILING, pUpdateLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(butUpdate)))
+                        .addContainerGap())
+            );
+            pUpdateLayout.setVerticalGroup(
+                pUpdateLayout.createParallelGroup()
+                    .addGroup(pUpdateLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(pUpdateLayout.createParallelGroup()
+                            .addComponent(lUpdateID)
+                            .addComponent(tfUpdateID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pUpdateLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(lField)
+                            .addComponent(comboUpdate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pUpdateLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(tfNewValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lNewValue))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addComponent(butUpdate)
+                        .addContainerGap())
+            );
+        }
+
+        //---- butCancel ----
+        butCancel.setText("Cancel");
+        butCancel.addActionListener(e -> butCancelActionPerformed(e));
+        butCancel.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                butCancelKeyReleased(e);
             }
         });
 
-        butDelete.setText("Delete");
-        butDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butDeleteActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pDeleteLayout = new javax.swing.GroupLayout(pDelete);
-        pDelete.setLayout(pDeleteLayout);
-        pDeleteLayout.setHorizontalGroup(
-            pDeleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pDeleteLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lBorID)
-                .addGap(18, 18, 18)
-                .addComponent(tfDelID, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDeleteLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(butDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(butCancel1)
-                .addContainerGap())
+        GroupLayout contentPaneLayout = new GroupLayout(contentPane);
+        contentPane.setLayout(contentPaneLayout);
+        contentPaneLayout.setHorizontalGroup(
+            contentPaneLayout.createParallelGroup()
+                .addGroup(contentPaneLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(contentPaneLayout.createParallelGroup()
+                        .addComponent(pUpdate, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pDelete, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pAdd, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addContainerGap())
+                .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(butCancel)
+                    .addGap(24, 24, 24))
         );
-        pDeleteLayout.setVerticalGroup(
-            pDeleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pDeleteLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(pDeleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lBorID)
-                    .addComponent(tfDelID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pDeleteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(butDelete)
-                    .addComponent(butCancel1))
-                .addContainerGap())
+        contentPaneLayout.setVerticalGroup(
+            contentPaneLayout.createParallelGroup()
+                .addGroup(contentPaneLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(pAdd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(pDelete, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(pUpdate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(butCancel)
+                    .addContainerGap())
         );
-
-        pUpdate.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        lField.setText("Field to update:");
-
-        lNewValue.setText("New value:");
-
-        lUpdateID.setText("Borrower ID:");
-
-        comboUpdate.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Name", "Contact number", "E-mail address" }));
-
-        butUpdate.setText("Update");
-        butUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butUpdateActionPerformed(evt);
-            }
-        });
-
-        butCancel2.setText("Cancel");
-        butCancel2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butCancel2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pUpdateLayout = new javax.swing.GroupLayout(pUpdate);
-        pUpdate.setLayout(pUpdateLayout);
-        pUpdateLayout.setHorizontalGroup(
-            pUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pUpdateLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lNewValue)
-                    .addComponent(lUpdateID)
-                    .addComponent(lField))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfNewValue)
-                    .addComponent(tfUpdateID)
-                    .addComponent(comboUpdate, 0, 177, Short.MAX_VALUE))
-                .addGap(113, 113, 113))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pUpdateLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(butUpdate)
-                .addGap(18, 18, 18)
-                .addComponent(butCancel2)
-                .addGap(9, 9, 9))
-        );
-        pUpdateLayout.setVerticalGroup(
-            pUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pUpdateLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lUpdateID)
-                    .addComponent(tfUpdateID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lField)
-                    .addComponent(comboUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfNewValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lNewValue))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addGroup(pUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(butUpdate)
-                    .addComponent(butCancel2))
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pDelete, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pAdd, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(pDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         pack();
+        setLocationRelativeTo(getOwner());
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-    ActionPerformed method for add button. Gets data from GUI, creates <code>Borrower</code>
-    and adds to the database.
-    @param evt the button click event.
-    */
+     * ActionPerformed method for add button. Gets data from GUI, creates
+     * <code>Borrower</code> and adds to the database.
+     *
+     * @param evt the button click event.
+     */
     private void butAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAddActionPerformed
         Borrower bor = new Borrower();//create new borrower
 
@@ -300,26 +330,20 @@ public class AddBorrower extends javax.swing.JFrame {
     }//GEN-LAST:event_butAddActionPerformed
 
     /**
-    ActionPerformed method for cancel button. Closes the window
-    @param evt the button click event.
-    */
+     * ActionPerformed method for cancel button. Closes the window
+     *
+     * @param evt the button click event.
+     */
     private void butCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_butCancelActionPerformed
 
-/**
-    AP method for second cancel button
-    @param evt the button click event.
-    */
-    private void butCancel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancel1ActionPerformed
-        butCancelActionPerformed(null);
-    }//GEN-LAST:event_butCancel1ActionPerformed
-
     /**
-    ActionPerformed method for delete button. Deletes a borrower from the
-    database
-    @param evt the button click event.
-    */
+     * ActionPerformed method for delete button. Deletes a borrower from the
+     * database
+     *
+     * @param evt the button click event.
+     */
     private void butDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butDeleteActionPerformed
         int id = Integer.parseInt(tfDelID.getText());//get borrower ID
 
@@ -335,22 +359,39 @@ public class AddBorrower extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_butDeleteActionPerformed
 
-/**
-    ActionPerformed method for third cancel button button.
-    @param evt the button click event.
-    */
-    private void butCancel2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancel2ActionPerformed
-        butCancelActionPerformed(null);
-    }//GEN-LAST:event_butCancel2ActionPerformed
-
     /**
-    ActionPerformed method for update button. Gets data from GUI, creates <code>Author</code>
-    and updates it in the database
-    @param evt the button click event.
-    */
+     * ActionPerformed method for update button. Gets data from GUI, creates
+     * <code>Author</code> and updates it in the database
+     *
+     * @param evt the button click event.
+     */
     private void butUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butUpdateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_butUpdateActionPerformed
+
+    private void butAddKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butAddKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butAddActionPerformed(null);
+        }
+    }//GEN-LAST:event_butAddKeyReleased
+
+    private void butCancelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butCancelKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butCancelActionPerformed(null);
+        }
+    }//GEN-LAST:event_butCancelKeyReleased
+
+    private void butDeleteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butDeleteKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butDeleteActionPerformed(null);
+        }
+    }//GEN-LAST:event_butDeleteKeyReleased
+
+    private void butUpdateKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_butUpdateKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            butUpdateActionPerformed(null);
+        }
+    }//GEN-LAST:event_butUpdateKeyReleased
 
     /**
      * Set delete, add, or update panel visible depending on parameter
@@ -366,28 +407,28 @@ public class AddBorrower extends javax.swing.JFrame {
 
                 //set size of AddBorrower JFrame to just bigger than size of visible panel
                 this.setSize(pAdd.getWidth(), pAdd.getHeight() + 40);
-                
+
                 //set title of JFrame to something appropriate
                 this.setTitle("Add a new borrower to the database | MyLibrary");
-                
+
                 break;
             }
             case 1: {
                 //set update panel visible
                 pUpdate.setVisible(true);
-                
+
                 this.setSize(pUpdate.getWidth(), pUpdate.getHeight() + 40);
                 this.setTitle("Update a borrower's details | MyLibrary");
-                
+
                 break;
             }
             case 2: {
                 //set delete panel visble 
                 pDelete.setVisible(true);
-                
+
                 this.setSize(pDelete.getWidth(), pDelete.getHeight() + 30);
                 this.setTitle("Delete a borrower from the database | MyLibrary");
-                
+
                 break;
             }
             default: {
@@ -432,30 +473,29 @@ public class AddBorrower extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton butAdd;
-    private javax.swing.JButton butCancel;
-    private javax.swing.JButton butCancel1;
-    private javax.swing.JButton butCancel2;
-    private javax.swing.JButton butDelete;
-    private javax.swing.JButton butUpdate;
-    private javax.swing.JComboBox comboUpdate;
-    private javax.swing.JLabel lBorID;
-    private javax.swing.JLabel lEmail;
-    private javax.swing.JLabel lField;
-    private javax.swing.JLabel lName;
-    private javax.swing.JLabel lNewValue;
-    private javax.swing.JLabel lNumber;
-    private javax.swing.JLabel lUpdateID;
-    private javax.swing.JPanel pAdd;
-    private javax.swing.JPanel pDelete;
-    private javax.swing.JPanel pUpdate;
-    private javax.swing.JTextField tfDelID;
-    private javax.swing.JTextField tfEmail;
-    private javax.swing.JTextField tfName;
-    private javax.swing.JTextField tfNewValue;
-    private javax.swing.JTextField tfNumber;
-    private javax.swing.JTextField tfUpdateID;
+    // Generated using JFormDesigner Evaluation license - Ross
+    private JPanel pAdd;
+    private JLabel lNumber;
+    private JLabel lName;
+    private JTextField tfEmail;
+    private JTextField tfNumber;
+    private JTextField tfName;
+    private JLabel lEmail;
+    private JButton butAdd;
+    private JPanel pDelete;
+    private JLabel lBorID;
+    private JTextField tfDelID;
+    private JButton butDelete;
+    private JPanel pUpdate;
+    private JLabel lField;
+    private JLabel lNewValue;
+    private JLabel lUpdateID;
+    private JTextField tfUpdateID;
+    private JTextField tfNewValue;
+    private JComboBox<String> comboUpdate;
+    private JButton butUpdate;
+    private JButton butCancel;
     // End of variables declaration//GEN-END:variables
     private Driver driver = new Driver();
-    
+
 }

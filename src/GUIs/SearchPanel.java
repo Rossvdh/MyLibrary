@@ -7,7 +7,6 @@ package GUIs;
 
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.util.List;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -16,6 +15,7 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -664,7 +664,7 @@ public class SearchPanel extends javax.swing.JPanel {
         //add column for author
         int numRows = model.getRowCount();
 
-        List<String> clickAuthor = new ArrayList();
+        List<String> clickAuthor = new ArrayList<>();
 
         for (int i = 0; i < numRows; i++) {
             clickAuthor.add("click for Authors");

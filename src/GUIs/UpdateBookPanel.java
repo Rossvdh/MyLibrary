@@ -321,8 +321,8 @@ public class UpdateBookPanel extends javax.swing.JPanel {
         System.out.println("library.UpdateBookPanel.butDeleteActionPerformed(). book.toString(): " + book);
 
         boolean wasDeleted = book.deleteFromDatabase();
-        
-        if(wasDeleted ) {
+
+        if (wasDeleted) {
             driver.appendToPane(textPane, "Book deleted successfully.\n", Color.green);
         } else {
             driver.appendToPane(textPane, "Book could not be deleted.\n", Color.red);
@@ -565,7 +565,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
         int dew1 = comboDewey1.getSelectedIndex() * 100;
 
         //set model for dewey2
-        DefaultComboBoxModel model = driver.getDewey2Model(dew1, comboDewey1.getSelectedItem());
+        DefaultComboBoxModel model = driver.getDewey2Model(dew1, (String) comboDewey1.getSelectedItem());
 
         //set dew2's model
         comboDewey2.setModel(model);
@@ -679,7 +679,6 @@ public class UpdateBookPanel extends javax.swing.JPanel {
         tp.setCharacterAttributes(aset, false);
         tp.replaceSelection(msg);
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton butClearAll;

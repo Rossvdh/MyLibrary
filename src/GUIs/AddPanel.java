@@ -8,7 +8,6 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -108,7 +107,7 @@ public class AddPanel extends javax.swing.JPanel {
         lGeneral = new javax.swing.JLabel();
         lSpec = new javax.swing.JLabel();
         lNonFiction = new javax.swing.JLabel();
-        comboDew1 = new javax.swing.JComboBox();
+        comboDew1 = new javax.swing.JComboBox<>();
         comboDew2 = new javax.swing.JComboBox();
         lThree = new javax.swing.JLabel();
         comboDew3 = new javax.swing.JComboBox();
@@ -321,7 +320,7 @@ public class AddPanel extends javax.swing.JPanel {
         lNonFiction.setText("<html><b><u>Non-fiction only</u></b>");
         lNonFiction.setToolTipText("Fill in these fields only if you are adding a non-fiction book.");
 
-        comboDew1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Generalities, Computer Science & Information", "Philosophy & psychology", "Religion", "Social sciences", "Language", "Natural sciences & mathematics", "Technology (Applied sciences)", "The arts", "Literature & rhetoric", "Geography & history" }));
+        comboDew1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Generalities, Computer Science & Information", "Philosophy & psychology", "Religion", "Social sciences", "Language", "Natural sciences & mathematics", "Technology (Applied sciences)", "The arts", "Literature & rhetoric", "Geography & history" }));
         comboDew1.setToolTipText("General topic that the book covers.");
         comboDew1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -415,6 +414,7 @@ public class AddPanel extends javax.swing.JPanel {
 
         pMessage.setBorder(javax.swing.BorderFactory.createTitledBorder("Messages"));
 
+        taMessages.setEditable(false);
         taMessages.setToolTipText("Messages from the database appear here.");
         jScrollPane2.setViewportView(taMessages);
 
@@ -586,7 +586,7 @@ public class AddPanel extends javax.swing.JPanel {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 multipleAuthors = ama.getAuthors();
 
-                comboAuthor.setSelectedItem("Various");
+                comboAuthor.setSelectedItem("Multiple...");
             }
         });
     }//GEN-LAST:event_butAddAuthorsActionPerformed
@@ -654,7 +654,7 @@ public class AddPanel extends javax.swing.JPanel {
         //get dewey level 1 number
         int dew1 = comboDew1.getSelectedIndex() * 100;
 
-        DefaultComboBoxModel model = driver.getDewey2Model(dew1, comboDew1.getSelectedItem());
+        DefaultComboBoxModel model = driver.getDewey2Model(dew1, (String) comboDew1.getSelectedItem());
 
         //set dew2's model
         comboDew2.setModel(model);
@@ -760,16 +760,16 @@ public class AddPanel extends javax.swing.JPanel {
                     //added successfully
 
                     //inform user
-                    appendToPane(taMessages, "\"" + fictionBook.getTitle() + "\" successfully added to the database.\n", Color.green);
+                    appendToPane("\"" + fictionBook.getTitle() + "\" successfully added to the database.\n", Color.green);
                 } else {
                     //some error
 
                     //inform user
-                    appendToPane(taMessages, "\"" + fictionBook.getTitle() + "\" could not be added.\n", Color.red);
+                    appendToPane("\"" + fictionBook.getTitle() + "\" could not be added.\n", Color.red);
                 }
 
             } catch (NumberFormatException nfe) {
-                appendToPane(taMessages, "Please enter digits only in the first published "
+                appendToPane("Please enter digits only in the first published "
                         + "and price fields. Also ensure that the date is in the correct format.\n", Color.orange);
 
                 nfe.printStackTrace();
@@ -791,13 +791,13 @@ public class AddPanel extends javax.swing.JPanel {
 
                 //add book, inform of success (or lack thereof)
                 if (nonFictionBook.addToDatabase()) {
-                    appendToPane(taMessages, "\"" + nonFictionBook.getTitle() + "\"added successfully to the database.\n", Color.green);
+                    appendToPane("\"" + nonFictionBook.getTitle() + "\"added successfully to the database.\n", Color.green);
                 } else {
-                    appendToPane(taMessages, "\"" + nonFictionBook.getTitle() + "\" could not be added to the database.\n", Color.red);
+                    appendToPane("\"" + nonFictionBook.getTitle() + "\" could not be added to the database.\n", Color.red);
                 }
 
             } catch (NumberFormatException nfe) {
-                appendToPane(taMessages, "Please enter digits only in the first published "
+                appendToPane("Please enter digits only in the first published "
                         + "and price fields. Also ensure that the date is in the correct format.\n", Color.orange);
                 System.out.println("GUIs.MainGUI.butAddActionPerformed() " + nfe);
                 nfe.printStackTrace();
@@ -891,17 +891,23 @@ public class AddPanel extends javax.swing.JPanel {
      * @param msg Text to be added
      * @param c Colour of text
      */
-    private void appendToPane(JTextPane tp, String msg, Color c) {
+//    private void appendToPane(JTextPane tp, String msg, Color c) {
+    private void appendToPane(String msg, Color c) {
         StyleContext sc = StyleContext.getDefaultStyleContext();
         AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
 
         aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
         aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
 
-        int len = tp.getDocument().getLength();
+        /*int len = tp.getDocument().getLength();
         tp.setCaretPosition(len);
         tp.setCharacterAttributes(aset, false);
-        tp.replaceSelection(msg);
+        tp.replaceSelection(msg);*/
+        int len = taMessages.getDocument().getLength();
+        taMessages.setCaretPosition(len);
+        taMessages.setCharacterAttributes(aset, false);
+        taMessages.replaceSelection(msg);
+        System.out.println("MEssage that should have beenon the textpane: " + msg);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -918,7 +924,7 @@ public class AddPanel extends javax.swing.JPanel {
     private javax.swing.JButton butClearMess;
     private javax.swing.ButtonGroup buttonGroup;
     private javax.swing.JComboBox<String> comboAuthor;
-    private javax.swing.JComboBox comboDew1;
+    private javax.swing.JComboBox<String> comboDew1;
     private javax.swing.JComboBox comboDew2;
     private javax.swing.JComboBox comboDew3;
     private javax.swing.JComboBox comboGenre;
