@@ -36,26 +36,26 @@ public class Driver {
 
     //<editor-fold defaultstate="collapsed" desc="error/info Message methods">
 // Critical error message (Pop-up window) - program must close
-    public void errorMessageCritical(String boodskap) {
+    public void errorMessageCritical(String errorMessage) {
         Object[] options = {"OK"};
-        int s = JOptionPane.showOptionDialog(null, boodskap, "C R I T I C A L   E R R O R ! ",
+        int s = JOptionPane.showOptionDialog(null, errorMessage, "C R I T I C A L   E R R O R ! ",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
                 null, options, options[0]);
         //System.exit(0);
     }
 
     // Normal error message (Pop-up window)
-    public void errorMessageNormal(String boodskap) {
+    public void errorMessageNormal(String errorMessage) {
         Object[] options = {"OK"};
-        int s = JOptionPane.showOptionDialog(null, boodskap, " E R R O R  ! ",
+        int s = JOptionPane.showOptionDialog(null, errorMessage, " E R R O R  ! ",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
                 null, options, options[0]);
     }
 
     // Normal information message (Pop-up window)
-    public void infoMessageNormal(String boodskap) {
+    public void infoMessageNormal(String errorMessage) {
         Object[] options = {"OK"};
-        int s = JOptionPane.showOptionDialog(null, boodskap, " I N F O R M A T I O N   M E S S A G E ",
+        int s = JOptionPane.showOptionDialog(null, errorMessage, " I N F O R M A T I O N   M E S S A G E ",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
                 null, options, options[0]);
     }
@@ -107,7 +107,7 @@ public class Driver {
 
         try {
             //STEP 2: Register JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
 
             //STEP 3: Open a connection
             System.out.println("Connecting to database...");
