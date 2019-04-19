@@ -10,15 +10,9 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
-import library.AutoCompletion;
-import library.Book;
-import library.BookType;
-import library.Driver;
-import library.Fiction;
-import library.Genre;
-import library.NonFiction;
-import library.Series;
-import library.Shop;
+
+import library.*;
+import library.TypeOfBook;
 
 /**
  * A <code>JPanel</code> that provides functionality and interface for updating
@@ -380,7 +374,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
                 }
                 case 10: {
                     //10 type
-                    BookType type = new BookType(comboNewValue.getSelectedItem().toString());
+                    TypeOfBook type = new TypeOfBook(comboNewValue.getSelectedItem().toString());
 
                     newValue = Integer.toString(type.getID());
 

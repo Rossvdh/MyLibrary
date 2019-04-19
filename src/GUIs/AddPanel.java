@@ -12,17 +12,9 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
-import library.Author;
-import library.AutoCompletion;
-import library.Book;
-import library.BookType;
-import library.Driver;
-import library.Fiction;
-import library.Genre;
-import library.NonFiction;
-import library.Role;
-import library.Series;
-import library.Shop;
+
+import library.*;
+import library.TypeOfBook;
 
 /**
  * A <code>JPanel</code> that provides the interface and functionality for
@@ -744,7 +736,7 @@ public class AddPanel extends javax.swing.JPanel {
                 fictionBook.setGenre(gen);
 
                 //set type of book
-                BookType type = new BookType(comboType.getSelectedItem().toString());
+                TypeOfBook type = new TypeOfBook(comboType.getSelectedItem().toString());
                 fictionBook.setType(type);
 
                 fictionBook.setNumber(Integer.parseInt(tfNumber.getText()));       //set number in series

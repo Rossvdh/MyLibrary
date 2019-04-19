@@ -6,115 +6,173 @@ package library;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
- *
  * @author ross
  */
-public class Borrower implements DatabaseEntry{
+public class Borrower implements DatabaseEntry {
+    private static Logger logger = Logger.getLogger(Borrower.class.getName());
 
-    //attributes
     private int id = -1;
     private String name;
     private String number;
     private String email;
-    private Driver driver = null;
 
-    //constructors
-    public Borrower() {//default
-        driver = new Driver();
+    /**
+     * Default constructor
+     */
+    public Borrower() {
+
     }
 
-    public Borrower(int i, Driver d) {
+    /**
+     * Creates a new Borrower with the given ID
+     *
+     * @param i
+     */
+    public Borrower(int i) {
         id = i;
-        driver = d;
         setNameFromDatabase();
     }
 
-    public Borrower(int i, String na, String num, String e, Driver d) {
-        id = i;
-        name = na;
-        number = num;
-        email = e;
-        driver = d;
+    /**
+     * Creates a new <code>Borrower</code> with the given values
+     *
+     * @param id          ID number
+     * @param name        Full name
+     * @param number      contact number
+     * @param emailAdress email address
+     */
+    public Borrower(int id, String name, String number, String emailAdress) {
+        this.id = id;
+        this.name = name;
+        this.number = number;
+        this.email = emailAdress;
     }
 
-    public Borrower(int i, String na, String num, String e) {
-        id = i;
-        name = na;
-        number = num;
-        email = e;
-    }
-
-    //copy constructor
+    /**
+     * Creates a new Borrower object that is a copy of the given Borrower
+     *
+     * @param copy Borrower to copy
+     */
     public Borrower(Borrower copy) {
         this.id = copy.id;
         this.email = copy.email;
         this.name = copy.name;
-        this.number = copy.number;
-        this.driver = copy.driver;
     }
 
-    //set methods
-    public void setID(int i) {
-        id = i;
+    /**
+     * Sets this <code>Borrower</code>'s ID number
+     *
+     * @param id ID number
+     */
+    public void setID(int id) {
+        this.id = id;
     }
 
-    public void setName(String na) {
-        name = na;
+    /**
+     * Sets this Borrower's name
+     *
+     * @param name the name
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setNumber(String num) {
-        number = num;
+    /**
+     * Sets this <code>Borrower</code>'s contact number
+     *
+     * @param number the contact number
+     */
+    public void setContactNumber(String number) {
+        this.number = number;
     }
 
-    public void setEMail(String e) {
-        email = e;
+    /**
+     * Sets this <code>Borrower</code>'s email address
+     *
+     * @param emailAddress the email address
+     */
+    public void setEmailAddress(String emailAddress) {
+        email = emailAddress;
     }
 
-    //get methods
+    /**
+     * Returns this <code>Borrower's</code> ID number
+     *
+     * @return the Borrower's ID number
+     */
     public int getID() {
         return id;
     }
 
+    /**
+     * Returns this <code>Borrower</code>'s name
+     *
+     * @return the Borrower's name
+     */
     public String getName() {
         return name;
     }
 
     /**
      * Sets the name of this borrower from database using ID
-     *
      */
     private void setNameFromDatabase() {
         try {
-            ResultSet rs = driver.query("SELECT fullName FROM Borrowers WHERE id =" + id);
+            ResultSet rs = DRIVER.query("SELECT fullName FROM Borrowers WHERE id =" + id);
 
             if (rs.next()) {
                 name = rs.getString(1);
                 rs.close();
             } else {
-                driver.errorMessageNormal("Borrower with ID " + id + " not found.");
+                DRIVER.errorMessageNormal("Borrower with ID " + id + " not found.");
             }
         } catch (SQLException se) {
-            driver.errorMessageNormal("FROM borrower.getNameFromDatabase: " + se);
+            logger.log(Level.WARNING, se.toString(), se);
         }
     }
 
+    /**
+     * Returns this <code>Borrower</code>'s contact number
+     *
+     * @return contact number
+     */
     public String getNumber() {
         return number;
     }
 
-    public String getEMail() {
+    /**
+     * Returns this Borrower's email address
+     *
+     * @return email address
+     */
+    public String getEmailAddress() {
         return email;
     }
 
-    //toString method
+    /**
+     * Returns a string representation of this Borrower, e.g.
+     * 12/John Doe/0211234567/john@gmail.com
+     *
+     * @return String representation
+     */
     public String toString() {
         return id + "/" + name + "/" + number + "/" + email;
     }
 
-    //equals method
+    /**
+     * Determines if the given <code>Object</code> is equal to this <code>Borrower</code>
+     * Two Borrowers are equal if their ID are equal or name, contact number, and email are
+     * the same.
+     *
+     * @param other Object to compare to.
+     * @return true if they are equal, false otherwise
+     */
     @Override
     public boolean equals(Object other) {
         if (other == null) {
@@ -134,80 +192,81 @@ public class Borrower implements DatabaseEntry{
     }
 
     /**
+     * Return the has code of this Borrower. This method was generated by Intellij
+     *
+     * @return has code value
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, number, email);
+    }
+
+    /**
      * Add this borrower to the database
      *
-     * @return Boolean indicating successfulness of addition
+     * @return true if successfully added, false otherwise
      */
     public boolean addToDatabase() {
         //name, contact, email
-        CallableStatement cstmt = driver.getCallStatement("{CALL addBorrower(?,?,?)}");
+        CallableStatement cstmt = DRIVER.getCallStatement("{CALL addBorrower(?,?,?)}");
         try {
             //set parameters
             cstmt.setString(1, name);
             cstmt.setString(2, number);
             cstmt.setString(3, email);
 
-            int num = cstmt.executeUpdate() ;
-            
+            int num = cstmt.executeUpdate();
+
             cstmt.close();
-            
+
             return num == 1;
         } catch (SQLException se) {
-            driver.errorMessageNormal("From Borrower.addToDatabase: " + se);
-            se.printStackTrace();
-        } 
-        
-        return false;
+            DRIVER.errorMessageNormal("From Borrower.addToDatabase: " + se);
+            logger.log(Level.WARNING, se.toString(), se);
+        }
 
-        //String q = "INSERT INTO Borrowers (fullName, ContactNumber, email) VALUES"
-        //      + " ('" + name + "', '" + number + "', '" + email + "')";
+        return false;
     }
 
     /**
      * Update a specific field of this borrower
      *
-     * @param field String specifying field to be updated
+     * @param field    String specifying field to be updated
      * @param newValue String containing new value of field
-     *
-     * @return Boolean indicating successfulness of update
+     * @return true if successfully updated, false otherwise
      */
     public boolean updateInDatabase(String field, String newValue) {
         String q = "UPDATE Borrowers SET " + field + " = " + newValue
                 + " WHERE id = " + id;
 
-        return driver.modifyQuery(q);
+        return DRIVER.modifyQuery(q);
     }
 
     /**
      * Deletes this borrower from the database
      *
-     * @return Boolean indicating successfulness of deletion
+     * @return true if successfully deleted, false otherwise
      */
     public boolean deleteFromDatabase() {
         setNameFromDatabase();
 
-        if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + name+"?") == 0) {
-            //delete
-            CallableStatement cstmt = driver.getCallStatement("{CALL deleteBorrower(?)}");
+        int userChoice = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + name + "?");
+        if (userChoice == JOptionPane.YES_OPTION) {
+            CallableStatement cstmt = DRIVER.getCallStatement("{CALL deleteBorrower(?)}");
 
             try {
                 cstmt.setInt(1, id);
 
                 int num = cstmt.executeUpdate();
-                
+
                 cstmt.close();
-                
-                return num ==1;
+
+                return num == 1;
             } catch (SQLException se) {
-                driver.errorMessageNormal("From Borrower.deleteFromDatabase: " + se);
-                se.printStackTrace();
+                logger.log(Level.WARNING, se.toString(), se);
             }
-
-            //return driver.modifyQuery("DELETE FROM Borrowers WHERE id = " + id);
         }
-        //do not delete
         return false;
-
     }
 
     /**
@@ -215,28 +274,22 @@ public class Borrower implements DatabaseEntry{
      *
      * @param book Book being borrowed
      * @param date String with date book is being borrowed
-     *
-     * @return Boolean indicating successful loan
+     * @return true if successfully loaned, false otherwise
      */
     public boolean borrow(Book book, String date) {
-        //String q1 = "INSERT INTO BBLink (borrowerID, bookID, date)"
-        //        + "VALUES (" + id + ", " + book.id + ", '" + date + "')";
-
-        //(person INT, book INT, date VARCHAR(10))
-        CallableStatement cstmt = driver.getCallStatement("{CALL borrow(?,?,?)}");
+        CallableStatement cstmt = DRIVER.getCallStatement("{CALL borrow(?,?,?)}");
 
         try {
             cstmt.setInt(1, id);
             cstmt.setInt(2, book.getID());
             cstmt.setString(3, date);
 
-            int num = cstmt.executeUpdate() ;
+            int num = cstmt.executeUpdate();
             cstmt.close();
-            
-            return num== 1;
+
+            return num == 1;
         } catch (SQLException se) {
-            driver.errorMessageNormal("From Borrower.borrow: " + se);
-            se.printStackTrace();
+            logger.log(Level.WARNING, se.toString(), se);
         }
 
         return false;
@@ -247,30 +300,24 @@ public class Borrower implements DatabaseEntry{
      *
      * @param book Book being returned
      * @param date String with date book was returned
-     * @return boolean indicating successful return
+     * @return true if successfully returned, false otherwise
      */
     public boolean returnBook(Book book, String date) {
-        //String q1 = "UPDATE BBLink SET dateReturned = '" + date + "' WHERE bookID = "
-         //       + book.id + " AND borrowerID = " + id;
-
-         //(person INT, book INT, date VARCHAR(10)
-         CallableStatement cstmt = driver.getCallStatement("{CALL returnBook(?,?,?)}");
+        CallableStatement cstmt = DRIVER.getCallStatement("{CALL returnBook(?,?,?)}");
 
         try {
             cstmt.setInt(1, id);
             cstmt.setInt(2, book.getID());
             cstmt.setString(3, date);
 
-            int num = cstmt.executeUpdate() ;
+            int num = cstmt.executeUpdate();
             cstmt.close();
-            
+
             return num == 1;
         } catch (SQLException se) {
-            driver.errorMessageNormal("From Borrower.returnBook: " + se);
-            se.printStackTrace();
+            logger.log(Level.WARNING, se.toString(), se);
         }
-         
-        return false;// && driver.modifyQuery(q2);
+        return false;
     }
 
 }

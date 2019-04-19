@@ -317,8 +317,8 @@ public class AddBorrower extends javax.swing.JFrame {
 
         //set borrower's details
         bor.setName(tfName.getText());
-        bor.setNumber(tfNumber.getText());
-        bor.setEMail(tfEmail.getText());
+        bor.setContactNumber(tfNumber.getText());
+        bor.setEmailAddress(tfEmail.getText());
 
         //add to DB, inform of success/failure
         if (bor.addToDatabase()) {

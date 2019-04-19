@@ -8,20 +8,24 @@
  */
 package library;
 
+import GUIs.MainGUI;
+
 import java.sql.SQLException;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import static library.DatabaseEntry.DRIVER;
 
 /**
- * Class representing an author. An <code>Author</code> has a name, id, role,
- * and RoleID. (Role might have to be its own class)
+ * Class representing an author. An <code>Author</code> has a name, id, and <code>Role</code>.
  *
  * @author Ross
  */
 public class Author implements DatabaseEntry {
+    private static Logger logger = Logger.getLogger(Author.class.getName());
 
-    //class variables
     private int id = -1;
     private String name = "";
     private Role role = null;
@@ -29,15 +33,16 @@ public class Author implements DatabaseEntry {
     /**
      * Default constructor.
      */
-    public Author() {    //default
+    public Author() {
 
     }
 
     /**
      * Construct an <code>Author</code> with the given ID
+     *
      * @param i ID number of the author
      */
-    public Author(int i) {    //Using ID only
+    public Author(int i) {
         id = i;
     }
 
@@ -59,7 +64,7 @@ public class Author implements DatabaseEntry {
      *
      * @param a The <code>Author</code> to create a copy of
      */
-    public Author(Author a) {   //copy constructor
+    public Author(Author a) {
         this.id = a.id;
         this.name = a.name;
         this.role = new Role(a.role);
@@ -87,8 +92,7 @@ public class Author implements DatabaseEntry {
                 DRIVER.errorMessageNormal("From Author.setIDFromName: author " + name + "not found");
             }
         } catch (SQLException se) {
-            DRIVER.errorMessageCritical("From Author.setIDFromName: " + se);
-            se.printStackTrace();
+            logger.log(Level.WARNING, se.toString(), se);
         }
     }
 
@@ -109,6 +113,11 @@ public class Author implements DatabaseEntry {
             Author otherA = (Author) other;
             return (this.name.equals(otherA.name) && this.role.equals(otherA.role));
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
     /**
@@ -192,7 +201,7 @@ public class Author implements DatabaseEntry {
 
             newId = stmt.executeUpdate();
 
-            System.out.println("Author.addToDatabase: newID: " + newId);
+            logger.fine("Author.addToDatabase: newID: " + newId);
 
         } catch (SQLException se) {
             se.printStackTrace();
@@ -215,24 +224,22 @@ public class Author implements DatabaseEntry {
      */
     @Override
     public boolean deleteFromDatabase() {
+        int numberUpdated = 0;
+        CallableStatement stmt = null;
         try {
             Driver driver = new Driver();
 
-            CallableStatement stmt = driver.getCallStatement("{call deleteAuthor(?)}");
-
+            stmt = driver.getCallStatement("{call deleteAuthor(?)}");
             stmt.setInt(1, id);
+            numberUpdated = stmt.executeUpdate();
 
-            int ret = stmt.executeUpdate();
+            logger.log(Level.FINE, "numberUpdated = {0}", numberUpdated);
 
-            System.out.println("from Author.deleteFromDatabase: ret = " + ret);
-
-            return ret == 1;
-
+            stmt.close();
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            return false;
+            logger.log(Level.WARNING, e.toString(), e);
         }
+        return numberUpdated == 1;
     }
 
     /**
@@ -240,7 +247,7 @@ public class Author implements DatabaseEntry {
      * field of an <code>Author</code> that can be updated is name. The method
      * also sets this <code>Author</code>'s new name
      *
-     * @param field the field to update (in this case, field can only be "name"
+     * @param field    the field to update (in this case, field can only be "name"
      * @param newValue the <code>Author</code> new name
      * @return boolean indicating successful update
      */
@@ -260,8 +267,7 @@ public class Author implements DatabaseEntry {
                     return true;
                 }
             } catch (SQLException ex) {
-                System.out.println("library.Author.updateInDatabase(): " + ex);
-                ex.printStackTrace();
+                logger.log(Level.WARNING, ex.toString(), ex);
             }
         } else {
             DRIVER.errorMessageNormal("Please select a valid field to update (i.e. name");

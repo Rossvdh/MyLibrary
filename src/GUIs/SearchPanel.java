@@ -26,7 +26,7 @@ import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicBorders;
 import javax.swing.table.DefaultTableModel;
 import library.AutoCompletion;
-import library.BookType;
+import library.TypeOfBook;
 import library.Driver;
 import library.Genre;
 import library.Shop;
@@ -345,7 +345,7 @@ public class SearchPanel extends javax.swing.JPanel {
                 cstmt = driver.getCallStatement("{CALL searchType(?)}");
 
                 //get type ID to search for
-                BookType type = new BookType(comboSearchItem.getSelectedItem().toString());
+                TypeOfBook type = new TypeOfBook(comboSearchItem.getSelectedItem().toString());
                 int typeID = type.getID();
 
                 try {

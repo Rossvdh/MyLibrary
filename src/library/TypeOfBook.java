@@ -1,65 +1,71 @@
-/*Class for BookType of book. Has id and type
+/*Class for TypeOfBook of book. Has id and type
 Ross van der Heyde
 24 Feb 2017.
  */
 package library;
 
+import sun.awt.AWTAccessor;
+
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Ross
  */
-public class BookType implements DatabaseEntry {
+public class TypeOfBook implements DatabaseEntry {
+    private static Logger logger = Logger.getLogger(Author.class.getName());
 
     //attributes
     private int id = -1;
     private String type = "";
 
     /**
-     * Default constructor. Creates a new <code>BookType</code> object
+     * Default constructor. Creates a new <code>TypeOfBook</code> object
      */
-    public BookType() {
+    public TypeOfBook() {
 
     }
 
     /**
-     * Parametized constructor. Creates a new <code>BookType</code> object with
+     * Parameterized constructor. Creates a new <code>TypeOfBook</code> object with
      * the given id
      *
-     * @param id The ID number of the <code>BookType</code>
+     * @param id The ID number of the <code>TypeOfBook</code>
      */
-    public BookType(int id) {
+    public TypeOfBook(int id) {
         this.id = id;
     }
 
     /**
-     * Parametized constructor. Creates a new <code>BookType</code> object with
+     * Parameterized constructor. Creates a new <code>TypeOfBook</code> object with
      * the given type name. Sets the ID of this object from the database using
      * the type name
      *
-     * @param name name of the <code>BookType</code>
+     * @param typeName name of the <code>TypeOfBook</code>
      */
-    public BookType(String name) {
-        type = name;
+    public TypeOfBook(String typeName) {
+        this.type = typeName;
         setIDFromDatabase();
     }
 
     /**
-     * Copy constructor. Creates a new <code>BookType</code> object that is
+     * Copy constructor. Creates a new <code>TypeOfBook</code> object that is
      * equal to this one.
      *
-     * @param g <code>BookType</code> object to copy
+     * @param typeOfBook <code>TypeOfBook</code> object to copy
      */
-    public BookType(BookType g) {
-        this.id = g.id;
-        this.type = g.type;
+    public TypeOfBook(TypeOfBook typeOfBook) {
+        this.id = typeOfBook.id;
+        this.type = typeOfBook.type;
     }
 
     /**
-     * Sets the ID of this <code>BookType</code> object from the database, using
+     * Sets the ID of this <code>TypeOfBook</code> object from the database, using
      * the type name
      */
     public void setIDFromDatabase() {
@@ -69,31 +75,31 @@ public class BookType implements DatabaseEntry {
 
             stmt.setString(1, type);
 
-            ResultSet rs = stmt.executeQuery();
+            try (ResultSet rs = stmt.executeQuery()) {
 
-            if (rs.next()) {
-                id = rs.getInt(1);
-            } else {
-                DRIVER.errorMessageNormal("dirver.getTypeID: type not found");
+                if (rs.next()) {
+                    id = rs.getInt(1);
+                } else {
+                    logger.warning("dirver.getTypeID: type not found");
+                }
             }
-            rs.close();
 
         } catch (SQLException se) {
-            DRIVER.errorMessageCritical("From driver.getGenreID: " + se);
+            logger.log(Level.WARNING, se.toString(), se);
         }
     }
 
     /**
-     * Returns the ID number of this <code>BookType</code>
+     * Returns the ID number of this <code>TypeOfBook</code>
      *
-     * @return ID of this <code>BookType</code>
+     * @return ID of this <code>TypeOfBook</code>
      */
     public int getID() {
         return id;
     }
 
     /**
-     * Sets the ID number of this <code>BookType</code>
+     * Sets the ID number of this <code>TypeOfBook</code>
      *
      * @param id ID number
      */
@@ -102,16 +108,16 @@ public class BookType implements DatabaseEntry {
     }
 
     /**
-     * Returns the type name of this <code>BookType</code>
+     * Returns the type name of this <code>TypeOfBook</code>
      *
-     * @return type name of this <code>BookType</code>
+     * @return type name of this <code>TypeOfBook</code>
      */
     public String getType() {
         return type;
     }
 
     /**
-     * Sets the type name of this <code>BookType</code>
+     * Sets the type name of this <code>TypeOfBook</code>
      *
      * @param type type name
      */
@@ -121,17 +127,17 @@ public class BookType implements DatabaseEntry {
 
     /**
      * Returns a <code>String</code> representation of this
-     * <code>BookType</code>
+     * <code>TypeOfBook</code>
      *
-     * @return String representing this <code>BookType</code>
+     * @return String representing this <code>TypeOfBook</code>
      */
     public String toString() {
         return type + "(" + id + ")";
     }
 
     /**
-     * Determines if this <code>BookType</code> and the given
-     * <code>Object</code> are equal. <code>BookType</code>s are equal if their
+     * Determines if this <code>TypeOfBook</code> and the given
+     * <code>Object</code> are equal. <code>TypeOfBook</code>s are equal if their
      * type names are the same. Note that most of this method was automatically
      * generated.
      *
@@ -149,13 +155,22 @@ public class BookType implements DatabaseEntry {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final BookType other = (BookType) obj;
+        final TypeOfBook other = (TypeOfBook) obj;
 
         return this.type.equals(other.type);
     }
 
     /**
-     * Add this <code>BookType</code> to the database
+     * Returns the has code of this <code>{@link GUIs.TypeGUI}</code>
+     * @return hash value
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, type);
+    }
+
+    /**
+     * Add this <code>TypeOfBook</code> to the database
      *
      * @return boolean indicating successful insertion
      */
@@ -169,13 +184,13 @@ public class BookType implements DatabaseEntry {
             return cstmt.executeUpdate() == 1;
 
         } catch (SQLException se) {
-            se.printStackTrace();
+            logger.log(Level.WARNING, se.toString(), se);
         }
         return false;
     }
 
     /**
-     * Delete this <code>BookType</code> from the database
+     * Delete this <code>TypeOfBook</code> from the database
      *
      * @return boolean indicating successful deletion
      */
@@ -188,13 +203,13 @@ public class BookType implements DatabaseEntry {
 
             return cstmt.executeUpdate() == 1;
         } catch (SQLException se) {
-            se.printStackTrace();
+            logger.log(Level.WARNING, se.toString(), se);
         }
         return false;
     }
 
     /**
-     * Update a field of this <code>BookType</code> in the database. The only
+     * Update a field of this <code>TypeOfBook</code> in the database. The only
      * field that can be updated is typeName
      *
      * @param field must be "type"
@@ -218,7 +233,7 @@ public class BookType implements DatabaseEntry {
                 }
 
             } catch (SQLException se) {
-                se.printStackTrace();
+                logger.log(Level.WARNING, se.toString(), se);
             }
         } else {
             DRIVER.errorMessageNormal("Please select a valid field to update (i.e type)");

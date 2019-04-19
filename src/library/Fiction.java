@@ -19,7 +19,7 @@ public class Fiction extends Book {
 
     //class variables
     private Genre genre;
-    private BookType type;
+    private TypeOfBook type;
     private Series series;
     private int number;
 
@@ -66,13 +66,13 @@ public class Fiction extends Book {
      * @param g genre of this <code>Fiction</code>
      * @param n number in <code>Series</code>
      * @param s <code>Series</code> that this book is part of
-     * @param ty BookType of book
+     * @param ty TypeOfBook of book
      */
     public Fiction(String t, int m, int y, double p, Shop plc, int pub, ArrayList<Author> a,
-            Genre g, BookType ty, Series s, int n) {
+                   Genre g, TypeOfBook ty, Series s, int n) {
         super(t, m, y, p, plc, pub, a);
         genre = new Genre(g);
-        type = new BookType(ty);
+        type = new TypeOfBook(ty);
         series = new Series(s);
         number = n;
     }
@@ -259,11 +259,11 @@ public class Fiction extends Book {
     }
 
     /**
-     * Returns the <code>BookType</code> of this <code>Fiction</code>.
+     * Returns the <code>TypeOfBook</code> of this <code>Fiction</code>.
      *
-     * @return <code>BookType</code> of this <code>Fiction</code>
+     * @return <code>TypeOfBook</code> of this <code>Fiction</code>
      */
-    public BookType getType() {
+    public TypeOfBook getType() {
         return type;
     }
 
@@ -287,11 +287,11 @@ public class Fiction extends Book {
     }
 
     /**
-     * Sets the <code>BookType</code> of this <code>Fiction</code> book.
+     * Sets the <code>TypeOfBook</code> of this <code>Fiction</code> book.
      *
-     * @param t <code>BookType</code> of this book
+     * @param t <code>TypeOfBook</code> of this book
      */
-    public void setType(BookType t) {
+    public void setType(TypeOfBook t) {
         type = t;
     }
 

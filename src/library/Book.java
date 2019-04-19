@@ -12,7 +12,10 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,22 +24,22 @@ import javax.swing.JOptionPane;
  * @author Ross
  */
 public class Book implements DatabaseEntry {
+    private static Logger logger = Logger.getLogger(Book.class.getName());
 
-    //class variables
     protected int id;
     protected String title;
     protected int month;
     protected int year;
     protected double price;
     protected Shop shop;
-    protected ArrayList<Author> authors = new ArrayList<>();
+    protected List<Author> authors = new ArrayList<>();
     protected int published;
-    protected boolean onLoan = false;//is the book on loan or not
+    protected boolean onLoan = false;
 
     /**
      * Default constructor. Creates a new <code>Book</code> object
      */
-    public Book() {     //default
+    public Book() {
 
     }
 
@@ -49,7 +52,7 @@ public class Book implements DatabaseEntry {
     public Book(int i) {
         id = i;
 
-        //initalize most important attributes
+        //initialize most important attributes
         getTitleFromDatabase();
         getAuthorFromDatabase();
     }
@@ -58,23 +61,23 @@ public class Book implements DatabaseEntry {
      * Parameterized constructor. Creates a new <code>Book</code> object with
      * the given attributes.
      *
-     * @param t title of <code>Book</code>
-     * @param m month <code>Book</code> was bought
-     * @param y year <code>Book</code> was bought
-     * @param p priced paid for <code>Book</code> was bought
-     * @param plc <code>Shop</code> where <code>Book</code> was bought
-     * @param pub year <code>Book</code> was first published
-     * @param a <code>ArrayList</code> of <code>Author</code>s of this
-     * <code>Book</code>
+     * @param title          title of <code>Book</code>
+     * @param month          month <code>Book</code> was bought
+     * @param year           year <code>Book</code> was bought
+     * @param price          priced paid for <code>Book</code> was bought
+     * @param shop           <code>Shop</code> where <code>Book</code> was bought
+     * @param firstPublished year <code>Book</code> was first published
+     * @param authors        <code>ArrayList</code> of <code>Author</code>s of this
+     *                       <code>Book</code>
      */
-    public Book(String t, int m, int y, double p, Shop plc, int pub, ArrayList<Author> a) {
-        title = t;
-        month = m;
-        year = y;
-        price = p;
-        shop = plc;
-        published = pub;
-        authors = a;
+    public Book(String title, int month, int year, double price, Shop shop, int firstPublished, List<Author> authors) {
+        this.title = title;
+        this.month = month;
+        this.year = year;
+        this.price = price;
+        this.shop = shop;
+        this.published = firstPublished;
+        this.authors = authors;
     }
 
     /**
@@ -84,13 +87,15 @@ public class Book implements DatabaseEntry {
      * @param copy <code>Book</code> to create a copy of
      */
     public Book(Book copy) {
-        title = copy.title;
-        month = copy.month;
-        year = copy.year;
-        price = copy.price;
-        shop = new Shop(copy.shop);
-        published = copy.published;
-        authors = new ArrayList<Author>(copy.authors);
+        this.id = copy.id;
+        this.title = copy.title;
+        this.month = copy.month;
+        this.year = copy.year;
+        this.price = copy.price;
+        this.shop = new Shop(copy.shop);
+        this.published = copy.published;
+        this.authors = new ArrayList<>(copy.authors);
+        this.onLoan = copy.onLoan;
     }
 
     /**
@@ -103,17 +108,17 @@ public class Book implements DatabaseEntry {
 
             cstmt.setInt(1, id);
 
-            ResultSet rs = cstmt.executeQuery();
+            try (ResultSet rs = cstmt.executeQuery()) {
 
-            if (rs.next()) {
-                title = rs.getString(1);
-            } else {
-                System.out.println("library.Book.getTitleFromDatabase() title for book " + id + " not found.");
+                if (rs.next()) {
+                    this.title = rs.getString(1);
+                } else {
+                    logger.fine("library.Book.getTitleFromDatabase() title for book " + id + " not found.");
+                }
             }
-
+            cstmt.close();
         } catch (SQLException se) {
-            System.out.println("library.Book.getTitleFromDatabase(): " + se);
-            se.printStackTrace();
+            logger.log(Level.WARNING, se.toString(), se);
         }
     }
 
@@ -127,20 +132,20 @@ public class Book implements DatabaseEntry {
 
             cstmt.setInt(1, id);
 
-            ResultSet rs = cstmt.executeQuery();
+            try (ResultSet rs = cstmt.executeQuery()) {
 
-            while (rs.next()) {
-                Author auth = new Author();
+                while (rs.next()) {
+                    Author auth = new Author();
 
-                auth.setID(rs.getInt(1));
-                auth.setName(rs.getString(2));
+                    auth.setID(rs.getInt(1));
+                    auth.setName(rs.getString(2));
 
-                addAuthor(auth);
+                    addAuthor(auth);
+                }
             }
-
+            cstmt.close();
         } catch (SQLException se) {
-            System.out.println("library.Book.getAuthorFromDatabase(): " + se);
-            se.printStackTrace();
+            logger.log(Level.WARNING, se.toString(), se);
         }
     }
 
@@ -155,14 +160,11 @@ public class Book implements DatabaseEntry {
     public boolean equals(Object other) {
         if (other == null) {
             return false;
-        } else if (this.getClass() != other.getClass()) {//check if same class
-            //if not same class, they can't be equal, so return false
+        } else if (this.getClass() != other.getClass()) {
             return false;
         } else {
-            //are same class, so cast object to book
             Book otherB = (Book) other;
 
-            //check if title and author are the same
             return (this.title.equals(otherB.title) && this.authors.equals(otherB.authors));
         }
     }
@@ -176,31 +178,28 @@ public class Book implements DatabaseEntry {
     }
 
     /**
-     * Adds this Book to the database.
+     * Adds this Book to the database. The process is as folLows:
+     * insert this book
+     * get max bookID
+     * set this book's ID to maxID
+     * for each author:
+     * if new author:
+     * insert new author
+     * get max author ID
+     * insert link entry
+     * return boolean
      *
      * @return boolean indicating successful insertion
      */
     @Override
     public boolean addToDatabase() {
-        /*
-        insert this book
-        get max bookID
-        set this book's ID to maxID
-        for each author:
-            if new author:
-                insert new author
-                get max author ID
-            insert link entry
-        return boolean        
-         */
-
         try {
             //`addBook`(tit VARCHAR(100), cost INT, shop INT, month INT, year INT, pub INT)
             CallableStatement cstmt = DRIVER.getCallStatement("{CALL addBook(?,?,?,?,?,?)}");
 
             cstmt.setString(1, title);
             cstmt.setDouble(2, price);
-            System.out.println("library.Book.addToDatabase() shop: " + shop.toString());
+            logger.fine("library.Book.addToDatabase() shop: " + shop.toString());
             cstmt.setInt(3, shop.getID());
             cstmt.setInt(4, month);
             cstmt.setInt(5, year);
@@ -212,50 +211,41 @@ public class Book implements DatabaseEntry {
                 //get max ID
                 cstmt = DRIVER.getCallStatement("{CALL getMaxBookID()}");
 
-                ResultSet rs = cstmt.executeQuery();
-
-                //get max ID from ResultSet
-                if (rs.next()) {
-                    id = rs.getInt(1);
-
-                } else {
-                    DRIVER.errorMessageNormal("No max Book ID found");
-                    return false;
+                try (ResultSet rs = cstmt.executeQuery()) {
+                    //get max ID from ResultSet
+                    if (rs.next()) {
+                        id = rs.getInt(1);
+                    } else {
+                        DRIVER.errorMessageNormal("No max Book ID found");
+                        return false;
+                    }
                 }
-                rs.close();
 
                 //add Authors
                 return addLinkEntries();
-
             } else {
                 DRIVER.errorMessageNormal("The book \"" + title + "\" could not be added");
                 return false;
             }
 
         } catch (SQLException se) {
-            se.printStackTrace();
+            logger.log(Level.WARNING, se.toString(), se);
         }
         return false;
     }
 
     /**
-     * Update a specific value (eg title, series) of this book.
-     *
+     * Update a specific value (title, author, price, placebought, mnth, yr, firstpub)
+     * of this book.
+     * <p>
      * TODO: how to update authors? Book.
      *
-     * @param field String. value to be updated
+     * @param field    String. value to be updated
      * @param newValue String containing new updated value
      * @return boolean indicating successful update
      */
     @Override
     public boolean updateInDatabase(String field, String newValue) {
-        /*title
-        author
-        price
-        placebought
-        mnth
-        yr
-        firstpub*/
         field = field.toLowerCase();
 
         CallableStatement cstmt;
@@ -309,8 +299,7 @@ public class Book implements DatabaseEntry {
             return cstmt.executeUpdate() == 1;
 
         } catch (SQLException se) {
-            System.out.println("library.Book.updateInDatabase() - se: " + se);
-            se.printStackTrace();
+            logger.log(Level.WARNING, se.toString(), se);
             return false;
         }
     }
@@ -327,7 +316,7 @@ public class Book implements DatabaseEntry {
             int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete \"" + title + "\" by "
                     + authors + "?");
 
-            if (choice == 0) {
+            if (choice == JOptionPane.YES_OPTION) {
                 //delete
                 CallableStatement cstmt = DRIVER.getCallStatement("{CALL deleteBook(?)}");
 
@@ -335,75 +324,28 @@ public class Book implements DatabaseEntry {
 
                 return cstmt.executeUpdate() == 1;
             } else {
-                System.out.println("library.Book.deleteFromDatabase() - user chose not to delete " + title);
+                logger.fine("library.Book.deleteFromDatabase() - user chose not to delete " + title);
                 return false;
             }
         } catch (SQLException se) {
-            DRIVER.errorMessageNormal("From Book.deleteFromDatabase: " + se);
-            se.printStackTrace();
+            logger.log(Level.WARNING, se.toString(), se);
         }
 
         return false;
     }
 
     /**
-     * Sets the title of this book from database using ID
-     *
-     */
-    //<editor-fold defaultstate="collapsed" desc="getTitleFromDatabase">
-    /*public void getTitleFromDatabase() {
-    try {
-    //query to get title
-    ResultSet rs = DRIVER.query("SELECT title FROM AllBooks WHERE id = " + id);
-    
-    if (rs.next()) {
-    title = rs.getString(1);
-    rs.close();
-    } else {
-    DRIVER.errorMessageNormal("Book.getTitleFromDatabase: no title found");
-    }
-    } catch (SQLException se) {
-    DRIVER.errorMessageNormal("From Book.getTitleFromDatabase: " + se);
-    }
-    }*/
-//</editor-fold>
-    /**
-     * Sets the author of this book from database using ID
-     *
-     */
-    //<editor-fold defaultstate="collapsed" desc="getAuthorFromDatabase">
-    /*public void getAuthorFromDatabase() {
-    try {
-    //query to get title
-    ResultSet rs = DRIVER.query("SELECT author FROM AllBooks WHERE id = " + id);
-    
-    if (rs.next()) {
-    Author temp = new Author();
-    
-    temp.setName(rs.getString(1));
-    
-    auth = new Author(temp);
-    rs.close();
-    } else {
-    DRIVER.errorMessageNormal("book.getAuthorFromDatabase: noAuthorFound");
-    }
-    } catch (SQLException se) {
-    DRIVER.errorMessageNormal("From Book.getAuthorFromDatabase: " + se);
-    }
-    }*/
-//</editor-fold>
-    /**
      * Returns a <code>String</code> representation of this <code>Book</code>.
-     * The format is: "title - authorName, authoName, ..."
+     * The format is: "title - authorName, authorName, ..."
      *
      * @return String representing this <code>Book</code>
      */
     @Override
     public String toString() {
-        String authorsString = "";
+        StringBuilder authorsString = new StringBuilder();
 
         for (Author author : authors) {
-            authorsString += author + ", ";
+            authorsString.append(author).append(", ");
         }
 
         return title + " - " + authorsString;
@@ -455,12 +397,12 @@ public class Book implements DatabaseEntry {
     }
 
     /**
-     * Returns an <code>ArrayList</code> of this <code>Book</code>'s
+     * Returns a <code>List</code> of this <code>Book</code>'s
      * <code>Author</code>s.
      *
      * @return <code>Author</code>s in an <code>ArrayList</code>
      */
-    public ArrayList<Author> getAuthor() {
+    public List<Author> getAuthor() {
         return authors;
     }
 
@@ -482,78 +424,78 @@ public class Book implements DatabaseEntry {
         return published;
     }
 
-    //not sure if this will be used
-    /*public boolean getOnLoan() {
-    return onLoan;
-    }*/
+    /**
+     * Sets the on loan status of this <code>Book</code>
+      * @param onLoan true if the book is on loan, otherwise false
+     */
+    public void setOnLoan(boolean onLoan) {
+        this.onLoan = onLoan;
+    }
 
- /* public void setonLoan(boolean l) {
-    onLoan = l;
-    }*/
     /**
      * Sets the title of this <code>Book</code>
      *
-     * @param t title of this <code>Book</code>
+     * @param title title of this <code>Book</code>
      */
-    public void setTitle(String t) {
-        title = t;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     /**
      * Sets the price of this <code>Book</code>
      *
-     * @param p price of this <code>Book</code>
+     * @param price price of this <code>Book</code>
      */
-    public void setPrice(double p) {
-        price = p;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     /**
      * Sets the month in which this <code>Book</code> was bought
      *
-     * @param m month of purchase
+     * @param month month of purchase
      */
-    public void setMonth(int m) {
-        month = m;
+    public void setMonth(int month) {
+        this.month = month;
     }
 
     /**
      * Sets year in which this <code>Book</code> was bought
      *
-     * @param y year of purchase
+     * @param year year of purchase
      */
-    public void setYear(int y) {
-        year = y;
+    public void setYear(int year) {
+        this.year = year;
     }
 
     /**
      * Sets <code>Shop</code> where this book was bought<code>Book</code>
      *
-     * @param s place of purchase
+     * @param shop place of purchase
      */
-    public void setShop(Shop s) {
-        System.out.println("library.Book.setShop() 1 s.toString: " + s.toString());
-        shop = s;
-        System.out.println("library.Book.setShop() 2 s.toString: " + s.toString());
-        System.out.println("library.Book.setShop() 3 shop.toString: " + shop.toString());
+    public void setShop(Shop shop) {
+        logger.fine("library.Book.setShop() 1 shop.toString: " + shop.toString());
+        this.shop = shop;
+        logger.fine("library.Book.setShop() 2 shop.toString: " + shop.toString());
+        logger.fine("library.Book.setShop() 3 shop.toString: " + this.shop.toString());
     }
 
     /**
      * Sets year in which this <code>Book</code> was published
      *
-     * @param fp year of first publication
+     * @param firstPublished year of first publication
      */
-    public void setPublished(int fp) {
-        published = fp;
+    public void setPublished(int firstPublished) {
+        published = firstPublished;
     }
 
     /**
      * Sets the <code>Author</code>s of this <code>Book</code>
      *
-     * @param ar <code>ArrayList</code> of <code>Authors</code>
+     * @param authors <code>ArrayList</code> of <code>Authors</code>
      */
-    public void setAuthor(ArrayList<Author> ar) {
-        authors = ar;
+    public void setAuthor(List<Author> authors) {
+        this.authors = authors;
     }
 
     /**
@@ -569,22 +511,22 @@ public class Book implements DatabaseEntry {
      * Adds an <code>Author</code> to the list of this <code>Book</code>'s
      * <code>Author</code>s
      *
-     * @param a <code>Author</code> to add
+     * @param author <code>Author</code> to add
      */
-    public void addAuthor(Author a) {
-        authors.add(a);
+    public void addAuthor(Author author) {
+        authors.add(author);
     }
 
     /**
      * Determines if the given <code>Author</code> is an author of this
      * <code>Book</code>
      *
-     * @param a <code>Author</code> to see if an author
+     * @param author <code>Author</code> to see if an author
      * @return true if the given <code>Author</code> is an author of this
      * <code>Book</code>
      */
-    public boolean isAuthor(Author a) {
-        return authors.contains(a);
+    public boolean isAuthor(Author author) {
+        return authors.contains(author);
     }
 
     /**
@@ -601,7 +543,7 @@ public class Book implements DatabaseEntry {
                 //addLinkEntry(author INT, book INT, role INT)
                 CallableStatement cstmt = DRIVER.getCallStatement("{CALL addLinkEntry(?,?,?)}");
 
-                System.out.println("library.Book.addLinkEntries(). author: " + author);
+                logger.fine("library.Book.addLinkEntries(). author: " + author);
 
                 cstmt.setInt(1, author.getID());
                 cstmt.setInt(2, id);
@@ -610,15 +552,14 @@ public class Book implements DatabaseEntry {
                 allAdded &= cstmt.executeUpdate() == 1;
 
                 if (allAdded) {
-                    System.out.println("library.Book.addLinkEntries() " + author.getName() + " added");
+                    logger.fine("library.Book.addLinkEntries() " + author.getName() + " added");
                 } else {
-                    System.out.println("library.Book.addLinkEntries() " + author.getName() + " could not be added");
+                    logger.fine("library.Book.addLinkEntries() " + author.getName() + " could not be added");
                 }
 
             } catch (SQLException se) {
-                System.out.println("library.Book.addLinkEntries(): SQLException when adding " + author);
+                logger.log(Level.WARNING, se.toString(), se);
                 allAdded = false;
-                se.printStackTrace();
             }
         }
         return allAdded;
