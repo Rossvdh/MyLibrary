@@ -36,16 +36,16 @@ public class AddPanel extends javax.swing.JPanel {
 
         radAddDum.setVisible(false);
 
-        comboShop.setModel(driver.getComboBoxModel(0));
-        comboGenre.setModel(driver.getComboBoxModel(1));
-        comboType.setModel(driver.getComboBoxModel(2));
+        comboShop.setModel(driver.getComboBoxModel(ComboBoxType.SHOP));
+        comboGenre.setModel(driver.getComboBoxModel(ComboBoxType.GENRE));
+        comboType.setModel(driver.getComboBoxModel(ComboBoxType.TYPE));
 
 //deweyOne and roles not necessary
-        comboSeries.setModel(driver.getComboBoxModel(5));
+        comboSeries.setModel(driver.getComboBoxModel(ComboBoxType.SERIES));
         AutoCompletion.enable(comboSeries); //enable autocompletion
         comboSeries.setSelectedIndex(-1);
 
-        comboAuthor.setModel(driver.getComboBoxModel(6));
+        comboAuthor.setModel(driver.getComboBoxModel(ComboBoxType.AUTHOR));
         AutoCompletion.enable(comboAuthor);
         comboAuthor.setSelectedIndex(-1);
 
@@ -164,7 +164,7 @@ public class AddPanel extends javax.swing.JPanel {
             }
         });
 
-        comboShop.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboShop.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
         comboShop.setToolTipText("Select the shop where the book was bought.");
 
         butAddShop.setText("Add shop");
@@ -199,10 +199,10 @@ public class AddPanel extends javax.swing.JPanel {
 
         tfNumber.setToolTipText("Number the book is in the series. Enter 0 if not part of a series.");
 
-        comboGenre.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboGenre.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
         comboGenre.setToolTipText("The book's genre.");
 
-        comboType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboType.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
         comboType.setToolTipText("The type of book (novel, play, poems, etc).");
 
         addGenre.setText("Add new genre");
@@ -249,55 +249,55 @@ public class AddPanel extends javax.swing.JPanel {
         javax.swing.GroupLayout addFictionPanelLayout = new javax.swing.GroupLayout(addFictionPanel);
         addFictionPanel.setLayout(addFictionPanelLayout);
         addFictionPanelLayout.setHorizontalGroup(
-            addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addFictionPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lGenre)
-                    .addComponent(lType)
-                    .addComponent(lSeries)
-                    .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lFiction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lNumSeries)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(comboType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tfNumber, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(comboGenre, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboSeries, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(addGenre)
-                        .addComponent(addType, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(butAddSeries))
-                .addGap(118, 118, 118))
+                addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(addFictionPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(lGenre)
+                                        .addComponent(lType)
+                                        .addComponent(lSeries)
+                                        .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(lFiction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(lNumSeries)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(comboType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(tfNumber, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(comboGenre, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(comboSeries, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(addGenre)
+                                                .addComponent(addType, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(butAddSeries))
+                                .addGap(118, 118, 118))
         );
         addFictionPanelLayout.setVerticalGroup(
-            addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addFictionPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lFiction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
-                .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lGenre)
-                    .addComponent(comboGenre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addGenre))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lType)
-                    .addComponent(comboType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addType))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lSeries)
-                    .addComponent(butAddSeries)
-                    .addComponent(comboSeries, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lNumSeries)
-                    .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(addFictionPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(lFiction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(13, 13, 13)
+                                .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lGenre)
+                                        .addComponent(comboGenre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(addGenre))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lType)
+                                        .addComponent(comboType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(addType))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lSeries)
+                                        .addComponent(butAddSeries)
+                                        .addComponent(comboSeries, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(addFictionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lNumSeries)
+                                        .addComponent(tfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         addNonPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -312,7 +312,7 @@ public class AddPanel extends javax.swing.JPanel {
         lNonFiction.setText("<html><b><u>Non-fiction only</u></b>");
         lNonFiction.setToolTipText("Fill in these fields only if you are adding a non-fiction book.");
 
-        comboDew1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Generalities, Computer Science & Information", "Philosophy & psychology", "Religion", "Social sciences", "Language", "Natural sciences & mathematics", "Technology (Applied sciences)", "The arts", "Literature & rhetoric", "Geography & history" }));
+        comboDew1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Generalities, Computer Science & Information", "Philosophy & psychology", "Religion", "Social sciences", "Language", "Natural sciences & mathematics", "Technology (Applied sciences)", "The arts", "Literature & rhetoric", "Geography & history"}));
         comboDew1.setToolTipText("General topic that the book covers.");
         comboDew1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -320,7 +320,7 @@ public class AddPanel extends javax.swing.JPanel {
             }
         });
 
-        comboDew2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboDew2.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
         comboDew2.setToolTipText("More specific topic.");
         comboDew2.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -331,51 +331,51 @@ public class AddPanel extends javax.swing.JPanel {
         lThree.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         lThree.setText("Level 3:");
 
-        comboDew3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboDew3.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
 
         javax.swing.GroupLayout addNonPanelLayout = new javax.swing.GroupLayout(addNonPanel);
         addNonPanel.setLayout(addNonPanelLayout);
         addNonPanelLayout.setHorizontalGroup(
-            addNonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addNonPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(addNonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(addNonPanelLayout.createSequentialGroup()
-                        .addComponent(lGeneral)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(comboDew1, 0, 1, Short.MAX_VALUE)
-                        .addGap(2, 2, 2))
-                    .addComponent(lNonFiction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(addNonPanelLayout.createSequentialGroup()
-                        .addGroup(addNonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(addNonPanelLayout.createSequentialGroup()
-                                .addGap(41, 41, 41)
-                                .addComponent(lThree))
-                            .addComponent(lSpec, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(addNonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboDew2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboDew3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(357, 357, 357))
+                addNonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(addNonPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(addNonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(addNonPanelLayout.createSequentialGroup()
+                                                .addComponent(lGeneral)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(comboDew1, 0, 1, Short.MAX_VALUE)
+                                                .addGap(2, 2, 2))
+                                        .addComponent(lNonFiction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(addNonPanelLayout.createSequentialGroup()
+                                                .addGroup(addNonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(addNonPanelLayout.createSequentialGroup()
+                                                                .addGap(41, 41, 41)
+                                                                .addComponent(lThree))
+                                                        .addComponent(lSpec, javax.swing.GroupLayout.Alignment.TRAILING))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGroup(addNonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(comboDew2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(comboDew3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addGap(357, 357, 357))
         );
         addNonPanelLayout.setVerticalGroup(
-            addNonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addNonPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lNonFiction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(addNonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lGeneral)
-                    .addComponent(comboDew1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7)
-                .addGroup(addNonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lSpec)
-                    .addComponent(comboDew2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(addNonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lThree)
-                    .addComponent(comboDew3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                addNonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addNonPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(lNonFiction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(addNonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lGeneral)
+                                        .addComponent(comboDew1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(7, 7, 7)
+                                .addGroup(addNonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lSpec)
+                                        .addComponent(comboDew2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(addNonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lThree)
+                                        .addComponent(comboDew3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         butClear.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -413,18 +413,18 @@ public class AddPanel extends javax.swing.JPanel {
         javax.swing.GroupLayout pMessageLayout = new javax.swing.GroupLayout(pMessage);
         pMessage.setLayout(pMessageLayout);
         pMessageLayout.setHorizontalGroup(
-            pMessageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pMessageLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                .addContainerGap())
+                pMessageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pMessageLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                .addContainerGap())
         );
         pMessageLayout.setVerticalGroup(
-            pMessageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pMessageLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
+                pMessageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pMessageLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jScrollPane2)
+                                .addContainerGap())
         );
 
         butClearMess.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -459,112 +459,112 @@ public class AddPanel extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(butAdd)
-                        .addGap(18, 18, 18)
-                        .addComponent(butClearMess)
-                        .addGap(18, 18, 18)
-                        .addComponent(butClear))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lPublished)
-                                            .addComponent(lDate, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lPlace, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lPrice, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lAuthor, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lTitle, javax.swing.GroupLayout.Alignment.TRAILING))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(tfTitle)
-                                            .addComponent(tfPublished)
-                                            .addComponent(tfDate)
-                                            .addComponent(tfPrice)
-                                            .addComponent(comboShop, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(comboAuthor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGap(30, 30, 30)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(butAddAuthors, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(butAddShop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(107, 107, 107)
-                                        .addComponent(radFiction)
-                                        .addGap(29, 29, 29)
-                                        .addComponent(radNonFic)
-                                        .addGap(37, 37, 37)
-                                        .addComponent(radAddDum)
-                                        .addGap(0, 0, Short.MAX_VALUE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(butAddNewAuthors)
-                                .addGap(200, 200, 200))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(addFictionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(addNonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(14, 14, 14)))
-                        .addComponent(pMessage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(butAdd)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(butClearMess)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(butClear))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                        .addComponent(lPublished)
+                                                                                        .addComponent(lDate, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                                        .addComponent(lPlace, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                                        .addComponent(lPrice, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                                        .addComponent(lAuthor, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                                        .addComponent(lTitle, javax.swing.GroupLayout.Alignment.TRAILING))
+                                                                                .addGap(18, 18, 18)
+                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                        .addComponent(tfTitle)
+                                                                                        .addComponent(tfPublished)
+                                                                                        .addComponent(tfDate)
+                                                                                        .addComponent(tfPrice)
+                                                                                        .addComponent(comboShop, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                        .addComponent(comboAuthor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                                                .addGap(30, 30, 30)
+                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                                        .addComponent(butAddAuthors, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                        .addComponent(butAddShop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                .addGap(107, 107, 107)
+                                                                                .addComponent(radFiction)
+                                                                                .addGap(29, 29, 29)
+                                                                                .addComponent(radNonFic)
+                                                                                .addGap(37, 37, 37)
+                                                                                .addComponent(radAddDum)
+                                                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                .addComponent(butAddNewAuthors)
+                                                                .addGap(200, 200, 200))
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(addFictionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addComponent(addNonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                                .addGap(14, 14, 14)))
+                                                .addComponent(pMessage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(radFiction)
-                            .addComponent(radNonFic)
-                            .addComponent(radAddDum))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lTitle)
-                            .addComponent(tfTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lAuthor)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(butAddAuthors)
-                                    .addComponent(butAddNewAuthors)
-                                    .addComponent(comboAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(tfPublished, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lPublished))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lPrice)
-                            .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lPlace)
-                            .addComponent(comboShop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(butAddShop))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lDate)
-                            .addComponent(tfDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
-                        .addComponent(addFictionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(addNonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(pMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(butClear)
-                            .addComponent(butClearMess)
-                            .addComponent(butAdd))
-                        .addContainerGap())))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(radFiction)
+                                                        .addComponent(radNonFic)
+                                                        .addComponent(radAddDum))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(lTitle)
+                                                        .addComponent(tfTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(lAuthor)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(butAddAuthors)
+                                                                        .addComponent(butAddNewAuthors)
+                                                                        .addComponent(comboAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(tfPublished, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(lPublished))))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(lPrice)
+                                                        .addComponent(tfPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(lPlace)
+                                                        .addComponent(comboShop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(butAddShop))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(lDate)
+                                                        .addComponent(tfDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(28, 28, 28)
+                                                .addComponent(addFictionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(addNonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(46, 46, 46))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(pMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(butClear)
+                                                        .addComponent(butClearMess)
+                                                        .addComponent(butAdd))
+                                                .addContainerGap())))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -589,7 +589,7 @@ public class AddPanel extends javax.swing.JPanel {
 
         sg.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
-                comboShop.setModel(driver.getComboBoxModel(0));//shop
+                comboShop.setModel(driver.getComboBoxModel(ComboBoxType.SHOP));//shop
             }
         });
 
@@ -606,7 +606,7 @@ public class AddPanel extends javax.swing.JPanel {
         //add windowListner. Listens for and runs when window is closed
         gg.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
-                comboGenre.setModel(driver.getComboBoxModel(1));//genre
+                comboGenre.setModel(driver.getComboBoxModel(ComboBoxType.GENRE));
             }
         });
     }//GEN-LAST:event_addGenreActionPerformed
@@ -621,7 +621,7 @@ public class AddPanel extends javax.swing.JPanel {
         //add windowListner. Listens for and runs when window is closed
         tg.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
-                comboType.setModel(driver.getComboBoxModel(2));//type
+                comboType.setModel(driver.getComboBoxModel(ComboBoxType.TYPE));
             }
         });
     }//GEN-LAST:event_addTypeActionPerformed
@@ -635,7 +635,7 @@ public class AddPanel extends javax.swing.JPanel {
             @Override
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 //refresh comboSeries
-                comboSeries.setModel(driver.getComboBoxModel(5));
+                comboSeries.setModel(driver.getComboBoxModel(ComboBoxType.SERIES));
             }
         });
     }//GEN-LAST:event_butAddSeriesActionPerformed
@@ -752,16 +752,16 @@ public class AddPanel extends javax.swing.JPanel {
                     //added successfully
 
                     //inform user
-                    appendToPane("\"" + fictionBook.getTitle() + "\" successfully added to the database.\n", Color.green);
+                    driver.appendToPane(taMessages, "\"" + fictionBook.getTitle() + "\" successfully added to the database.\n", Color.green);
                 } else {
                     //some error
 
                     //inform user
-                    appendToPane("\"" + fictionBook.getTitle() + "\" could not be added.\n", Color.red);
+                    driver.appendToPane(taMessages, "\"" + fictionBook.getTitle() + "\" could not be added.\n", Color.red);
                 }
 
             } catch (NumberFormatException nfe) {
-                appendToPane("Please enter digits only in the first published "
+                driver.appendToPane(taMessages, "Please enter digits only in the first published "
                         + "and price fields. Also ensure that the date is in the correct format.\n", Color.orange);
 
                 nfe.printStackTrace();
@@ -783,13 +783,13 @@ public class AddPanel extends javax.swing.JPanel {
 
                 //add book, inform of success (or lack thereof)
                 if (nonFictionBook.addToDatabase()) {
-                    appendToPane("\"" + nonFictionBook.getTitle() + "\"added successfully to the database.\n", Color.green);
+                    driver.appendToPane(taMessages, "\"" + nonFictionBook.getTitle() + "\"added successfully to the database.\n", Color.green);
                 } else {
-                    appendToPane("\"" + nonFictionBook.getTitle() + "\" could not be added to the database.\n", Color.red);
+                    driver.appendToPane(taMessages, "\"" + nonFictionBook.getTitle() + "\" could not be added to the database.\n", Color.red);
                 }
 
             } catch (NumberFormatException nfe) {
-                appendToPane("Please enter digits only in the first published "
+                driver.appendToPane(taMessages, "Please enter digits only in the first published "
                         + "and price fields. Also ensure that the date is in the correct format.\n", Color.orange);
                 System.out.println("GUIs.MainGUI.butAddActionPerformed() " + nfe);
                 nfe.printStackTrace();
@@ -817,7 +817,7 @@ public class AddPanel extends javax.swing.JPanel {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 //refresh combo authors
 
-                comboAuthor.setModel(driver.getComboBoxModel(6));
+                comboAuthor.setModel(driver.getComboBoxModel(ComboBoxType.AUTHOR));
             }
         });
     }//GEN-LAST:event_butAddNewAuthorsActionPerformed
@@ -876,31 +876,6 @@ public class AddPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_butClearKeyReleased
 
-    /**
-     * Add text to JTextPane for messages
-     *
-     * @param tp JTextPane to add text tor
-     * @param msg Text to be added
-     * @param c Colour of text
-     */
-//    private void appendToPane(JTextPane tp, String msg, Color c) {
-    private void appendToPane(String msg, Color c) {
-        StyleContext sc = StyleContext.getDefaultStyleContext();
-        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
-
-        aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
-        aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
-
-        /*int len = tp.getDocument().getLength();
-        tp.setCaretPosition(len);
-        tp.setCharacterAttributes(aset, false);
-        tp.replaceSelection(msg);*/
-        int len = taMessages.getDocument().getLength();
-        taMessages.setCaretPosition(len);
-        taMessages.setCharacterAttributes(aset, false);
-        taMessages.replaceSelection(msg);
-        System.out.println("MEssage that should have beenon the textpane: " + msg);
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel addFictionPanel;

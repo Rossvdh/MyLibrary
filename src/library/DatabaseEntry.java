@@ -21,19 +21,19 @@ public interface DatabaseEntry {
     /**
      * Adds this <code>DatabaseEntry</code> object to the database. This method
      * will set the object's id attribute and then return a boolean indicating
-     * the successfulness of the insertion.
+     * the success of the insertion.
      *
-     * @return boolean indicating successful addition to database
+     * @return true if successfully inserted, false otherwise
      */
     public boolean addToDatabase();
 
     /**
      * Deletes this <code>DatabaseEntry</code> object from the database. This
-     * method will return a boolean indicating the successfulness of the
+     * method will return a boolean indicating the success of the
      * deletion. There will always be a pop-up asking for confirmation of
      * deletion.
      *
-     * @return boolean indicating successful removal from database
+     * @return true if successfully deleted, false otherwise
      */
     public boolean deleteFromDatabase();
 
@@ -41,17 +41,17 @@ public interface DatabaseEntry {
      * Updates the given field of this <code>DatabaseEntry</code> object in the
      * database. The class variable's value in this <code>Object</code> will
      * also be updated. This method will return a boolean indicating the
-     * successfulness of the update.
+     * success of the update.
      *
      * @param field The field to update
      * @param newValue The new value of the field to update.
-     * @return boolean indicating successful update in the database
+     * @return true if successfully updated, false otherwise
      */
     public boolean updateInDatabase(String field, String newValue);
 
     /**
      * A method that search the database for <code>DatabaseEntry</code>s that
-     * have the matching criterion in the given field. If the criterion is a
+     * match the criterion in the given field. If the criterion is a
      * <code>String</code>, then the field is matched using LIKE. If it is a
      * number, it is matched with =.<br>
      * This method is static, so requires an implementation in this interface.

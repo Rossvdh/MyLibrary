@@ -329,7 +329,7 @@ public class LoansPanel extends javax.swing.JPanel {
     private Borrower createBorrower() {
         Borrower bor = null;
         try {
-            bor = new Borrower(Integer.parseInt(tfBorrowerID.getText()), driver);
+            bor = new Borrower(Integer.parseInt(tfBorrowerID.getText()));
         } catch (NumberFormatException nfe) {
             driver.errorMessageNormal("Please enter numbers only the Borrower ID and Book ID fields.");
         }

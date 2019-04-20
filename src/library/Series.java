@@ -1,5 +1,5 @@
 /*Series of books
-Ross vander Heyde
+Ross van der Heyde
 17 Feb 2017. Proteas laid the smack down on NZ this morning
  */
 package library;
@@ -10,17 +10,23 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.mysql.cj.conf.PropertyKey.logger;
 
 /**
+ * This class represents a series of books. It has an ID, a series name,
+ * and the number of books in the series.
  *
  * @author Ross
  */
 public class Series implements DatabaseEntry {
+    private static Logger logger = Logger.getLogger(Series.class.getName());
 
-    //class variables
     private int id = -1;
     private String name = "";
-    private int numBooks = 0;
+    private int numberOfBooks = 0;
 
     /**
      * Default constructor for <code>Series</code>
@@ -30,23 +36,24 @@ public class Series implements DatabaseEntry {
 
     /**
      * Parameterized constructor for <code>Series</code>
-     * @param n Name of this <code>Series</code>
-     * @param nb number of books in this <code>Series</code>
+     *
+     * @param name  Name of this <code>Series</code>
+     * @param numberOfBooks number of books in this <code>Series</code>
      */
-    public Series(String n, int nb) {
-        name = n;
-        numBooks = nb;
+    public Series(String name, int numberOfBooks) {
+        this.name = name;
+        this.numberOfBooks = numberOfBooks;
     }
 
     /**
-     * Parameterized constructor for <code>Series</code>. Also set the ID of
+     * Parameterized constructor for <code>Series</code>. Also sets the ID of
      * this <code>Series</code> object from the database using the name of the
      * series.
      *
-     * @param n name of the series
+     * @param name name of the series
      */
-    public Series(String n) {
-        name = n;
+    public Series(String name) {
+        this.name = name;
         setIDFromName();
     }
 
@@ -58,7 +65,7 @@ public class Series implements DatabaseEntry {
     public Series(Series other) {
         this.id = other.id;
         this.name = other.name;
-        this.numBooks = other.numBooks;
+        this.numberOfBooks = other.numberOfBooks;
     }
 
     /**
@@ -84,8 +91,8 @@ public class Series implements DatabaseEntry {
      *
      * @return number of book as int
      */
-    public int getNumBooks() {
-        return numBooks;
+    public int getNumberOfBooks() {
+        return numberOfBooks;
     }
 
     /**
@@ -109,15 +116,16 @@ public class Series implements DatabaseEntry {
     /**
      * Set the number of books in this <code>Series</code>.
      *
-     * @param numBooks number of books in the <code>Series</code>
+     * @param numberOfBooks number of books in the <code>Series</code>
      */
-    public void setNumBooks(int numBooks) {
-        this.numBooks = numBooks;
+    public void setNumberOfBooks(int numberOfBooks) {
+        this.numberOfBooks = numberOfBooks;
     }
 
     /**
      * Determines if this <code>Series</code> and the given <code>Object</code>
-     * are equal. Note that this is a generated method
+     * are equal. Two series are considered
+     * equal if their IDs are the same or their names are the same
      *
      * @param obj <code>Object</code> to test equality of.
      * @return boolean indicating equality
@@ -134,10 +142,17 @@ public class Series implements DatabaseEntry {
             return false;
         }
         final Series other = (Series) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        return true;
+        return this.id == other.id || this.name == other.name;
+    }
+
+    /**
+     * Returns the has code value of this <code>Series</code>. NOte that this is
+     * a generated method
+     * @return hash code value
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, numberOfBooks);
     }
 
     /**
@@ -147,24 +162,22 @@ public class Series implements DatabaseEntry {
      */
     @Override
     public boolean deleteFromDatabase() {
+        CallableStatement stmt = DRIVER.getCallStatement("{call deleteSeries(?)}");
         try {
-            Driver driver = new Driver();
-
-            CallableStatement stmt = driver.getCallStatement("{call deleteSeries(?)}");
 
             stmt.setInt(1, id);
 
-            int ret = stmt.executeUpdate();
+            int numberDeleted = stmt.executeUpdate();
 
-            System.out.println("from Series.deleteFromDatabase: ret = " + ret);
+            logger.fine("from Series.deleteFromDatabase: ret = " + numberDeleted);
 
-            return ret == 1;
+            stmt.close();
+            return numberDeleted == 1;
 
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            return false;
+            logger.log(Level.WARNING, e.toString(), e);
         }
+        return false;
     }
 
     /**
@@ -181,12 +194,10 @@ public class Series implements DatabaseEntry {
             CallableStatement stmt = driver.getCallStatement("{call addSeries(?, ?)}");
 
             stmt.setString(1, name);
-            stmt.setInt(2, numBooks);
+            stmt.setInt(2, numberOfBooks);
 
             newId = stmt.executeUpdate();
 
-            //--------------------
-            //Statement.RETURN_GENERATED_KEYS;
             ResultSet rs = stmt.getGeneratedKeys();
 
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -265,7 +276,7 @@ public class Series implements DatabaseEntry {
      * can be "name" or "numberOfBooks". The method also sets the new value of
      * the applicable attribute of this <code>Series</code>.
      *
-     * @param field the field in the database to update
+     * @param field    the field in the database to update
      * @param newValue the new value of the field
      * @return Boolean indicating successful update
      */
@@ -294,7 +305,7 @@ public class Series implements DatabaseEntry {
             case "NumberOfBooks":
             case "numberOfBooks": {
                 int nBooks = Integer.parseInt(newValue);
-                setNumBooks(nBooks);
+                setNumberOfBooks(nBooks);
 
                 CallableStatement cstmt = DRIVER.getCallStatement("{CALL updateSeriesNumBooks(?,?)}");
 

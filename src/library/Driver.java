@@ -17,8 +17,14 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
@@ -29,179 +35,147 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
 /**
+ * This class contains various methods for getting data from the database
+ * and other miscilaeneous stuff.
  *
  * @author Ross
  */
 public class Driver {
+    private static Logger logger = Logger.getLogger(Borrower.class.getName());
 
-    //<editor-fold defaultstate="collapsed" desc="error/info Message methods">
-// Critical error message (Pop-up window) - program must close
+    /**
+     * Displays a critical error in a pop message.
+     *
+     * @param errorMessage text to display
+     */
     public void errorMessageCritical(String errorMessage) {
         Object[] options = {"OK"};
-        int s = JOptionPane.showOptionDialog(null, errorMessage, "C R I T I C A L   E R R O R ! ",
+        logger.severe(errorMessage);
+        int s = JOptionPane.showOptionDialog(null, errorMessage, "CRITICAL ERROR!",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
                 null, options, options[0]);
-        //System.exit(0);
     }
 
-    // Normal error message (Pop-up window)
+    /**
+     * Displays an error message in a pop up window
+     *
+     * @param errorMessage text to display
+     */
     public void errorMessageNormal(String errorMessage) {
         Object[] options = {"OK"};
-        int s = JOptionPane.showOptionDialog(null, errorMessage, " E R R O R  ! ",
+        logger.warning(errorMessage);
+        int s = JOptionPane.showOptionDialog(null, errorMessage, "ERROR!",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
                 null, options, options[0]);
     }
 
-    // Normal information message (Pop-up window)
-    public void infoMessageNormal(String errorMessage) {
+    /**
+     * Displays a pop up window with a message
+     *
+     * @param message text to display
+     */
+    public void infoMessageNormal(String message) {
         Object[] options = {"OK"};
-        int s = JOptionPane.showOptionDialog(null, errorMessage, " I N F O R M A T I O N   M E S S A G E ",
+        logger.info(message);
+        int s = JOptionPane.showOptionDialog(null, message, "INFORMATION MESSAGE",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
                 null, options, options[0]);
     }
 
-//</editor-fold>
     /**
-     * Connect to database, create Statement
+     * Connect to database, and creates a <code>PreparedStatement</code>
      *
-     * @return Statement with database connection
+     * @param query the SQl query or stored procedure call
+     * @return PreparedStatement
      */
-    //<editor-fold defaultstate="collapsed" desc="comment">
     public PreparedStatement getPrepStatement(String query) {
         PreparedStatement stmt = null;
 
-        //using mysql
         try {
-            //STEP 1: Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
 
-            //STEP 2: Open a connection
-            System.out.println("Connecting to database...");
-            //give dataBase url, username and password;
+            logger.info("Connecting to database...");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/library", "ross", "scientiaSITpotentia");
 
             //STEP 3: create statement
-            System.out.println("Creating statement...");
+            logger.info("Creating statement...");
             stmt = conn.prepareStatement(query);
             stmt.closeOnCompletion();//closes stmt when all ResultSets are closed
-
-        } catch (ClassNotFoundException ce) {
-            errorMessageCritical("From driver.getStatement ce: " + ce);
-        } catch (SQLException se) {
-            errorMessageCritical("From driver.getStatement se: " + se);
+            return stmt;
+        } catch (Exception e) {
+            logger.log(Level.WARNING, e.toString(), e);
         }
-
-        return stmt;
+        return null;
     }
-//</editor-fold>
 
     /**
-     * Returns a CallableStatement with ? that need to be filled
+     * Returns a <code>CallableStatement</code> with ? that need to be filled
      *
      * @param query the "call string" e.g. "{CALL paramTest(?)}"
-     * @return A CAllableStatement
+     * @return A CallableStatement
      */
     public CallableStatement getCallStatement(String query) {
         Connection conn = null;
         CallableStatement stmt = null;
 
         try {
-            //STEP 2: Register JDBC driver
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            //STEP 3: Open a connection
-            System.out.println("Connecting to database...");
+            logger.info("Connecting to database...");
             conn = DriverManager.getConnection("jdbc:mysql://localhost/library", "Ross", "scientiaSITpotentia");
 
             //Create callableStatement
-            System.out.println("Creating statement...");
+            logger.info("Creating statement...");
             stmt = conn.prepareCall(query);
-
             stmt.closeOnCompletion();
-        } catch (ClassNotFoundException ce) {
-            ce.printStackTrace();
-        } catch (SQLException se) {
-            se.printStackTrace();
-        }
 
-        return stmt;
+            return stmt;
+        } catch (Exception ce) {
+            logger.log(Level.WARNING, ce.toString(), ce);
+            ce.printStackTrace();
+        }
+        return null;
     }
 
     /**
-     * Returns comboBoxModel of given comboBox. The codes are as follows:
-     * <table>
-     * <caption>Codes for comboBox models</caption>
-     * <tr>
-     * <th>code</th>
-     * <th>comboBox</th>
-     * </tr>
-     * <tr>
-     * <td>0</td>
-     * <td>shop</td>
-     * </tr>
-     * <tr>
-     * <td>1</td>
-     * <td>genre</td>
-     * </tr>
-     * <tr>
-     * <td>2</td>
-     * <td>type</td>
-     * </tr>
-     * <tr>
-     * <td>3</td>
-     * <td>dewey level 1</td>
-     * </tr>
-     * <tr>
-     * <td>4</td>
-     * <td>roles</td>
-     * </tr>
-     * <tr>
-     * <td>5</td>
-     * <td>series</td>
-     * </tr>
-     * <tr>
-     * <td>6</td>
-     * <td>authors</td>
-     * </tr>
-     * </table>
+     * Loads the data from the database needed for the given comboBox type,
+     * creates the  <code>DefaultComboBoxModel</code> and then returns it.
      *
-     * @param x int indicating which model to get
-     * @return comboBoxModel containing required names
+     * @param type enaum specifying the type
+     * @return comboBoxModel containing required data
      */
-    public DefaultComboBoxModel getComboBoxModel(int x) {
-        DefaultComboBoxModel<String> model = new DefaultComboBoxModel();
+    public DefaultComboBoxModel getComboBoxModel(ComboBoxType type) {
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         try {
             String query = "";
 
             //create query depending on parameter
-            switch (x) {
-                case 0: {//place
+            switch (type) {
+                case SHOP: {
                     query = "{CALL getShops()}";
                     break;
                 }
-                case 1: {//genre
+                case GENRE: {
                     query = "{CALL getGenres()}";
                     break;
                 }
-                case 2: {//type
+                case TYPE: {
                     query = "{CALL getTypes()}";
                     break;
                 }
-                case 3: {//dewey level 1
+                case DEWEY_LEVEL_1: {
                     query = "{CALL getAllTopicOne()}";
                     break;
                 }
-                case 4: {//Roles
+                case ROLE: {
                     query = "{CALL getRoles()}";
                     break;
                 }
-                case 5: {
-                    //series
+                case SERIES: {
                     query = "{CALL getSeries()}";
                     break;
                 }
-                case 6: {
-                    //authors
+                case AUTHOR: {
                     query = "{CALL getAllAuthors()}";
                     break;
                 }
@@ -210,10 +184,7 @@ public class Driver {
                 }
             }
 
-            //create statement
             PreparedStatement stmt = getCallStatement(query);
-
-            //execute query
             ResultSet rs = stmt.executeQuery(query);
 
             //place names from RS into model
@@ -221,16 +192,15 @@ public class Driver {
                 model.addElement(rs.getString(1));
             }
 
-            rs.close();//close statement
-
+            rs.close();
         } catch (SQLException se) {
-            errorMessageNormal("From driver.getCombBoxModel: " + se);
+            logger.log(Level.WARNING, se.toString(), se);
         }
         return model;
     }
 
     /**
-     * Receives a query executes it and return ResultSet
+     * Receives a query, executes it and returns the <code>ResultSet</code>
      *
      * @param q String containing query to be executed
      * @return ResultSet
@@ -239,12 +209,11 @@ public class Driver {
         ResultSet rs = null;
         try {
             Statement stmt = getCallStatement(q);
-            System.out.println("query: " + q);
+            logger.info("query: " + q);
 
             rs = stmt.executeQuery(q);
-
         } catch (SQLException e) {
-            errorMessageCritical("From driver.query: " + e);
+            logger.warning("From driver.query: " + e);
         }
         return rs;
     }
@@ -256,70 +225,42 @@ public class Driver {
      * @return boolean indicating success
      */
     public boolean modifyQuery(String q) {
-        int num = 0;
+        int numberAffected = 0;
         try {
             Statement stmt = getCallStatement(q);
-            System.out.println("Query: " + q);
+            logger.info("Query: " + q);
 
-            num = stmt.executeUpdate(q);
+            numberAffected = stmt.executeUpdate(q);
 
             stmt.close();
-
         } catch (SQLException e) {
-            errorMessageCritical("From driver.modifyQuery: " + e);
+            logger.log(Level.WARNING, e.toString(), e);
         }
 
-        return num == 1;
+        return numberAffected >= 1;
     }
 
     /**
-     * Get genre's ID given genre name
-     *
-     * @param g String with genre name
-     * @return int with genre's ID
-     */
-    /* public int getGenreID(String g) {
-    }*/
-    /**
-     * Get Shop's ID based on name
-     *
-     * @param n String with shop name
-     * @return int with shop's ID
-     */
-    /*public int getShopID(String n) {
-    
-    }*/
-    /**
-     * Get TypeOfBook ID, given type
-     *
-     * @param t String containing type of book
-     * @return int with type ID
-     */
-    /*public int getTypeID(String t) {
-    
-    }*/
-    /**
-     * Place contents of resultSet into DefaultTableModel
+     * Place contents of the given <code>resultSet</code> into a <code>DefaultTableModel</code>
      *
      * @param rs <code>ResultSet</code> from which to build the model.
      * @return defaultTableModel containing contents of rs
      */
     public DefaultTableModel buildTableModel(ResultSet rs) {
-
         try {
             ResultSetMetaData metaData = rs.getMetaData();
 
             // names of columns
-            Vector<String> columnNames = new Vector<String>();
+            Vector<String> columnNames = new Vector<>();
             int columnCount = metaData.getColumnCount();
-            for (int column = 1; column <= columnCount; column++) {
-                columnNames.add(metaData.getColumnName(column));
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                columnNames.add(metaData.getColumnName(columnIndex));
             }
 
             // data of the table
-            Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+            Vector<Vector<Object>> data = new Vector<>();
             while (rs.next()) {
-                Vector<Object> vector = new Vector<Object>();
+                Vector<Object> vector = new Vector<>();
                 for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
                     vector.add(rs.getObject(columnIndex));
                 }
@@ -327,46 +268,47 @@ public class Driver {
             }
             rs.close();
             return new DefaultTableModel(data, columnNames);
-        } catch (SQLException se) {
-            System.out.println(se);
+        } catch (SQLException e) {
+            logger.log(Level.WARNING, e.toString(), e);
         }
-        return new DefaultTableModel();
+        return null;
     }
 
     /**
      * Appends a line of text with the given colour to the textPane
+     * Move to GUIUtils class?
      *
-     * @param tp TextPane which must be appended to.
+     * @param tp  TextPane which must be appended to.
      * @param msg Text to display.
-     * @param c Colour of text.
+     * @param c   Colour of text.
      */
     public void appendToPane(JTextPane tp, String msg, Color c) {
         StyleContext sc = StyleContext.getDefaultStyleContext();
-        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
+        AttributeSet attributeSet = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
 
-        aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
-        aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
+        attributeSet = sc.addAttribute(attributeSet, StyleConstants.FontFamily, "Lucida Console");
+        attributeSet = sc.addAttribute(attributeSet, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
 
         int len = tp.getDocument().getLength();
         tp.setCaretPosition(len);
-        tp.setCharacterAttributes(aset, false);
+        tp.setCharacterAttributes(attributeSet, false);
         tp.replaceSelection(msg);
     }
 
     /**
      * Returns a comboBox model for the level 2 Dewey comboBox
      *
-     * @param dew1 Dewey number level 1 selected (000, 100, 200 ...)
-     * @param first Selected level 1 topic, to be first element in dewey2
-     * comboBox
-     * @return DefaultComboBoxMOdel containing tens (010, 020, 030....)
+     * @param dew1        Dewey number level 1 selected (000, 100, 200 ...)
+     * @param level1Topic Selected level 1 topic, to be first element in dewey2
+     *                    comboBox
+     * @return DefaultComboBoxModel containing tens (010, 020, 030....)
      */
-    public DefaultComboBoxModel<String> getDewey2Model(int dew1, String first) {
+    public DefaultComboBoxModel<String> getDewey2Model(int dew1, String level1Topic) {
         //declare comboBoxModel for comboDew2s
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
 
         try {
-            model.addElement(first);//add 000 level topic to model
+            model.addElement(level1Topic);//add 000 level topic to model
 
             //query for level2 topics
             CallableStatement stmt = getCallStatement("{CALL getDeweyTwoRange(?,?)}");
@@ -383,7 +325,7 @@ public class Driver {
             rs.close();
 
         } catch (SQLException se) {
-            errorMessageNormal("From driver.getDewey2Model: " + se);
+            logger.warning("From driver.getDewey2Model: " + se);
         }
 
         return model;
@@ -393,16 +335,16 @@ public class Driver {
      * Returns comboBoxModel for Dewey level 3 comboBox model, given level 2
      * selected
      *
-     * @param dew2 Dewey number level 2 selected
-     * @param first Selected level 2 topic, to be first element in dewey3
-     * comboBox
+     * @param dew2        Dewey number level 2 selected
+     * @param level2Topic Selected level 2 topic, to be first element in dewey3
+     *                    comboBox
      * @return DefaultComboBoxModel containing units (001, 002, 003..)
      */
-    public DefaultComboBoxModel getDewey3Model(int dew2, Object first) {
+    public DefaultComboBoxModel getDewey3Model(int dew2, Object level2Topic) {
 
         //declare comboBoxModel for comboDew2
         DefaultComboBoxModel model = new DefaultComboBoxModel();
-        model.addElement(first);//add 000 level topic to model
+        model.addElement(level2Topic);//add 000 level topic to model
 
         try {
             //query for level3 topics
@@ -430,97 +372,43 @@ public class Driver {
      * Checks that the date entered is in the correct format (DD/MM/YYYY)
      *
      * @param date String containing date
-     *
      * @return boolean
      */
     public boolean dateFormatValid(String date) {
-        boolean days = false;
-        boolean month = false;
-        boolean year = true;
-        boolean slash = false;
 
+        String isoDate = date.replace('/', '-');
         try {
-            //perform parseInt to check numbers only
-            int daysValue = Integer.parseInt(date.substring(0, 2));
-            int monthValue = Integer.parseInt(date.substring(3, 5));
-            int yearValue = Integer.parseInt(date.substring(6, 10));
-
-            //checl correct month interval
-            if (monthValue > 0 && monthValue < 13) {
-                month = true;
-
-                //check day depending on month
-                switch (monthValue) {
-                    case 2: {
-                        //february
-
-                        if (yearValue % 4 == 0) {
-                            //leap year
-                            days = daysValue > 0 && daysValue < 30;
-
-                        } else {
-                            //normal year
-                            days = daysValue > 0 && daysValue < 29;
-                        }
-
-                        break;
-                    }
-                    case 1:
-                    case 3:
-                    case 5:
-                    case 7:
-                    case 8:
-                    case 10:
-                    case 12: {
-                        //31 days
-
-                        days = daysValue > 0 && daysValue < 32;
-
-                        break;
-                    }
-                    case 4:
-                    case 6:
-                    case 9:
-                    case 11: {
-                        //30 days
-                        days = daysValue > 0 && daysValue < 31;
-                        break;
-                    }
-                }
-            }
-
-            //check for / in correct places
-            slash = date.charAt(2) == '/' && date.charAt(5) == '/';
-
-        } catch (NumberFormatException nfe) {
-            return false;
+            LocalDate testDate = LocalDate.parse(isoDate);
+            return true;
+        } catch (DateTimeParseException dtpe) {
+            logger.info("Could not parse date '" + date + "'");
         }
-
-        return days && month && year && slash;
+        return false;
     }
 
     /**
-     * Returns an ArrayList of author names and roles for the given book ID
+     * Returns a <code>List</code> of author names and roles for the given book ID
      *
      * @param bookID ID of the Book whose authors to get
-     * @return ArrayList of author names and roles e.g. "Author Name (role)"
+     * @return list of author names and roles e.g. "Author Name (role)"
      */
-    public ArrayList<String> getAuthors(int bookID) {
-        ArrayList<String> authors = new ArrayList();
+    public List<String> getAuthors(int bookID) {
+        ArrayList<String> authors = new ArrayList<>();
 
         try {
             CallableStatement cstmt = getCallStatement("{CALL getBookAuthors(?)}");
 
             cstmt.setInt(1, bookID);
 
-            ResultSet rs = cstmt.executeQuery();
-            //id, title, author, role
+            try (ResultSet rs = cstmt.executeQuery()) {
+                //id, title, author, role
 
-            //add authors and roles to arrayList
-            while (rs.next()) {
-                String entry = rs.getString("name") + " (" + rs.getString("role") + ")";
+                //add authors and roles to arrayList
+                while (rs.next()) {
+                    String entry = rs.getString("name") + " (" + rs.getString("role") + ")";
 
-                authors.add(entry);
+                    authors.add(entry);
+                }
             }
 
         } catch (Exception e) {

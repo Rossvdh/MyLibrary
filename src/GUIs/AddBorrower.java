@@ -348,7 +348,7 @@ public class AddBorrower extends javax.swing.JFrame {
         int id = Integer.parseInt(tfDelID.getText());//get borrower ID
 
         //create new borrower
-        Borrower b = new Borrower(id, driver);
+        Borrower b = new Borrower(id);
 
         //perform deletion and inform user of success/failure
         if (b.deleteFromDatabase()) {

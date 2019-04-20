@@ -124,7 +124,7 @@ public class AddSeriesGUI extends javax.swing.JFrame {
 
         // get data from text fields
         series.setName(tfName.getText());
-        series.setNumBooks(Integer.parseInt(tfNumBooks.getText()));
+        series.setNumberOfBooks(Integer.parseInt(tfNumBooks.getText()));
 
         Driver d = new Driver();
 

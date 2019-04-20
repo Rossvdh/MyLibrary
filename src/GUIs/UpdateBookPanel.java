@@ -463,7 +463,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
         String item = comboUpdate.getSelectedItem().toString();
         switch (item) {
             case "Author": {
-                comboNewValue.setModel(driver.getComboBoxModel(6));
+                comboNewValue.setModel(driver.getComboBoxModel(ComboBoxType.AUTHOR));
                 comboNewValue.setEditable(true);
                 AutoCompletion.enable(comboNewValue);
 
@@ -477,7 +477,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
             }
             case "Genre": {
                 //genre
-                comboNewValue.setModel(driver.getComboBoxModel(1));
+                comboNewValue.setModel(driver.getComboBoxModel(ComboBoxType.GENRE));
                 comboNewValue.setVisible(true);
                 comboNewValue.setEditable(false);
 
@@ -490,7 +490,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
             }
             case "Type of book": {
                 //type of book
-                comboNewValue.setModel(driver.getComboBoxModel(2));
+                comboNewValue.setModel(driver.getComboBoxModel(ComboBoxType.TYPE));
                 comboNewValue.setVisible(true);
                 comboNewValue.setEditable(false);
 
@@ -502,7 +502,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
                 break;
             }
             case "Series": {
-                comboNewValue.setModel(driver.getComboBoxModel(5));
+                comboNewValue.setModel(driver.getComboBoxModel(ComboBoxType.SERIES));
                 comboNewValue.setEditable(true);
                 AutoCompletion.enable(comboNewValue);
 
@@ -516,7 +516,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
             }
             case "Place bought": {
                 //shop
-                comboNewValue.setModel(driver.getComboBoxModel(0));
+                comboNewValue.setModel(driver.getComboBoxModel(ComboBoxType.SHOP));
                 comboNewValue.setVisible(true);
                 comboNewValue.setEditable(false);
 
@@ -529,7 +529,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
             }
             case "Dewey Number": {
                 //set dewey combos
-                comboDewey1.setModel(driver.getComboBoxModel(3));
+                comboDewey1.setModel(driver.getComboBoxModel(ComboBoxType.DEWEY_LEVEL_1));
                 comboDewey1.setVisible(true);
                 comboDewey2.setVisible(true);
                 comboDewey3.setVisible(true);
@@ -645,33 +645,13 @@ public class UpdateBookPanel extends javax.swing.JPanel {
         Book book = new Book(Integer.parseInt(tfUpdateID.getText()));
 
         if (book.updateInDatabase(field, newValue)) {
-            appendToPane(textPane, "The book " + book.getID() + " was updated successfully.\n", Color.green);
+            driver.appendToPane(textPane, "The book " + book.getID() + " was updated successfully.\n", Color.green);
             return true;
         } else {
-            appendToPane(textPane, "The book " + book.getID() + " was could not be updated.\n", Color.red);
+            driver.appendToPane(textPane, "The book " + book.getID() + " was could not be updated.\n", Color.red);
             return false;
         }
 
-    }
-
-    /**
-     * Add text to JTextPane for messages
-     *
-     * @param tp JTextPane to add text tor
-     * @param msg Text to be added
-     * @param c Colour of text
-     */
-    private void appendToPane(JTextPane tp, String msg, Color c) {
-        StyleContext sc = StyleContext.getDefaultStyleContext();
-        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
-
-        aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
-        aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_JUSTIFIED);
-
-        int len = tp.getDocument().getLength();
-        tp.setCaretPosition(len);
-        tp.setCharacterAttributes(aset, false);
-        tp.replaceSelection(msg);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
