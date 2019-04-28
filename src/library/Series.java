@@ -4,16 +4,10 @@ Ross van der Heyde
  */
 package library;
 
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
+import java.sql.*;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static com.mysql.cj.conf.PropertyKey.logger;
 
 /**
  * This class represents a series of books. It has an ID, a series name,
@@ -187,53 +181,36 @@ public class Series implements DatabaseEntry {
      */
     @Override
     public boolean addToDatabase() {
-        Driver driver = new Driver();
-        int newId = -1;
+        ResultSet rs = null;
 
         try {
-            CallableStatement stmt = driver.getCallStatement("{call addSeries(?, ?)}");
+            CallableStatement cstmt = DRIVER.getCallStatement("{call addSeries(?, ?)}");
 
-            stmt.setString(1, name);
-            stmt.setInt(2, numberOfBooks);
+            cstmt.setString(1, name);
+            cstmt.setInt(2, numberOfBooks);
 
-            newId = stmt.executeUpdate();
+            int numberAdded = cstmt.executeUpdate();
 
-            ResultSet rs = stmt.getGeneratedKeys();
+            rs = cstmt.getGeneratedKeys();
 
-            ResultSetMetaData rsmd = rs.getMetaData();
-
-            System.out.println("column count: " + rsmd.getColumnCount());
-
-            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                System.out.println(rsmd.getColumnName(i) + "\t");
-            }
-
-            while (rs.next()) {
-                System.out.println("next");
-                for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                    System.out.println(rs.getString(i) + "\t");
-                }
-                System.out.println("");
-            }
-
-            //-------------------
-            System.out.println("Series.addToDatabase: newID: " + newId);
+            cstmt.close();
+            return numberAdded == 1;
 
         } catch (SQLFeatureNotSupportedException fns) {
-            System.out.println("SQLFeatureNotSupportedException");
-            fns.printStackTrace();
+            logger.log(Level.WARNING, fns.toString(), fns);
         } catch (SQLException se) {
-            se.printStackTrace();
-        }
-
-        if (newId > 0) {
-            id = newId;
-
-            return true;
+            logger.log(Level.WARNING, se.toString(), se);
+        }finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    logger.log(Level.WARNING, "Exception while trying to close ResultSet: " + e, e);
+                }
+            }
         }
 
         return false;
-
     }
 
     /**
@@ -255,17 +232,16 @@ public class Series implements DatabaseEntry {
                 id = rs.getInt(1);
                 rs.close();
 
-                System.out.println("Series.setIDFromName(): name: " + name);
+                logger.fine("Series.setIDFromName(): name: " + name);
                 return true;
             } else {
-                System.out.println("library.Series.setIDFromName(). series \"" + name + "\" not found");
+                logger.fine("library.Series.setIDFromName(). series \"" + name + "\" not found");
                 rs.close();
                 return false;
             }
 
         } catch (SQLException ex) {
-            System.out.println("from Series.setIDFromName: " + ex);
-            ex.printStackTrace();
+            logger.log(Level.WARNING, ex.toString(), ex);
         }
 
         return false;
@@ -293,11 +269,10 @@ public class Series implements DatabaseEntry {
                     cstmt.setString(2, newValue);
 
                     int num = cstmt.executeUpdate();
-
+                    cstmt.close();
                     return num == 1;
                 } catch (SQLException ex) {
-                    System.out.println("Series.updateInDatabase(): " + ex);
-                    ex.printStackTrace();
+                    logger.log(Level.WARNING, ex.toString(), ex);
                 }
 
                 break;
@@ -314,16 +289,15 @@ public class Series implements DatabaseEntry {
                     cstmt.setInt(2, nBooks);
 
                     int num = cstmt.executeUpdate();
-
+                    cstmt.close();
                     return num == 1;
                 } catch (SQLException ex) {
-                    System.out.println("Series.updateInDatabase(): " + ex);
-                    ex.printStackTrace();
+                    logger.log(Level.WARNING, ex.toString(), ex);
                 }
                 break;
             }
             default: {
-                System.out.println("Series.updateInDatabase(): invalid field name");
+                logger.fine("Series.updateInDatabase(): invalid field name");
                 DRIVER.errorMessageNormal("please select a field in the Series table");
             }
         }

@@ -5,9 +5,12 @@
  */
 package library;
 
+import javax.swing.*;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class represents a fiction book that can be added to the Fiction table
@@ -16,8 +19,8 @@ import java.util.ArrayList;
  * @author Ross
  */
 public class Fiction extends Book {
+    private static Logger logger = Logger.getLogger(Fiction.class.getName());
 
-    //class variables
     private Genre genre;
     private TypeOfBook type;
     private Series series;
@@ -26,7 +29,7 @@ public class Fiction extends Book {
     /**
      * Default constructor. Creates a new <code>Fiction</code> object
      */
-    public Fiction() {  //default
+    public Fiction() {
         super();
     }
 
@@ -55,20 +58,20 @@ public class Fiction extends Book {
      * Parameterized constructor. Creates a new <code>Fiction</code> object with
      * the given attributes.
      *
-     * @param t title of <code>Fiction</code>
-     * @param m month <code>Fiction</code> was bought
-     * @param y year <code>Fiction</code> was bought
-     * @param p priced paid for <code>Fiction</code> was bought
+     * @param t   title of <code>Fiction</code>
+     * @param m   month <code>Fiction</code> was bought
+     * @param y   year <code>Fiction</code> was bought
+     * @param p   priced paid for <code>Fiction</code> was bought
      * @param plc <code>Shop</code> where <code>Fiction</code> was bought
      * @param pub year <code>Fiction</code> was first published
-     * @param a <code>ArrayList</code> of <code>Author</code>s of this
-     * <code>Fiction</code>
-     * @param g genre of this <code>Fiction</code>
-     * @param n number in <code>Series</code>
-     * @param s <code>Series</code> that this book is part of
-     * @param ty TypeOfBook of book
+     * @param a   <code>List</code> of <code>Author</code>s of this
+     *            <code>Fiction</code>
+     * @param g   genre of this <code>Fiction</code>
+     * @param n   number in <code>Series</code>
+     * @param s   <code>Series</code> that this book is part of
+     * @param ty  TypeOfBook of book
      */
-    public Fiction(String t, int m, int y, double p, Shop plc, int pub, ArrayList<Author> a,
+    public Fiction(String t, int m, int y, double p, Shop plc, int pub, List<Author> a,
                    Genre g, TypeOfBook ty, Series s, int n) {
         super(t, m, y, p, plc, pub, a);
         genre = new Genre(g);
@@ -83,7 +86,7 @@ public class Fiction extends Book {
      *
      * @param copy <code>Fiction</code> to create a copy of.
      */
-    public Fiction(Fiction copy) {  //copy constructor
+    public Fiction(Fiction copy) {
         super(copy);
         this.genre = copy.genre;
         this.type = copy.type;
@@ -92,26 +95,16 @@ public class Fiction extends Book {
     }
 
     /**
-     * Adds this book to the database. sproc DONE
+     * Adds this book to the database. First it calls the addToDatabase of the superclass, and if
+     * that call is successful, it will attempt to add this Fiction.
      *
-     * @return Boolean indicating successfulness of insertion
+     * @return true if successfully inserted, false otherwise
      */
     @Override
     public boolean addToDatabase() {
-        /*
-        call super.addToDatabase
-        (new id is set in super)
-        if new series:
-            add new series
-            get max series ID
-        add this book
-         */
+        boolean bookAdded = super.addToDatabase();
 
-        boolean success = super.addToDatabase();
-
-        //adding series should be done in GUI/Series class
-        //add this book if super could be added
-        if (success) {
+        if (bookAdded) {
             try {
                 //addFiction(idNum INT, ser INT, num INT, type INT, gen INT)
                 CallableStatement cstmt = DRIVER.getCallStatement("{CALL addFiction(?,?,?,?,?)}");
@@ -122,37 +115,32 @@ public class Fiction extends Book {
                 cstmt.setInt(4, type.getID());
                 cstmt.setInt(5, genre.getId());
 
-                success = cstmt.executeUpdate() == 1;
-
-                return success;
-
+                return cstmt.executeUpdate() == 1;
             } catch (SQLException se) {
-                se.printStackTrace();
+                logger.log(Level.WARNING, se.toString(), se);
             }
         } else {
-            System.out.println("library.Fiction.addToDatabase() - super " + title + " class could not be added");
+            logger.warning("library.Fiction.addToDatabase() - super " + title + " class could not be added");
         }
 
-        System.out.println("library.Fiction.addToDatabase() - Fiction " + title + " could not be added");
+        logger.warning("library.Fiction.addToDatabase() - Fiction " + title + " could not be added");
         return false;
     }
 
     /**
      * Updates a specific value of this book in the database. Make a sproc for
      * this
+     * <p>
+     * //TODO refactor to take ComboBoxType enum instead of string field?
      *
-     * @param field String. field to be updated
+     * @param field    String. field to be updated
      * @param newValue String containing new updated value
-     *
      * @return boolean indicating successful update
      */
     @Override
     public boolean updateInDatabase(String field, String newValue) {
-
         field = field.toLowerCase();
 
-        //get list with fields in Fiction
-//        , "noinseries", "typeofbook", 
         String query = "";
 
         switch (field) {
@@ -173,7 +161,7 @@ public class Fiction extends Book {
                 break;
             }
             default: {
-                System.out.println("library.Fiction.updateInDatabase() - invalid field");
+                logger.warning("library.Fiction.updateInDatabase() - invalid field");
                 DRIVER.errorMessageNormal("Please select a valid Fiction field.");
                 return false;
             }
@@ -186,14 +174,10 @@ public class Fiction extends Book {
 
             return cstmt.executeUpdate() == 1;
         } catch (SQLException sQLException) {
-            System.out.println("library.Fiction.updateInDatabase() SQLEx - "
-                    + sQLException);
-            sQLException.printStackTrace();
+            logger.log(Level.WARNING, sQLException.toString(), sQLException);
         } catch (NumberFormatException nfe) {
             DRIVER.errorMessageNormal("Please enter a digits only");
-            System.out.println("library.Fiction.updateInDatabase() NFE - "
-                    + nfe);
-            nfe.printStackTrace();
+            logger.log(Level.WARNING, nfe.toString(), nfe);
         }
 
         return false;
@@ -205,41 +189,39 @@ public class Fiction extends Book {
      * @return success boolean indicating successful deletion
      */
     @Override
-    /*public boolean deleteFromDatabase() {
-    //ask use to confirm deletion
-    int c = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete \"" + title + "\" by "
-    + authors + "?");
-    
-    if (c == 0) {
-    //delete
-    boolean del = super.deleteFromDatabase();
-    
-    if (del) {
-    try {
-    CallableStatement cstmt = DRIVER.getCallStatement("{CALL deleteFiction(?)}");
-    
-    cstmt.setInt(1, id);
-    
-    return cstmt.executeUpdate() == 1;
-    } catch (SQLException se) {
-    DRIVER.errorMessageNormal("From Fiction.deleteFromDatabase:" + se);
-    se.printStackTrace();
+    public boolean deleteFromDatabase() {
+        //ask use to confirm deletion
+        int confirmDeletion = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete \"" + title + "\" by "
+                + authors + "?");
+
+        if (confirmDeletion == JOptionPane.YES_OPTION) {
+            boolean superDeleted = super.deleteFromDatabase();
+
+            if (superDeleted) {
+                try {
+                    CallableStatement cstmt = DRIVER.getCallStatement("{CALL deleteFiction(?)}");
+
+                    cstmt.setInt(1, id);
+
+                    return cstmt.executeUpdate() == 1;
+                } catch (SQLException se) {
+                    logger.log(Level.WARNING, se.toString(), se);
+                    DRIVER.errorMessageNormal("From Fiction.deleteFromDatabase:" + se);
+                }
+
+                return true;
+            } else {
+                logger.warning("Fiction was not deleted due to error in super.deleteFromDatabase");
+                DRIVER.errorMessageNormal("Fiction could not be deleted.");
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
-    
-    return true;
-    } else {
-    DRIVER.errorMessageNormal("Book could not be deleted.");
-    return false;
-    }
-    
-    } else {
-    //don't delete
-    return false;
-    }
-    }*/
 
     /**
-     * Returns a <code>String</code> representationof this <code>Fiction</code>
+     * Returns a <code>String</code> representation of this <code>Fiction</code>
      * book.
      *
      * @return string representation
@@ -249,6 +231,7 @@ public class Fiction extends Book {
     }
 
     //<editor-fold defaultstate="collapsed" desc="gets and sets">
+
     /**
      * Returns the <code>Genre</code> of this <code>Fiction</code>
      *
@@ -268,7 +251,7 @@ public class Fiction extends Book {
     }
 
     /**
-     * Return the <code>Series</code> taht this <code>Fiction</code> book is
+     * Return the <code>Series</code> that this <code>Fiction</code> book is
      * part of.
      *
      * @return this book's <code>Series</code>
@@ -289,37 +272,37 @@ public class Fiction extends Book {
     /**
      * Sets the <code>TypeOfBook</code> of this <code>Fiction</code> book.
      *
-     * @param t <code>TypeOfBook</code> of this book
+     * @param type <code>TypeOfBook</code> of this book
      */
-    public void setType(TypeOfBook t) {
-        type = t;
+    public void setType(TypeOfBook type) {
+        this.type = type;
     }
 
     /**
      * Sets the <code>Genre</code> of this <code>Fiction</code>.
      *
-     * @param g the <code>Genre</code>
+     * @param genre the <code>Genre</code>
      */
-    public void setGenre(Genre g) {
-        genre = g;
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 
     /**
      * Sets the <code>Series</code> of this book
      *
-     * @param s the <code>Series</code>
+     * @param series the <code>Series</code>
      */
-    public void setSeries(Series s) {
-        series = s;
+    public void setSeries(Series series) {
+        this.series = series;
     }
 
     /**
      * Set the number in the series that this book is.
      *
-     * @param sn number in series.
+     * @param numberInSeries number in series.
      */
-    public void setNumber(int sn) {
-        number = sn;
+    public void setNumber(int numberInSeries) {
+        number = numberInSeries;
     }
 //</editor-fold>
 }

@@ -5,24 +5,27 @@
  */
 package library;
 
+import javax.swing.*;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
+ * This class represents a non-fiction book.
  *
  * @author Ross
  */
 public class NonFiction extends Book implements DatabaseEntry {
+    private static Logger logger = Logger.getLogger(Fiction.class.getName());
 
-    //class variables
     private int dewey;
 
     /**
      * Default constructor. creates new <code>NonFiction</code> object
-     *
      */
-    public NonFiction() {    //default
+    public NonFiction() {
         super();
     }
 
@@ -32,29 +35,28 @@ public class NonFiction extends Book implements DatabaseEntry {
      *
      * @param i ID number of this <code>Fiction</code> book.
      */
-    public NonFiction(int i) {    //ID only
+    public NonFiction(int i) {
         super(i);
-        //getAuthorFromDatabase();
-        //getTitleFromDatabase();
     }
 
     /**
      * Parameterized constructor. Creates a new <code>Book</code> object with
      * the given attributes.
      *
-     * @param t title of <code>Book</code>
-     * @param m month <code>Book</code> was bought
-     * @param y year <code>Book</code> was bought
-     * @param p priced paid for <code>Book</code> was bought
-     * @param plc <code>Shop</code> where <code>Book</code> was bought
-     * @param pub year <code>Book</code> was first published
-     * @param a <code>ArrayList</code> of <code>Author</code>s of this
-     * @param d Dewey number of this <code>NonFiction</code> book
-     * <code>Book</code>
+     * @param title         title of <code>Book</code>
+     * @param monthBought   month <code>Book</code> was bought
+     * @param yearBought    year <code>Book</code> was bought
+     * @param price         priced paid for <code>Book</code> was bought
+     * @param shop          <code>Shop</code> where <code>Book</code> was bought
+     * @param yearPublished year <code>Book</code> was first published
+     * @param authors       <code>ArrayList</code> of <code>Author</code>s of this
+     * @param deweyNumber   Dewey number of this <code>NonFiction</code> book
+     *                      <code>Book</code>
      */
-    public NonFiction(String t, int m, int y, double p, Shop plc, int pub, ArrayList<Author> a, int d) {
-        super(t, m, y, p, plc, pub, a);
-        dewey = d;
+    public NonFiction(String title, int monthBought, int yearBought, double price,
+                      Shop shop, int yearPublished, List<Author> authors, int deweyNumber) {
+        super(title, monthBought, yearBought, price, shop, yearPublished, authors);
+        dewey = deweyNumber;
     }
 
     /**
@@ -77,22 +79,15 @@ public class NonFiction extends Book implements DatabaseEntry {
      */
     public NonFiction(Book b) {
         super(b);
-
     }
 
     /**
      * Adds this book to the database.
      *
-     * @return boolean indicating successfulness of insertion
+     * @return boolean indicating success of insertion
      */
     @Override
     public boolean addToDatabase() {
-        /*
-        add superclass
-        (new ID is set in super)
-        add this NF book
-         */
-
         boolean success = super.addToDatabase();
 
         if (success) {
@@ -104,27 +99,32 @@ public class NonFiction extends Book implements DatabaseEntry {
                 cstmt.setInt(2, dewey);
 
                 success = cstmt.executeUpdate() == 1;
-
+                cstmt.close();
                 return success;
 
             } catch (SQLException se) {
-                se.printStackTrace();
+                logger.log(Level.WARNING, se.toString(), se);
             }
         } else {
-            System.out.println("library.NonFiction.addToDatabase() - super " + title + " could not be addded");
+            logger.warning("library.NonFiction.addToDatabase() - super " + title + " could not be added" +
+                    "due to error in super.addToDatabase");
+            DRIVER.errorMessageNormal("library.NonFiction.addToDatabase() - super " + title + " could not be added\n" +
+                    "due to error in super.addToDatabase");
         }
 
-        System.out.println("library.NonFiction.addToDatabase() - NonFiction " + title + " could not be added.");
+        logger.warning("library.NonFiction.addToDatabase() - super " + title + " could not be added");
         return false;
 
     }
 
     /**
-     * Updates a specific value of this book in the database
+     * Updates a specific value of this <code>NonFiction</code>in the database.
+     * The only field that can be updated is the dewey number
+     * <p>
+     * //TODO refactor to take ComboBoxType enum instead of string field?
      *
-     * @param field String. value to be updated
+     * @param field    String. value to be updated
      * @param newValue String containing new updated value
-     *
      * @return boolean indicating successful update
      */
     @Override
@@ -137,18 +137,17 @@ public class NonFiction extends Book implements DatabaseEntry {
                 cstmt.setInt(2, Integer.parseInt(newValue));
 
                 boolean success = cstmt.executeUpdate() == 1;
+                cstmt.close();
 
-                //update this object
                 if (success) {
                     dewey = Integer.parseInt(newValue);
                     return true;
                 } else {
-                    System.out.println("library.NonFiction.updateInDatabase() " + id + "could not be added");
+                    logger.warning("library.NonFiction.updateInDatabase() " + id + "could not be added");
                 }
 
             } catch (SQLException ex) {
-                System.out.println("library.NonFiction.updateInDatabase() - " + ex);
-                ex.printStackTrace();
+                logger.log(Level.WARNING, "Could not update fiction book", ex);
             }
 
         } else {
@@ -162,38 +161,41 @@ public class NonFiction extends Book implements DatabaseEntry {
      *
      * @return success boolean indicating successful deletion
      */
-    /*public boolean deleteFromDatabase() {
-    //ask use to confirm deletion
-    int c = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete \"" + title + "\" by "
-    + authors + "?");
-    
-    if (c == 0) {
-    //delete
-    boolean del = super.deleteFromDatabase();
-    
-    if (del) {
-    try {
-    CallableStatement cstmt = DRIVER.getCallStatement("{CALL deleteNonFiction(?)}");
-    
-    cstmt.setInt(1, id);
-    
-    return cstmt.executeUpdate() == 1;
-    } catch (SQLException se) {
-    DRIVER.errorMessageNormal("From Fiction.deleteFromDatabase:" + se);
-    se.printStackTrace();
+    public boolean deleteFromDatabase() {
+        int confirmDelete = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete \"" + title + "\" by "
+                + authors + "?");
+
+        if (confirmDelete == JOptionPane.YES_OPTION) {
+            //delete
+            boolean superDeleted = super.deleteFromDatabase();
+
+            if (superDeleted) {
+                try {
+                    CallableStatement cstmt = DRIVER.getCallStatement("{CALL deleteNonFiction(?)}");
+
+                    cstmt.setInt(1, id);
+
+                    int numberDeleted = cstmt.executeUpdate();
+                    cstmt.close();
+
+                    return numberDeleted == 1;
+                } catch (SQLException se) {
+                    logger.log(Level.WARNING, se.toString(), se);
+                    DRIVER.errorMessageNormal("From Fiction.deleteFromDatabase:" + se);
+                }
+
+                return false;
+            } else {
+                logger.warning("NonFiction '" + title + "' could not be deleted due to error in super.deleteFromDatabase");
+                DRIVER.errorMessageNormal("Book was not be deleted.");
+                return false;
+            }
+        } else {
+            logger.fine("User decided not to delete");
+            return false;
+        }
     }
-    
-    return false;
-    } else {
-    DRIVER.errorMessageNormal("Book could not be deleted.");
-    return false;
-    }
-    
-    } else {
-    //don't delete
-    return false;
-    }
-    }*/
+
     /**
      * Get the dewey number of this <code>NonFiction</code>
      *
@@ -206,9 +208,9 @@ public class NonFiction extends Book implements DatabaseEntry {
     /**
      * Sets the dewey number of this <code>NonFiction</code>
      *
-     * @param d dewey number
+     * @param deweyNumber dewey number
      */
-    public void setDeweyNumber(int d) {
-        dewey = d;
+    public void setDeweyNumber(int deweyNumber) {
+        dewey = deweyNumber;
     }
 }

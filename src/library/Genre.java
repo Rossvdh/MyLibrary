@@ -1,18 +1,20 @@
-/*Class for Genre: id and name
- */
 package library;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
+ * This class represents a Genre. It has an ID and a name
  *
  * @author Ross
  */
 public class Genre implements DatabaseEntry {
+    private static Logger logger = Logger.getLogger(Borrower.class.getName());
 
-    //attributes
     private int id = -1;
     private String genreName = "";
 
@@ -24,7 +26,7 @@ public class Genre implements DatabaseEntry {
     }
 
     /**
-     * Parametized constructor. Creates a new <code>Genre</code> object with the
+     * Parameterized constructor. Creates a new <code>Genre</code> object with the
      * given id
      *
      * @param id The ID number of the <code>Genre</code>
@@ -34,7 +36,7 @@ public class Genre implements DatabaseEntry {
     }
 
     /**
-     * Parametized constructor. Creates a new <code>Genre</code> object with the
+     * Parameterized constructor. Creates a new <code>Genre</code> object with the
      * given genre name. Sets the ID from the database
      *
      * @param name name of the <code>Genre</code>
@@ -59,9 +61,9 @@ public class Genre implements DatabaseEntry {
      * Sets the ID of this <code>Genre</code> object from the database, using
      * the genre name
      */
-    public void setIDFromName() {
+    private void setIDFromName() {
         try {
-            //get callStatment
+            //get callStatement
             CallableStatement stmt = DRIVER.getCallStatement("{CALL getGenreID(?)}");
 
             //set parameters
@@ -74,11 +76,12 @@ public class Genre implements DatabaseEntry {
             if (rs.next()) {
                 id = rs.getInt(1);
             } else {
+                logger.warning("From driver.getGenreID: genre not found");
                 DRIVER.errorMessageNormal("From driver.getGenreID: genre not found");
             }
             rs.close();
-        } catch (SQLException se) {
-            DRIVER.errorMessageCritical("From driver.getGenreID: " + se);
+        } catch (SQLException e) {
+            logger.log(Level.WARNING, e.toString(), e);
         }
     }
 
@@ -120,7 +123,7 @@ public class Genre implements DatabaseEntry {
 
     /**
      * Determines if this <code>Genre</code> and the given <code>Object</code>
-     * are equal. <code>Genre</code>s are equal if their names are the same.
+     * are equal. <code>Genre</code>s are equal if their names are the same or their IDs are the same
      * Note that most of this method was automatically generated.
      *
      * @param obj Object to compare to
@@ -139,7 +142,17 @@ public class Genre implements DatabaseEntry {
         }
         final Genre other = (Genre) obj;
 
-        return genreName.equals(other.genreName);
+        return this.genreName.equals(other.genreName) || this.id == other.id;
+    }
+
+    /**
+     * Returns the hashcode value of this <code>Genre</code>
+     *
+     * @return hashcode value
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, genreName);
     }
 
     /**
@@ -151,13 +164,13 @@ public class Genre implements DatabaseEntry {
     public boolean addToDatabase() {
         try {
             CallableStatement cstmt = DRIVER.getCallStatement("{CALL addGenre(?)}");
+            cstmt.closeOnCompletion();
 
             cstmt.setString(1, genreName);
 
             return cstmt.executeUpdate() == 1;
         } catch (SQLException se) {
-            System.out.println("Genre.addToDatabase(): " + se);
-            se.printStackTrace();
+            logger.log(Level.WARNING, se.toString(), se);
         }
         return false;
     }
@@ -171,23 +184,21 @@ public class Genre implements DatabaseEntry {
     public boolean deleteFromDatabase() {
         try {
             CallableStatement cstmt = DRIVER.getCallStatement("{Call deleteGenre(?)}");
-
+            cstmt.closeOnCompletion();
             cstmt.setInt(1, id);
 
             return cstmt.executeUpdate() == 1;
-
         } catch (SQLException se) {
-            System.out.println("library.Genre.deleteFromDatabase(): " + se);
-            se.printStackTrace();
+            logger.log(Level.WARNING, se.toString(), se);
         }
         return false;
     }
 
     /**
      * Update a field of this <code>Genre</code> in the database. The only field
-     * that can be updated is genreNamw.
+     * that can be updated is genreName.
      *
-     * @param field must be "genreName"
+     * @param field    must be "genreName"
      * @param newValue the new genre name
      * @return boolean indicating successful update.
      */
@@ -201,6 +212,7 @@ public class Genre implements DatabaseEntry {
                 cstmt.setString(2, newValue);
 
                 boolean success = cstmt.executeUpdate() == 1;
+                cstmt.close();
 
                 //only change attribute if the update was successful
                 if (success) {
@@ -208,10 +220,10 @@ public class Genre implements DatabaseEntry {
                     return true;
                 }
             } catch (Exception e) {
-                System.out.println("library.Genre.updateInDatabase(): " + e);
-                e.printStackTrace();
+                logger.log(Level.WARNING, e.toString(), e);
             }
         } else {
+            logger.fine("Attempted to update field other than genreName");
             DRIVER.errorMessageCritical("Please select a valid field to update (i.e. field)");
         }
 

@@ -109,10 +109,10 @@ public class AddRole extends javax.swing.JFrame {
     private void butAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAddActionPerformed
         Role rol = new Role();
 
-        rol.setRole(tfRole.getText());
+        rol.setRoleName(tfRole.getText());
 
         if (rol.addToDatabase()) {
-            (new Driver()).infoMessageNormal("The role " + rol.getRole() + " has succcessfully added to the database.");
+            (new Driver()).infoMessageNormal("The role " + rol.getRoleName() + " has succcessfully added to the database.");
         } else {
             (new Driver()).infoMessageNormal("The role could not be added to the database.");
         }

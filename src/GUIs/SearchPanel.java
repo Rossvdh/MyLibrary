@@ -5,10 +5,13 @@
  */
 package GUIs;
 
-import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.MouseInfo;
-import java.awt.Point;
+import library.*;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicBorders;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelEvent;
 import java.sql.CallableStatement;
@@ -16,20 +19,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.Popup;
-import javax.swing.PopupFactory;
-import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicBorders;
-import javax.swing.table.DefaultTableModel;
-import library.AutoCompletion;
-import library.TypeOfBook;
-import library.Driver;
-import library.Genre;
-import library.Shop;
 
 /**
  * Provides interface for searching the database for books and displaying the
@@ -474,32 +463,29 @@ public class SearchPanel extends javax.swing.JPanel {
 
         switch (selected) {
             case "place bought": {
-                //shop
-                comboSearchItem.setModel(driver.getComboBoxModel(0));
+                comboSearchItem.setModel(driver.getComboBoxModel(ComboBoxType.SHOP));
                 searchByComboBox();
                 break;
             }
             case "genre": {
-                //genre
-                comboSearchItem.setModel(driver.getComboBoxModel(1));
+                comboSearchItem.setModel(driver.getComboBoxModel(ComboBoxType.GENRE));
                 searchByComboBox();
                 break;
             }
             case "type of book": {
-                //type
-                comboSearchItem.setModel(driver.getComboBoxModel(2));
+                comboSearchItem.setModel(driver.getComboBoxModel(ComboBoxType.TYPE));
                 searchByComboBox();
                 break;
             }
             case "author": {
-                comboSearchItem.setModel(driver.getComboBoxModel(6));
+                comboSearchItem.setModel(driver.getComboBoxModel(ComboBoxType.AUTHOR));
                 AutoCompletion.enable(comboSearchItem);
                 searchByComboBox();
 
                 break;
             }
             case "series": {
-                comboSearchItem.setModel(driver.getComboBoxModel(5));
+                comboSearchItem.setModel(driver.getComboBoxModel(ComboBoxType.SERIES));
                 AutoCompletion.enable(comboSearchItem);
                 searchByComboBox();
 
@@ -623,7 +609,7 @@ public class SearchPanel extends javax.swing.JPanel {
         int id = Integer.parseInt(table.getValueAt(row, 0).toString());
 
         //get list of authors and roles
-        ArrayList<String> authors = driver.getAuthors(id);
+        List<String> authors = driver.getAuthors(id);
 
         //create pop up panel
         JPanel popUpContent = new JPanel(); //panel with content of PopUP

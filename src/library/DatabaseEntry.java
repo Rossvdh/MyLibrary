@@ -23,6 +23,8 @@ public interface DatabaseEntry {
      * will set the object's id attribute and then return a boolean indicating
      * the success of the insertion.
      *
+     * TODO: set iD from database using cstmt.getGeneratedKeys()?
+     *
      * @return true if successfully inserted, false otherwise
      */
     public boolean addToDatabase();

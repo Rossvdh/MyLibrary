@@ -4,12 +4,10 @@ Ross van der Heyde
  */
 package GUIs;
 
+import library.*;
+
+import javax.swing.*;
 import java.util.ArrayList;
-import javax.swing.DefaultComboBoxModel;
-import library.Author;
-import library.Driver;
-import library.Role;
-import library.AutoCompletion;
 
 /**
  *
@@ -26,7 +24,7 @@ public class AddMultipleAuthors extends javax.swing.JFrame {
         iniRolesComboBox();
         comboRoles.setSelectedItem("Author");
 
-        comboAuthor.setModel(driver.getComboBoxModel(6));
+        comboAuthor.setModel(driver.getComboBoxModel(ComboBoxType.AUTHOR));
         AutoCompletion.enable(comboAuthor);
     }
 
@@ -197,7 +195,7 @@ public class AddMultipleAuthors extends javax.swing.JFrame {
         bookAuthors.add(auth);
 
         //display author and role on text area
-        textArea.append(auth.getName() + ", " + auth.getRole().getRole() + "\n");
+        textArea.append(auth.getName() + ", " + auth.getRole().getRoleName() + "\n");
 
         //clear author text field and role comboBox
         comboAuthor.setSelectedIndex(-1);
@@ -235,7 +233,7 @@ public class AddMultipleAuthors extends javax.swing.JFrame {
      * in the database, sorted alphabetically.
      */
     private void iniRolesComboBox() {
-        DefaultComboBoxModel model = (new Driver()).getComboBoxModel(4);
+        DefaultComboBoxModel model = (new Driver()).getComboBoxModel(ComboBoxType.ROLE);
 
         comboRoles.setModel(model);
     }

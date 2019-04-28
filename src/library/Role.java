@@ -6,15 +6,19 @@ package library;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import static library.DatabaseEntry.DRIVER;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
+ * This class represents an <code>Author</code>'s roleName in the writing of the book.
+ * Although it refers to an "author", it includes roles like illustrator, editor, etc.
  *
  * @author Ross
  */
 public class Role implements DatabaseEntry {
+    private static Logger logger = Logger.getLogger(Borrower.class.getName());
 
-    private String role = "";
+    private String roleName = "";
     private int id = -1;
 
     /**
@@ -26,24 +30,24 @@ public class Role implements DatabaseEntry {
 
     /**
      * Parameterized constructor. Creates a new <code>Role</code> object with the
-     * given role name and ID number
+     * given roleName name and ID number
      *
-     * @param r role name
-     * @param rI role ID number
+     * @param roleName roleName name
+     * @param roleID   roleName ID number
      */
-    public Role(String r, int rI) {
-        role = r;
-        id = rI;
+    public Role(String roleName, int roleID) {
+        this.roleName = roleName;
+        id = roleID;
     }
 
     /**
      * Parameterized constructor. Creates a new <code>Role</code> object with the
-     * given role name. Sets the role ID from the database using the given name
+     * given roleName name. Sets the roleName ID from the database using the given name
      *
-     * @param r role name
+     * @param r roleName name
      */
     public Role(String r) {
-        role = r;
+        roleName = r;
         setIDFromDatabase();
     }
 
@@ -54,13 +58,13 @@ public class Role implements DatabaseEntry {
      * @param other <code>Role</code> to copy
      */
     public Role(Role other) {
-        this.role = other.role;
+        this.roleName = other.roleName;
         this.id = other.id;
     }
 
     /**
      * Sets the ID number of this <code>Role</code> from the database using the
-     * role name.
+     * roleName name.
      */
     public void setIDFromDatabase() {
         try {
@@ -68,21 +72,21 @@ public class Role implements DatabaseEntry {
             CallableStatement stmt = DRIVER.getCallStatement("{CALL getRoleID(?)}");
 
             //set parameters
-            stmt.setString(1, role);
+            stmt.setString(1, roleName);
 
             //execute
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 id = rs.getInt(1);
-                rs.close();
             } else {
-                rs.close();
-                DRIVER.errorMessageNormal("From Role.setIDFromName: role \"" + role + "\" not found");
+                logger.fine("From Role.setIDFromName: roleName \"" + roleName + "\" not found");
+                DRIVER.errorMessageNormal("From Role.setIDFromName: roleName \"" + roleName + "\" not found");
             }
+            rs.close();
         } catch (SQLException se) {
+            logger.log(Level.WARNING, se.toString(), se);
             DRIVER.errorMessageCritical("From Role.setIDFromName: " + se);
-            se.printStackTrace();
         }
     }
 
@@ -91,14 +95,14 @@ public class Role implements DatabaseEntry {
      *
      * @return Name of this Role
      */
-    public String getRole() {
-        return role;
+    public String getRoleName() {
+        return roleName;
     }
 
     /**
      * Returns this <code>Role</code>'s ID
      *
-     * @return int with role ID
+     * @return int with roleName ID
      */
     public int getRoleID() {
         return id;
@@ -107,19 +111,19 @@ public class Role implements DatabaseEntry {
     /**
      * Set the name of this <code>Role</code>.
      *
-     * @param r the name of the Role
+     * @param roleName the name of the Role
      */
-    public void setRole(String r) {
-        role = r;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     /**
      * Set the id of this <code>Role</code>.
      *
-     * @param rid the role ID of the Role
+     * @param roleID the roleName ID of the Role
      */
-    public void setRoleID(int rid) {
-        id = rid;
+    public void setRoleID(int roleID) {
+        id = roleID;
     }
 
     /**
@@ -129,7 +133,7 @@ public class Role implements DatabaseEntry {
      * @return String representing this <code>Role</code>
      */
     public String toString() {
-        return role + " (" + id + ")";
+        return roleName + " (" + id + ")";
     }
 
     /**
@@ -139,10 +143,13 @@ public class Role implements DatabaseEntry {
      * @return boolean indicating if they are equal
      */
     public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        }
         if (other.getClass() == this.getClass()) {
             Role otherRole = (Role) other;
 
-            return this.role.equals(otherRole.role) || this.id == otherRole.id;
+            return this.roleName.equals(otherRole.roleName) || this.id == otherRole.id;
         } else {
             return false;
         }
@@ -157,14 +164,16 @@ public class Role implements DatabaseEntry {
         try {
             Driver driver = new Driver();
 
-            CallableStatement stmt = driver.getCallStatement("{call addRole(?)}");
+            CallableStatement cstmt = driver.getCallStatement("{call addRole(?)}");
 
-            stmt.setString(1, role);
+            cstmt.setString(1, roleName);
 
-            return stmt.executeUpdate() == 1;
-
+            int numberAdded = cstmt.executeUpdate();
+            cstmt.close();
+            return numberAdded == 1;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, e.toString(), e);
+            DRIVER.errorMessageNormal("Role '" + roleName + "' could not be added");
             return false;
         }
     }
@@ -172,41 +181,38 @@ public class Role implements DatabaseEntry {
     /**
      * Deletes this <code>Author</code> from the database
      *
-     * @return Boolean indicating successful deletion
+     * @return boolean indicating successful deletion
      */
     public boolean deleteFromDatabase() {
         try {
             Driver driver = new Driver();
 
-            CallableStatement stmt = driver.getCallStatement("{call deleteRole(?)}");
+            CallableStatement cstmt = driver.getCallStatement("{call deleteRole(?)}");
 
-            stmt.setInt(1, id);
+            cstmt.setInt(1, id);
 
-            int ret = stmt.executeUpdate();
-
-            System.out.println("from Role.deleteFromDatabase: ret = " + ret);
+            int ret = cstmt.executeUpdate();
+            cstmt.close();
 
             return ret == 1;
-
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            return false;
+            logger.log(Level.WARNING, e.toString(), e);
         }
+        return false;
     }
 
     /**
      * Updates a field of this <code>Role</code> in the database. The only field
-     * of <code>Role</code> that can be update is "role"
+     * of <code>Role</code> that can be update is "roleName"
      *
-     * @param field the field to update. Can only be "Role"
-     * @param newValue the new value of "role"
+     * @param field    the field to update. Can only be "Role"
+     * @param newValue the new value of "roleName"
      * @return boolean indicating successful update
      */
     @Override
     public boolean updateInDatabase(String field, String newValue) {
-        if (field.equalsIgnoreCase("role")) {
-            setRole(newValue);
+        if (field.equalsIgnoreCase("roleName")) {
+            setRoleName(newValue);
 
             try {
                 CallableStatement cstmt = DRIVER.getCallStatement("{CALL updateRole(?,?)}");
@@ -214,14 +220,15 @@ public class Role implements DatabaseEntry {
                 cstmt.setInt(1, id);
                 cstmt.setString(1, newValue);
 
-                return cstmt.executeUpdate() == 1;
-
+                int numberUpdated = cstmt.executeUpdate();
+                cstmt.close();
+                return numberUpdated == 1;
             } catch (SQLException se) {
-                System.out.println("library.Role.updateInDatabase():" + se);
-                se.printStackTrace();
+                logger.log(Level.WARNING, se.toString(), se);
             }
         } else {
-            DRIVER.errorMessageNormal("Please select an appropriate field to update (i.e role)");
+            logger.fine("Please select an appropriate field to update (i.e roleName)");
+            DRIVER.errorMessageNormal("Please select an appropriate field to update (i.e roleName)");
         }
 
         return false;
