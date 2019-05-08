@@ -8,31 +8,21 @@
  */
 package library;
 
-import java.awt.Color;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextPane;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
+import java.awt.*;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class contains various methods for getting data from the database
@@ -141,10 +131,10 @@ public class Driver {
      * Loads the data from the database needed for the given comboBox type,
      * creates the  <code>DefaultComboBoxModel</code> and then returns it.
      *
-     * @param type enaum specifying the type
+     * @param type enum specifying the type
      * @return comboBoxModel containing required data
      */
-    public DefaultComboBoxModel getComboBoxModel(ComboBoxType type) {
+    public DefaultComboBoxModel<String> getComboBoxModel(ComboBoxType type) {
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         try {
             String query = "";

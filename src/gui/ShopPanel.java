@@ -4,7 +4,7 @@
  Ross van der Heyde 
  Started: 12 December 2014
  */
-package GUIs;
+package gui;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;

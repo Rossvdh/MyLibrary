@@ -6,7 +6,7 @@
  Started: 10 October 2014
  this started: 28 November 2014
  */
-package GUIs;
+package gui;
 
 import java.awt.*;
 import javax.swing.*;

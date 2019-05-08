@@ -2,7 +2,7 @@
 Ross van der Heyde
 17 Feb 2017
  */
-package GUIs;
+package gui;
 
 import java.awt.event.KeyEvent;
 import library.Driver;

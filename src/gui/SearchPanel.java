@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUIs;
+package gui;
 
 import library.*;
 
@@ -515,7 +515,7 @@ public class SearchPanel extends javax.swing.JPanel {
                 break;
             }
             default: {
-                System.out.println("GUIs.SearchPanel.comboSearchByItemStateChanged() - Something went wrong.");
+                System.out.println("gui.SearchPanel.comboSearchByItemStateChanged() - Something went wrong.");
                 break;
             }
         }

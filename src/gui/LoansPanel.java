@@ -2,18 +2,14 @@
  Panel with functions for loaning books.
  Ross van der Heyde
  */
-package GUIs;
+package gui;
 
-import GUIs.AddBorrower;
+import library.*;
+
+import javax.swing.*;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JTable;
-import library.Book;
-import library.Borrower;
-import library.Driver;
-import library.Fiction;
-import library.NonFiction;
 
 /**
  * A <code>JPanel</code> that provides the interface for managing loans:
@@ -361,7 +357,7 @@ public class LoansPanel extends javax.swing.JPanel {
     //add new borrower
     private void butAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAddActionPerformed
         AddBorrower ab = new AddBorrower();
-        ab.setVisiblePanel(0);
+        ab.setVisiblePanel(AddBorrower.ADD_PANEL_CODE);
         ab.setVisible(true);
     }//GEN-LAST:event_butAddActionPerformed
 
@@ -397,14 +393,14 @@ public class LoansPanel extends javax.swing.JPanel {
     //open GUI to update a borrower
     private void butUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butUpdateActionPerformed
         AddBorrower ub = new AddBorrower();
-        ub.setVisiblePanel(1);
+        ub.setVisiblePanel(AddBorrower.UPDATE_PANEL_CODE);
         ub.setVisible(true);
     }//GEN-LAST:event_butUpdateActionPerformed
 
     //open GUI to delete borrower
     private void butDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butDeleteActionPerformed
         AddBorrower db = new AddBorrower();
-        db.setVisiblePanel(2);
+        db.setVisiblePanel(AddBorrower.DELETE_PANEL_CODE);
         db.setVisible(true);
     }//GEN-LAST:event_butDeleteActionPerformed
 

@@ -157,7 +157,7 @@ public class TypeOfBook implements DatabaseEntry {
     }
 
     /**
-     * Returns the has code of this <code>{@link GUIs.TypeGUI}</code>
+     * Returns the has code of this <code>{@link gui.TypeGUI}</code>
      *
      * @return hash value
      */

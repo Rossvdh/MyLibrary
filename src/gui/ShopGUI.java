@@ -2,7 +2,7 @@
  Ross van der Heyde
  Started: 7 December 2014
  */
-package GUIs;
+package gui;
 
 import java.awt.event.KeyEvent;
 import library.Driver;

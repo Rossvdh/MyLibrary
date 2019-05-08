@@ -2,7 +2,7 @@
 Ross van der Heyde
 18 Feb 2017. Lot of code in this library thing.
  */
-package GUIs;
+package gui;
 
 import library.Author;
 import library.Driver;

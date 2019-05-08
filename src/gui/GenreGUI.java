@@ -3,7 +3,7 @@
  Ross van der Heyde
  started: 3 December 2014
  */
-package GUIs;
+package gui;
 
 import java.awt.event.KeyEvent;
 import java.sql.CallableStatement;

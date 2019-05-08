@@ -2,16 +2,12 @@
 Ross van der Heyde
 26 February 2017. Got 63% for EEE2026S, Justin must've given me some free marks.
  */
-package GUIs;
+package gui;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
 
 import library.*;
 import library.TypeOfBook;
@@ -791,7 +787,7 @@ public class AddPanel extends javax.swing.JPanel {
             } catch (NumberFormatException nfe) {
                 driver.appendToPane(taMessages, "Please enter digits only in the first published "
                         + "and price fields. Also ensure that the date is in the correct format.\n", Color.orange);
-                System.out.println("GUIs.MainGUI.butAddActionPerformed() " + nfe);
+                System.out.println("gui.MainGUI.butAddActionPerformed() " + nfe);
                 nfe.printStackTrace();
             }
 

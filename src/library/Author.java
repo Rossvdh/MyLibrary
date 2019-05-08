@@ -8,15 +8,11 @@
  */
 package library;
 
-import GUIs.MainGUI;
-
 import java.sql.SQLException;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static library.DatabaseEntry.DRIVER;
 
 /**
  * Class representing an author. An <code>Author</code> has a name, id, and <code>Role</code>.
