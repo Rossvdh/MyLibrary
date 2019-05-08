@@ -5,10 +5,13 @@
  */
 package library;
 
+import javax.swing.*;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A class representing a shop. A shop has an ID number, name, area/suburb,
@@ -17,13 +20,13 @@ import javax.swing.JOptionPane;
  * @author Ross
  */
 public class Shop implements DatabaseEntry {
+    private static Logger logger = Logger.getLogger(Borrower.class.getName());
 
-    //class variables
     private int id = -1;
     private String name = "";
     private String area = "";
-    private String phone = "";
-    private String email = "";
+    private String phoneNumber = "";
+    private String emailAddress = "";
 
     /**
      * Default constructor. Creates a new <code>Shop</code> object
@@ -35,10 +38,10 @@ public class Shop implements DatabaseEntry {
      * Parameterized constructor. Creates a new <code>Shop</code> object with
      * the given ID
      *
-     * @param i ID number of this <code>Shop</code>
+     * @param id ID number of this <code>Shop</code>
      */
-    public Shop(int i) {
-        id = i;
+    public Shop(int id) {
+        this.id = id;
     }
 
     /**
@@ -55,30 +58,30 @@ public class Shop implements DatabaseEntry {
     /**
      * Parameterized constructor.
      *
-     * @param n name of this <code>Shop</code>.
-     * @param a Area/suburb that this <code>Shop</code>. is located in
-     * @param ph Contact number of this <code>Shop</code>.
-     * @param e E-mail address of this <code>Shop</code>.
+     * @param name name of this <code>Shop</code>.
+     * @param area Area/suburb that this <code>Shop</code>. is located in
+     * @param phoneNumber Contact number of this <code>Shop</code>.
+     * @param emailAddress E-mail address of this <code>Shop</code>.
      */
-    public Shop(String n, String a, String ph, String e) {
-        name = n;
-        area = a;
-        phone = ph;
-        email = e;
+    public Shop(String name, String area, String phoneNumber, String emailAddress) {
+        this.name = name;
+        this.area = area;
+        this.phoneNumber = phoneNumber;
+        this.emailAddress = emailAddress;
     }
 
     /**
      * Copy constructor. Create a new <code>Shop</code>. object that is equal to
      * the <code>Shop</code>. given as parameter
      *
-     * @param copy <code>Shop</code>. to copy
+     * @param copy <code>Shop</code> to copy
      */
     public Shop(Shop copy) {
         this.id = copy.id;
         this.name = copy.name;
         this.area = copy.area;
-        this.email = copy.email;
-        this.phone = copy.phone;
+        this.emailAddress = copy.emailAddress;
+        this.phoneNumber = copy.phoneNumber;
     }
 
     /**
@@ -93,22 +96,21 @@ public class Shop implements DatabaseEntry {
             stmt.setString(1, name);
 
             //execute
-            ResultSet rs = stmt.executeQuery();
+            try (ResultSet rs = stmt.executeQuery()) {
 
-            if (rs.next()) {
-                //set ID
-                id = rs.getInt(1);
+                if (rs.next()) {
+                    //set ID
+                    id = rs.getInt(1);
 
-                System.out.println("library.Shop.setIDFromName(). toString " + toString());
-
-                rs.close();
-            } else {
-                rs.close();
-                DRIVER.errorMessageNormal("From Shop.setIDFromName: shop " + name + " not found");
+                    logger.fine("library.Shop.setIDFromName(). toString " + toString());
+                } else {
+                    logger.warning("From Shop.setIDFromName: shop " + name + " not found");
+                    DRIVER.errorMessageNormal("From Shop.setIDFromName: shop " + name + " not found");
+                }
             }
         } catch (SQLException se) {
             DRIVER.errorMessageCritical("From Shop.setIDFromName: " + se);
-            se.printStackTrace();
+            logger.warning("From Shop.setIDFromName: " + se);
         }
     }
 
@@ -133,31 +135,38 @@ public class Shop implements DatabaseEntry {
     }
 
     /**
+     * Returns the hashcode value of this <code>Shop</code>. This is a generated method
+     * @return hashcode value
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, area, phoneNumber, emailAddress);
+    }
+
+    /**
      * Add this shop to database. sproc DONE
      *
      * @return boolean indicating successful addition
      */
     @Override
     public boolean addToDatabase() {
-        //addShop`(name VARCHAR(50), ar VARCHAR(50), ph VARCHAR(12), address VARCHAR(100))
-
         CallableStatement cstmt = DRIVER.getCallStatement("{CALL addShop(?,?,?,?)}");
         int num = 0;
 
         try {
             cstmt.setString(1, name);
             cstmt.setString(2, area);
-            cstmt.setString(3, phone);
-            cstmt.setString(4, email);
+            cstmt.setString(3, phoneNumber);
+            cstmt.setString(4, emailAddress);
 
             num = cstmt.executeUpdate();
+            return num == 1;
         } catch (SQLException se) {
             DRIVER.errorMessageNormal("From Shop.addToDatabase: " + se);
-            se.printStackTrace();
+            logger.log(Level.WARNING, se.toString(), se);
         }
 
-        //execute update, return boolean
-        return num == 1;
+        return false;
     }
 
     /**
@@ -182,16 +191,16 @@ public class Shop implements DatabaseEntry {
                 cstmt = DRIVER.getCallStatement("{CALL updateShopsArea(?,?)}");
                 break;
             }
-            case "phone": {
+            case "phoneNumber": {
                 cstmt = DRIVER.getCallStatement("{CALL updateShopsPhone(?,?)}");
                 break;
             }
-            case "email": {
+            case "emailAddress": {
                 cstmt = DRIVER.getCallStatement("{CALL updateShopsEmail(?,?)}");
                 break;
             }
             default: {
-                System.out.println("library.Shop.updateInDatabase() invalid field:" + field);
+                logger.warning("library.Shop.updateInDatabase() invalid field:" + field);
                 DRIVER.errorMessageNormal("Please select a valid field");
                 return false;
             }
@@ -203,14 +212,20 @@ public class Shop implements DatabaseEntry {
 
             return cstmt.executeUpdate() == 1;
         } catch (SQLException se) {
-            System.out.println("library.Shop.updateInDatabase() SQLE - " + se);
-            se.printStackTrace();
+            logger.log(Level.WARNING, se.toString(), se);
             return false;
+        }finally {
+            try {
+                cstmt.close();
+            } catch (SQLException e) {
+                logger.log(Level.WARNING, e.toString(), e);
+                logger.warning("Could not close callable statement");
+            }
         }
     }
 
     /**
-     * Delete this <code>Shop</code> from the database.
+     * Delete this <code>Shop</code> from the database. The user will be asked for confirmation first
      *
      * @return boolean indicating successful deletion
      */
@@ -218,12 +233,9 @@ public class Shop implements DatabaseEntry {
     public boolean deleteFromDatabase() {
         setNameFromDatabase();
 
-        int c = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + name + "?");
-        // 0 - yes
-        // 1 - no
-        // 2 - cancel
+        int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + name + "?");
 
-        if (c == 0) {
+        if (confirm == JOptionPane.YES_OPTION) {
             CallableStatement cstmt = DRIVER.getCallStatement("{CALL deleteShop(?)}");
             int num = 0;
 
@@ -235,9 +247,8 @@ public class Shop implements DatabaseEntry {
                 return num == 1;
             } catch (SQLException se) {
                 DRIVER.errorMessageNormal("From Shop.deleteShop: " + se);
-                se.printStackTrace();
+                logger.log(Level.WARNING, se.toString(), se);
             }
-
         }
         return false;
     }
@@ -250,24 +261,27 @@ public class Shop implements DatabaseEntry {
             ResultSet rs = DRIVER.query("SELECT shopName FROM Shops WHERE id = " + id);
 
             if (rs.next()) {
-                name = rs.getString(1);
+                this.name = rs.getString(1);
                 rs.close();
             } else {
-                DRIVER.errorMessageNormal("Shop with ID " + id + " was not founDRIVER.");
+                DRIVER.errorMessageNormal("Shop with ID " + id + " was not found.");
+                logger.warning("Shop with ID " + id + " was not found.");
             }
         } catch (SQLException se) {
+            logger.log(Level.WARNING, se.toString(), se);
             DRIVER.errorMessageNormal("From Shop.deleteShop: " + se);
         }
     }
 
     /**
-     * Returns a String representation of this Shop object
+     * Returns a String representation of this Shop object in the format
+     * "name (id)" e.g. "Exclusive Books Tygervalley (2)"
      *
      * @return String representing this Shop object
      */
     @Override
     public String toString() {
-        return name + "(" + id + ")";
+        return name + " (" + id + ")";
     }
 
     /**
@@ -291,10 +305,10 @@ public class Shop implements DatabaseEntry {
     /**
      * Returns this <code>Shop</code>'s e-mail address
      *
-     * @return e-mail adress
+     * @return e-mail address
      */
-    public String getEmail() {
-        return email;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
     /**
@@ -302,8 +316,8 @@ public class Shop implements DatabaseEntry {
      *
      * @return contact number as String
      */
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     /**
@@ -347,17 +361,17 @@ public class Shop implements DatabaseEntry {
      *
      * @param e e-mail address of this <code>Shop</code>
      */
-    public void setEmail(String e) {
-        email = e;
+    public void setEmailAddress(String e) {
+        emailAddress = e;
     }
 
     /**
-     * Sets this <code>Shop</code>'s ID phone/contact number
+     * Sets this <code>Shop</code>'s ID phoneNumber/contact number
      *
      * @param ph contact number of this <code>Shop</code>
      */
-    public void setPhone(String ph) {
-        phone = ph;
+    public void setPhoneNumber(String ph) {
+        phoneNumber = ph;
     }
 
     /**
@@ -371,6 +385,7 @@ public class Shop implements DatabaseEntry {
     public static ResultSet search(String field, String criterion) {
         field = field.toLowerCase();
         CallableStatement cstmt;
+
         try {
             switch (field) {
                 case "area": {
@@ -390,19 +405,16 @@ public class Shop implements DatabaseEntry {
                     break;
                 }
                 default: {
-                    System.out.println("library.Shop.search() invalid field");
+                    logger.warning("library.Shop.search() invalid field");
                     DRIVER.errorMessageNormal("Please select a valid field");
                     return null;
                 }
             }
 
-
-            ResultSet rs = cstmt.executeQuery();
-
-            return rs;
+            cstmt.closeOnCompletion();
+            return cstmt.executeQuery();
         } catch (SQLException se) {
-            System.out.println("library.Shop.search() SQLE - " + se);
-            se.printStackTrace();
+            logger.log(Level.WARNING, se.toString(), se);
             return null;
         }
     }

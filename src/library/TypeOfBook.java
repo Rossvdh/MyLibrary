@@ -4,8 +4,6 @@ Ross van der Heyde
  */
 package library;
 
-import sun.awt.AWTAccessor;
-
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,13 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * This class represents the type of book, e.g. novel, short story anthology, play script, etc.
  *
  * @author Ross
  */
 public class TypeOfBook implements DatabaseEntry {
     private static Logger logger = Logger.getLogger(Author.class.getName());
 
-    //attributes
     private int id = -1;
     private String type = "";
 
@@ -70,7 +68,6 @@ public class TypeOfBook implements DatabaseEntry {
      */
     public void setIDFromDatabase() {
         try {
-            //perform query, get ID, return
             CallableStatement stmt = DRIVER.getCallStatement("{CALL getTypeID(?)}");
 
             stmt.setString(1, type);
@@ -80,10 +77,9 @@ public class TypeOfBook implements DatabaseEntry {
                 if (rs.next()) {
                     id = rs.getInt(1);
                 } else {
-                    logger.warning("dirver.getTypeID: type not found");
+                    logger.warning("driver.getTypeID: type not found");
                 }
             }
-
         } catch (SQLException se) {
             logger.log(Level.WARNING, se.toString(), se);
         }
@@ -127,7 +123,7 @@ public class TypeOfBook implements DatabaseEntry {
 
     /**
      * Returns a <code>String</code> representation of this
-     * <code>TypeOfBook</code>
+     * <code>TypeOfBook</code> in the format "type (id)", e.g. "novel (1)"
      *
      * @return String representing this <code>TypeOfBook</code>
      */
@@ -162,6 +158,7 @@ public class TypeOfBook implements DatabaseEntry {
 
     /**
      * Returns the has code of this <code>{@link GUIs.TypeGUI}</code>
+     *
      * @return hash value
      */
     @Override
@@ -176,15 +173,23 @@ public class TypeOfBook implements DatabaseEntry {
      */
     @Override
     public boolean addToDatabase() {
+        CallableStatement cstmt = null;
         try {
-            CallableStatement cstmt = DRIVER.getCallStatement("{CALL addType(?)}");
+            cstmt = DRIVER.getCallStatement("{CALL addType(?)}");
 
             cstmt.setString(1, type);
 
             return cstmt.executeUpdate() == 1;
-
         } catch (SQLException se) {
             logger.log(Level.WARNING, se.toString(), se);
+        } finally {
+            try {
+                if (cstmt != null) {
+                    cstmt.close();
+                }
+            } catch (SQLException e) {
+                logger.log(Level.WARNING, e.toString(), e);
+            }
         }
         return false;
     }
@@ -196,14 +201,23 @@ public class TypeOfBook implements DatabaseEntry {
      */
     @Override
     public boolean deleteFromDatabase() {
+        CallableStatement cstmt = null;
         try {
-            CallableStatement cstmt = DRIVER.getCallStatement("{CALL deleteType(?)}");
+            cstmt = DRIVER.getCallStatement("{CALL deleteType(?)}");
 
             cstmt.setInt(1, id);
 
             return cstmt.executeUpdate() == 1;
         } catch (SQLException se) {
             logger.log(Level.WARNING, se.toString(), se);
+        } finally {
+            try {
+                if (cstmt != null) {
+                    cstmt.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return false;
     }
@@ -212,33 +226,44 @@ public class TypeOfBook implements DatabaseEntry {
      * Update a field of this <code>TypeOfBook</code> in the database. The only
      * field that can be updated is typeName
      *
-     * @param field must be "type"
+     * @param field    must be "type"
      * @param newValue the new type name
      * @return boolean indicating successful update.
      */
     @Override
     public boolean updateInDatabase(String field, String newValue) {
-        if (field.equalsIgnoreCase("type")) {
-            try {
-                CallableStatement cstmt = DRIVER.getCallStatement("{CALL updateType(?,?)}");
-
-                cstmt.setInt(1, id);
-                cstmt.setString(2, newValue);
-
-                boolean success = cstmt.executeUpdate() == 1;
-
-                if (success) {
-                    type = newValue;
-                    return true;
-                }
-
-            } catch (SQLException se) {
-                logger.log(Level.WARNING, se.toString(), se);
-            }
-        } else {
+        if (!field.equalsIgnoreCase("type")) {
             DRIVER.errorMessageNormal("Please select a valid field to update (i.e type)");
+
+            return false;
         }
 
+        CallableStatement cstmt = null;
+        try {
+            cstmt = DRIVER.getCallStatement("{CALL updateType(?,?)}");
+
+            cstmt.setInt(1, id);
+            cstmt.setString(2, newValue);
+
+            boolean success = cstmt.executeUpdate() == 1;
+
+            if (success) {
+                type = newValue;
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException se) {
+            logger.log(Level.WARNING, se.toString(), se);
+        } finally {
+            try {
+                if (cstmt != null) {
+                    cstmt.close();
+                }
+            } catch (SQLException e) {
+                logger.log(Level.WARNING, e.toString(), e);
+            }
+        }
         return false;
     }
 }
