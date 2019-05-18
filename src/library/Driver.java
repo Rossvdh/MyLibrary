@@ -8,6 +8,8 @@
  */
 package library;
 
+import util.PopUpMessages;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AttributeSet;
@@ -26,51 +28,12 @@ import java.util.logging.Logger;
 
 /**
  * This class contains various methods for getting data from the database
- * and other miscilaeneous stuff.
+ * and other miscellaneous stuff.
  *
  * @author Ross
  */
 public class Driver {
-    private static Logger logger = Logger.getLogger(Borrower.class.getName());
-
-    /**
-     * Displays a critical error in a pop message.
-     *
-     * @param errorMessage text to display
-     */
-    public void errorMessageCritical(String errorMessage) {
-        Object[] options = {"OK"};
-        logger.severe(errorMessage);
-        int s = JOptionPane.showOptionDialog(null, errorMessage, "CRITICAL ERROR!",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
-                null, options, options[0]);
-    }
-
-    /**
-     * Displays an error message in a pop up window
-     *
-     * @param errorMessage text to display
-     */
-    public void errorMessageNormal(String errorMessage) {
-        Object[] options = {"OK"};
-        logger.warning(errorMessage);
-        int s = JOptionPane.showOptionDialog(null, errorMessage, "ERROR!",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
-                null, options, options[0]);
-    }
-
-    /**
-     * Displays a pop up window with a message
-     *
-     * @param message text to display
-     */
-    public void infoMessageNormal(String message) {
-        Object[] options = {"OK"};
-        logger.info(message);
-        int s = JOptionPane.showOptionDialog(null, message, "INFORMATION MESSAGE",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                null, options, options[0]);
-    }
+    private static Logger logger = Logger.getLogger(Driver.class.getName());
 
     /**
      * Connect to database, and creates a <code>PreparedStatement</code>
@@ -170,7 +133,7 @@ public class Driver {
                     break;
                 }
                 default: {
-                    errorMessageNormal("Invalid getComboBoxModel parameter");
+                    PopUpMessages.errorMessageNormal("Invalid getComboBoxModel parameter");
                 }
             }
 
@@ -288,12 +251,12 @@ public class Driver {
     /**
      * Returns a comboBox model for the level 2 Dewey comboBox
      *
-     * @param dew1        Dewey number level 1 selected (000, 100, 200 ...)
-     * @param level1Topic Selected level 1 topic, to be first element in dewey2
-     *                    comboBox
+     * @param dewey2LowerBound Dewey number level 1 selected (000, 100, 200 ...)
+     * @param level1Topic      Selected level 1 topic, to be first element in dewey2
+     *                         comboBox
      * @return DefaultComboBoxModel containing tens (010, 020, 030....)
      */
-    public DefaultComboBoxModel<String> getDewey2Model(int dew1, String level1Topic) {
+    public DefaultComboBoxModel<String> getDewey2Model(int dewey2LowerBound, String level1Topic) {
         //declare comboBoxModel for comboDew2s
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
 
@@ -303,8 +266,8 @@ public class Driver {
             //query for level2 topics
             CallableStatement stmt = getCallStatement("{CALL getDeweyTwoRange(?,?)}");
 
-            stmt.setInt(1, dew1);
-            stmt.setInt(2, dew1 + 99);
+            stmt.setInt(1, dewey2LowerBound);
+            stmt.setInt(2, dewey2LowerBound + 99);
 
             ResultSet rs = stmt.executeQuery();
 
@@ -330,7 +293,8 @@ public class Driver {
      *                    comboBox
      * @return DefaultComboBoxModel containing units (001, 002, 003..)
      */
-    public DefaultComboBoxModel getDewey3Model(int dew2, Object level2Topic) {
+    public DefaultComboBoxModel<String> getDewey3Model(int dew2,
+                                                  String level2Topic) {
 
         //declare comboBoxModel for comboDew2
         DefaultComboBoxModel model = new DefaultComboBoxModel();
@@ -351,7 +315,7 @@ public class Driver {
             }
             rs.close();
         } catch (SQLException se) {
-            errorMessageNormal("From driver.getDewey3Model: " + se);
+            PopUpMessages.errorMessageNormal("From driver.getDewey3Model: " + se);
         }
 
         //set dew3's model
@@ -402,7 +366,7 @@ public class Driver {
             }
 
         } catch (Exception e) {
-            errorMessageNormal("From driver.getAuthors: " + e);
+            PopUpMessages.errorMessageNormal("From driver.getAuthors: " + e);
         }
 
         return authors;

@@ -3,6 +3,8 @@ Ross van der Heyde
 5 February 2017*/
 package library;
 
+import util.PopUpMessages;
+
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -81,12 +83,12 @@ public class Role implements DatabaseEntry {
                 id = rs.getInt(1);
             } else {
                 logger.fine("From Role.setIDFromName: roleName \"" + roleName + "\" not found");
-                DRIVER.errorMessageNormal("From Role.setIDFromName: roleName \"" + roleName + "\" not found");
+                PopUpMessages.errorMessageNormal("From Role.setIDFromName: roleName \"" + roleName + "\" not found");
             }
             rs.close();
         } catch (SQLException se) {
             logger.log(Level.WARNING, se.toString(), se);
-            DRIVER.errorMessageCritical("From Role.setIDFromName: " + se);
+            PopUpMessages.errorMessageCritical("From Role.setIDFromName: " + se);
         }
     }
 
@@ -173,7 +175,7 @@ public class Role implements DatabaseEntry {
             return numberAdded == 1;
         } catch (Exception e) {
             logger.log(Level.WARNING, e.toString(), e);
-            DRIVER.errorMessageNormal("Role '" + roleName + "' could not be added");
+            PopUpMessages.errorMessageNormal("Role '" + roleName + "' could not be added");
             return false;
         }
     }
@@ -228,7 +230,7 @@ public class Role implements DatabaseEntry {
             }
         } else {
             logger.fine("Please select an appropriate field to update (i.e roleName)");
-            DRIVER.errorMessageNormal("Please select an appropriate field to update (i.e roleName)");
+            PopUpMessages.errorMessageNormal("Please select an appropriate field to update (i.e roleName)");
         }
 
         return false;

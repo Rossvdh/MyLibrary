@@ -8,6 +8,8 @@
  */
 package library;
 
+import util.PopUpMessages;
+
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -216,7 +218,7 @@ public class Book implements DatabaseEntry {
                     if (rs.next()) {
                         id = rs.getInt(1);
                     } else {
-                        DRIVER.errorMessageNormal("No max Book ID found");
+                        PopUpMessages.errorMessageNormal("No max Book ID found");
                         return false;
                     }
                 }
@@ -224,7 +226,7 @@ public class Book implements DatabaseEntry {
                 //add Authors
                 return addLinkEntries();
             } else {
-                DRIVER.errorMessageNormal("The book \"" + title + "\" could not be added");
+                PopUpMessages.errorMessageNormal("The book \"" + title + "\" could not be added");
                 return false;
             }
 
@@ -289,7 +291,7 @@ public class Book implements DatabaseEntry {
                     break;
                 }
                 default: {
-                    DRIVER.errorMessageNormal("Please select a valid field to update.");
+                    PopUpMessages.errorMessageNormal("Please select a valid field to update.");
                     return false;
                 }
             }

@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import library.Driver;
+import util.PopUpMessages;
 
 /**
  *
@@ -122,15 +123,15 @@ public class TypeGUI extends javax.swing.JFrame {
             num = cstmt.executeUpdate();
 
         } catch (SQLException se) {
-            driver.errorMessageNormal("From TypeGUI.butAddAP: " + se);
+            PopUpMessages.errorMessageNormal("From TypeGUI.butAddAP: " + se);
             se.printStackTrace();
         }
 
         if (num == 1) {
-            driver.infoMessageNormal("Type successfully added.");
+            PopUpMessages.infoMessageNormal("Type successfully added.");
             this.dispose();
         } else {
-            driver.infoMessageNormal("Type could not be added added.");
+            PopUpMessages.infoMessageNormal("Type could not be added added.");
         }
 
     }//GEN-LAST:event_butAddActionPerformed

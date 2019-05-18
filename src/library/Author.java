@@ -8,6 +8,8 @@
  */
 package library;
 
+import util.PopUpMessages;
+
 import java.sql.SQLException;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -85,7 +87,7 @@ public class Author implements DatabaseEntry {
                 id = rs.getInt(1);
                 rs.close();
             } else {
-                DRIVER.errorMessageNormal("From Author.setIDFromName: author " + name + "not found");
+                PopUpMessages.errorMessageNormal("From Author.setIDFromName: author " + name + "not found");
             }
         } catch (SQLException se) {
             logger.log(Level.WARNING, se.toString(), se);
@@ -266,7 +268,7 @@ public class Author implements DatabaseEntry {
                 logger.log(Level.WARNING, ex.toString(), ex);
             }
         } else {
-            DRIVER.errorMessageNormal("Please select a valid field to update (i.e. name");
+            PopUpMessages.errorMessageNormal("Please select a valid field to update (i.e. name");
         }
         return false;
     }

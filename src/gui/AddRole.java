@@ -5,8 +5,9 @@ Ross van der Heyde
 package gui;
 
 import java.awt.event.KeyEvent;
-import library.Driver;
+
 import library.Role;
+import util.PopUpMessages;
 
 /**
  *
@@ -112,9 +113,9 @@ public class AddRole extends javax.swing.JFrame {
         rol.setRoleName(tfRole.getText());
 
         if (rol.addToDatabase()) {
-            (new Driver()).infoMessageNormal("The role " + rol.getRoleName() + " has succcessfully added to the database.");
+            PopUpMessages.infoMessageNormal("The role " + rol.getRoleName() + " has succcessfully added to the database.");
         } else {
-            (new Driver()).infoMessageNormal("The role could not be added to the database.");
+            PopUpMessages.infoMessageNormal("The role could not be added to the database.");
         }
         
         this.dispose();

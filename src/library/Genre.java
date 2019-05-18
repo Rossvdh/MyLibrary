@@ -1,5 +1,7 @@
 package library;
 
+import util.PopUpMessages;
+
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -77,7 +79,7 @@ public class Genre implements DatabaseEntry {
                 id = rs.getInt(1);
             } else {
                 logger.warning("From driver.getGenreID: genre not found");
-                DRIVER.errorMessageNormal("From driver.getGenreID: genre not found");
+                PopUpMessages.errorMessageNormal("From driver.getGenreID: genre not found");
             }
             rs.close();
         } catch (SQLException e) {
@@ -224,7 +226,7 @@ public class Genre implements DatabaseEntry {
             }
         } else {
             logger.fine("Attempted to update field other than genreName");
-            DRIVER.errorMessageCritical("Please select a valid field to update (i.e. field)");
+            PopUpMessages.errorMessageCritical("Please select a valid field to update (i.e. field)");
         }
 
         return false;

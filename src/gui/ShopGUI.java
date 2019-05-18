@@ -7,6 +7,7 @@ package gui;
 import java.awt.event.KeyEvent;
 import library.Driver;
 import library.Shop;
+import util.PopUpMessages;
 
 /**
  * This class provides the interface and functionality for adding new shops to
@@ -156,9 +157,9 @@ public class ShopGUI extends javax.swing.JFrame {
 
         //add shop tp database and inform user if successful
         if (shop.addToDatabase()) {
-            d.infoMessageNormal(tfName.getText() + " added successfully to the database.");
+            PopUpMessages.infoMessageNormal(tfName.getText() + " added successfully to the database.");
         } else {
-            d.infoMessageNormal("Shop could not be added to the database.");
+            PopUpMessages.infoMessageNormal("Shop could not be added to the database.");
         }
 
         //close window

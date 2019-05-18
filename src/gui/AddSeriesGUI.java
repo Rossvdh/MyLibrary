@@ -7,6 +7,7 @@ package gui;
 import java.awt.event.KeyEvent;
 import library.Driver;
 import library.Series;
+import util.PopUpMessages;
 
 /**
  *
@@ -129,9 +130,9 @@ public class AddSeriesGUI extends javax.swing.JFrame {
         Driver d = new Driver();
 
         if (series.addToDatabase()) {
-            d.infoMessageNormal(series.getName() + " successfully added to the database.");
+            PopUpMessages.infoMessageNormal(series.getName() + " successfully added to the database.");
         } else {
-            d.errorMessageNormal("Series could not be added.");
+            PopUpMessages.errorMessageNormal("Series could not be added.");
         }
 
         this.dispose();

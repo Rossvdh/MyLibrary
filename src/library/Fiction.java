@@ -5,6 +5,8 @@
  */
 package library;
 
+import util.PopUpMessages;
+
 import javax.swing.*;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
@@ -162,7 +164,7 @@ public class Fiction extends Book {
             }
             default: {
                 logger.warning("library.Fiction.updateInDatabase() - invalid field");
-                DRIVER.errorMessageNormal("Please select a valid Fiction field.");
+                PopUpMessages.errorMessageNormal("Please select a valid Fiction field.");
                 return false;
             }
         }
@@ -176,7 +178,7 @@ public class Fiction extends Book {
         } catch (SQLException sQLException) {
             logger.log(Level.WARNING, sQLException.toString(), sQLException);
         } catch (NumberFormatException nfe) {
-            DRIVER.errorMessageNormal("Please enter a digits only");
+            PopUpMessages.errorMessageNormal("Please enter a digits only");
             logger.log(Level.WARNING, nfe.toString(), nfe);
         }
 
@@ -206,13 +208,13 @@ public class Fiction extends Book {
                     return cstmt.executeUpdate() == 1;
                 } catch (SQLException se) {
                     logger.log(Level.WARNING, se.toString(), se);
-                    DRIVER.errorMessageNormal("From Fiction.deleteFromDatabase:" + se);
+                    PopUpMessages.errorMessageNormal("From Fiction.deleteFromDatabase:" + se);
                 }
 
                 return true;
             } else {
                 logger.warning("Fiction was not deleted due to error in super.deleteFromDatabase");
-                DRIVER.errorMessageNormal("Fiction could not be deleted.");
+                PopUpMessages.errorMessageNormal("Fiction could not be deleted.");
                 return false;
             }
         } else {

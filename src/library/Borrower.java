@@ -3,6 +3,8 @@
  26 January 2015*/
 package library;
 
+import util.PopUpMessages;
+
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -130,7 +132,7 @@ public class Borrower implements DatabaseEntry {
                 name = rs.getString(1);
                 rs.close();
             } else {
-                DRIVER.errorMessageNormal("Borrower with ID " + id + " not found.");
+                PopUpMessages.errorMessageNormal("Borrower with ID " + id + " not found.");
             }
         } catch (SQLException se) {
             logger.log(Level.WARNING, se.toString(), se);
@@ -221,7 +223,7 @@ public class Borrower implements DatabaseEntry {
 
             return num == 1;
         } catch (SQLException se) {
-            DRIVER.errorMessageNormal("From Borrower.addToDatabase: " + se);
+            PopUpMessages.errorMessageNormal("From Borrower.addToDatabase: " + se);
             logger.log(Level.WARNING, se.toString(), se);
         }
 

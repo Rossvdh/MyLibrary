@@ -6,6 +6,7 @@
 package gui;
 
 import library.*;
+import util.PopUpMessages;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -238,7 +239,7 @@ public class SearchPanel extends javax.swing.JPanel {
                 try {
                     cstmt.setInt(1, Integer.parseInt(tfKeyword.getText()));
                 } catch (SQLException ex) {
-                    driver.errorMessageNormal("From searchPanel.butSearchTextAP: " + ex);
+                    PopUpMessages.errorMessageNormal("From searchPanel.butSearchTextAP: " + ex);
                     ex.printStackTrace();
                 }
 
@@ -255,7 +256,7 @@ public class SearchPanel extends javax.swing.JPanel {
                     //set parameter
                     cstmt.setString(1, title);
                 } catch (SQLException ex) {
-                    driver.errorMessageNormal("From searchPanel.butSearchTextAP: " + ex);
+                    PopUpMessages.errorMessageNormal("From searchPanel.butSearchTextAP: " + ex);
                     ex.printStackTrace();
                 }
 
@@ -272,7 +273,7 @@ public class SearchPanel extends javax.swing.JPanel {
                     //set parameter
                     cstmt.setString(1, author);
                 } catch (SQLException ex) {
-                    driver.errorMessageNormal("From searchPanel.butSearchTextAP: " + ex);
+                    PopUpMessages.errorMessageNormal("From searchPanel.butSearchTextAP: " + ex);
                     ex.printStackTrace();
                 }
 
@@ -289,7 +290,7 @@ public class SearchPanel extends javax.swing.JPanel {
                 try {
                     cstmt.setInt(1, shopID);
                 } catch (SQLException ex) {
-                    driver.errorMessageNormal("From searchPanel.butSearchTextAP: " + ex);
+                    PopUpMessages.errorMessageNormal("From searchPanel.butSearchTextAP: " + ex);
                     ex.printStackTrace();
                 }
 
@@ -306,7 +307,7 @@ public class SearchPanel extends javax.swing.JPanel {
                     //set parameter
                     cstmt.setInt(1, series);
                 } catch (SQLException ex) {
-                    driver.errorMessageNormal("From searchPanel.butSearchTextAP: " + ex);
+                    PopUpMessages.errorMessageNormal("From searchPanel.butSearchTextAP: " + ex);
                     ex.printStackTrace();
                 }
 
@@ -323,7 +324,7 @@ public class SearchPanel extends javax.swing.JPanel {
                 try {
                     cstmt.setInt(1, genreID);
                 } catch (SQLException ex) {
-                    driver.errorMessageNormal("From searchPanel.butSearchTextAP: " + ex);
+                    PopUpMessages.errorMessageNormal("From searchPanel.butSearchTextAP: " + ex);
                     ex.printStackTrace();
                 }
 
@@ -340,7 +341,7 @@ public class SearchPanel extends javax.swing.JPanel {
                 try {
                     cstmt.setInt(1, typeID);
                 } catch (SQLException ex) {
-                    driver.errorMessageNormal("From searchPanel.butSearchTextAP: " + ex);
+                    PopUpMessages.errorMessageNormal("From searchPanel.butSearchTextAP: " + ex);
                     ex.printStackTrace();
                 }
 
@@ -370,7 +371,7 @@ public class SearchPanel extends javax.swing.JPanel {
             rs.close();
             cstmt.close();
         } catch (SQLException ex) {
-            driver.errorMessageNormal("From searchPanel.butSearchTextAP: " + ex);
+            PopUpMessages.errorMessageNormal("From searchPanel.butSearchTextAP: " + ex);
             ex.printStackTrace();
         }
 
@@ -406,7 +407,7 @@ public class SearchPanel extends javax.swing.JPanel {
             query = "{CALL viewNonFiction()}";
 
         } else {
-            driver.infoMessageNormal("Please select fiction or non-fiction");
+            PopUpMessages.infoMessageNormal("Please select fiction or non-fiction");
             return;
         }
 
@@ -425,7 +426,7 @@ public class SearchPanel extends javax.swing.JPanel {
             rs.close();
             cstmt.close();
         } catch (SQLException se) {
-            driver.errorMessageNormal("From SearchPanel.butViewAllAP: " + se);
+            PopUpMessages.errorMessageNormal("From SearchPanel.butViewAllAP: " + se);
             se.printStackTrace();
         }
 
@@ -446,7 +447,7 @@ public class SearchPanel extends javax.swing.JPanel {
         try {
             rs.close();
         } catch (SQLException se) {
-            driver.errorMessageNormal("from searchPanel.butSearchNumberAP: " + se);
+            PopUpMessages.errorMessageNormal("from searchPanel.butSearchNumberAP: " + se);
             se.printStackTrace();
         }
     }//GEN-LAST:event_butDeweyActionPerformed

@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import javax.swing.JTable;
 import library.Driver;
 import library.Shop;
+import util.PopUpMessages;
 
 /**
  * A <code>JPanel</code> that provides the interface for adding, deleting,
@@ -439,7 +440,7 @@ public class ShopPanel extends javax.swing.JPanel {
         try {
             rs = cstmt.executeQuery();
         } catch (SQLException se) {
-            driver.errorMessageNormal("From ShopPanel.butViewAllAP: " + se);
+            PopUpMessages.errorMessageNormal("From ShopPanel.butViewAllAP: " + se);
             se.printStackTrace();
         }
 

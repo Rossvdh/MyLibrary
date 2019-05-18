@@ -5,6 +5,7 @@
 package gui;
 
 import library.*;
+import util.PopUpMessages;
 
 import javax.swing.*;
 import java.sql.CallableStatement;
@@ -253,15 +254,15 @@ public class LoansPanel extends javax.swing.JPanel {
 
                     //perform loan, inform user of success
                     if (bor.borrow(book, date)) {
-                        driver.infoMessageNormal("\"" + book.getTitle() + "\" loaned successfully to " + bor.getName());
+                        PopUpMessages.infoMessageNormal("\"" + book.getTitle() + "\" loaned successfully to " + bor.getName());
 
                     } else {
-                        driver.errorMessageNormal("Book could not be loaned");
+                        PopUpMessages.errorMessageNormal("Book could not be loaned");
                     }
 
                 } else {
                     //is on loan
-                    driver.errorMessageNormal("\"" + book.getTitle() + "\" is already on loan.");
+                    PopUpMessages.errorMessageNormal("\"" + book.getTitle() + "\" is already on loan.");
 
                 }
 
@@ -274,24 +275,24 @@ public class LoansPanel extends javax.swing.JPanel {
                     //book is on loan, and can be returned
 
                     if (bor.returnBook(book, date)) {
-                        driver.infoMessageNormal("\"" + book.getTitle() + "\" has been returned.");
+                        PopUpMessages.infoMessageNormal("\"" + book.getTitle() + "\" has been returned.");
 
                     } else {
-                        driver.infoMessageNormal("The book could not be returned.");
+                        PopUpMessages.infoMessageNormal("The book could not be returned.");
                     }
 
                 } else {
                     //not on loan
-                    driver.infoMessageNormal("\"" + book.getTitle() + "\" is not on loan.");
+                    PopUpMessages.infoMessageNormal("\"" + book.getTitle() + "\" is not on loan.");
                 }
 
             } else {
-                driver.errorMessageNormal("Please select whether the book is being checked in or being returned.");
+                PopUpMessages.errorMessageNormal("Please select whether the book is being checked in or being returned.");
             }
 
         } else {
             //invalid format
-            driver.errorMessageNormal("Please ensure the date is in the format DD/MM/YYY");
+            PopUpMessages.errorMessageNormal("Please ensure the date is in the format DD/MM/YYY");
         }
 
 
@@ -313,10 +314,10 @@ public class LoansPanel extends javax.swing.JPanel {
                 book = new NonFiction(Integer.parseInt(tfBookID.getText()));
 
             } else {
-                driver.errorMessageNormal("Please selecte fiction or non-fiction.");
+                PopUpMessages.errorMessageNormal("Please selecte fiction or non-fiction.");
             }
         } catch (NumberFormatException nfe) {
-            driver.errorMessageNormal("Please enter numbers only the Borrower ID and Book ID fields.");
+            PopUpMessages.errorMessageNormal("Please enter numbers only the Borrower ID and Book ID fields.");
         }
         return book;
     }
@@ -327,7 +328,7 @@ public class LoansPanel extends javax.swing.JPanel {
         try {
             bor = new Borrower(Integer.parseInt(tfBorrowerID.getText()));
         } catch (NumberFormatException nfe) {
-            driver.errorMessageNormal("Please enter numbers only the Borrower ID and Book ID fields.");
+            PopUpMessages.errorMessageNormal("Please enter numbers only the Borrower ID and Book ID fields.");
         }
         return bor;
     }
@@ -348,7 +349,7 @@ public class LoansPanel extends javax.swing.JPanel {
 
             scrollPane.setViewportView(myTable);
         } catch (SQLException se) {
-            driver.errorMessageNormal("From LoansPanel.butViewLoansAP: " + se);
+            PopUpMessages.errorMessageNormal("From LoansPanel.butViewLoansAP: " + se);
             se.printStackTrace();
         }
 
@@ -384,7 +385,7 @@ public class LoansPanel extends javax.swing.JPanel {
 
             scrollPane.setViewportView(myTable);
         } catch (SQLException se) {
-            driver.errorMessageNormal("From LoansPanel.butViewBorrowersAP: " + se);
+            PopUpMessages.errorMessageNormal("From LoansPanel.butViewBorrowersAP: " + se);
             se.printStackTrace();
         }
 

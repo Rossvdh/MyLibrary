@@ -4,6 +4,8 @@ Ross van der Heyde
  */
 package library;
 
+import util.PopUpMessages;
+
 import java.sql.*;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -298,7 +300,7 @@ public class Series implements DatabaseEntry {
             }
             default: {
                 logger.fine("Series.updateInDatabase(): invalid field name");
-                DRIVER.errorMessageNormal("please select a field in the Series table");
+                PopUpMessages.errorMessageNormal("please select a field in the Series table");
             }
         }
 

@@ -5,8 +5,10 @@
  */
 package gui;
 
-import java.awt.event.KeyEvent;
 import library.Driver;
+import util.PopUpMessages;
+
+import java.awt.event.KeyEvent;
 
 /**
  * Provides interface for entering (a range of) Dewey numbers and searching for
@@ -133,7 +135,7 @@ public class SearchDeweyGUI extends javax.swing.JFrame {
             int upper = Integer.parseInt(tfUpper.getText());
 
             if (lower >= upper) {
-                driver.errorMessageNormal("Please ensure the lower bound is lower than the uper bound.");
+                PopUpMessages.errorMessageNormal("Please ensure the lower bound is lower than the uper bound.");
             } else {
                 //valid interval
                 query = "SELECT title, author, deweyNumber FROM NonFiction"
@@ -144,7 +146,7 @@ public class SearchDeweyGUI extends javax.swing.JFrame {
             //exactly
         } else {
             //niether selected
-            driver.errorMessageNormal("Please select between or exaclty.");
+            PopUpMessages.errorMessageNormal("Please select between or exaclty.");
         }
     }//GEN-LAST:event_butSearchActionPerformed
 

@@ -8,6 +8,7 @@ import javax.swing.DefaultComboBoxModel;
 
 import library.*;
 import library.TypeOfBook;
+import util.PopUpMessages;
 
 /**
  * A <code>JPanel</code> that provides functionality and interface for updating
@@ -377,7 +378,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
                     break;
                 }
                 default: {
-                    driver.errorMessageNormal("Please select an attribute to update.");
+                    PopUpMessages.errorMessageNormal("Please select an attribute to update.");
                     success = false;
                 }
             }
@@ -431,7 +432,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
 //</editor-fold>
         } else {
             //niether selected
-            driver.errorMessageNormal("Please select either fiction or non-fiction.");
+            PopUpMessages.errorMessageNormal("Please select either fiction or non-fiction.");
         }
     }//GEN-LAST:event_butUpdateActionPerformed
 
@@ -608,7 +609,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
                 "Mnth", "Yr"};
             return tempFields[x];
         } else {
-            driver.errorMessageNormal("Please select fiction or non-fiction.");
+            PopUpMessages.errorMessageNormal("Please select fiction or non-fiction.");
             return null;
         }
     }

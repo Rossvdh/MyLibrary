@@ -5,6 +5,8 @@
  */
 package library;
 
+import util.PopUpMessages;
+
 import javax.swing.*;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
@@ -108,7 +110,7 @@ public class NonFiction extends Book implements DatabaseEntry {
         } else {
             logger.warning("library.NonFiction.addToDatabase() - super " + title + " could not be added" +
                     "due to error in super.addToDatabase");
-            DRIVER.errorMessageNormal("library.NonFiction.addToDatabase() - super " + title + " could not be added\n" +
+            PopUpMessages.errorMessageNormal("library.NonFiction.addToDatabase() - super " + title + " could not be added\n" +
                     "due to error in super.addToDatabase");
         }
 
@@ -181,13 +183,13 @@ public class NonFiction extends Book implements DatabaseEntry {
                     return numberDeleted == 1;
                 } catch (SQLException se) {
                     logger.log(Level.WARNING, se.toString(), se);
-                    DRIVER.errorMessageNormal("From Fiction.deleteFromDatabase:" + se);
+                    PopUpMessages.errorMessageNormal("From Fiction.deleteFromDatabase:" + se);
                 }
 
                 return false;
             } else {
                 logger.warning("NonFiction '" + title + "' could not be deleted due to error in super.deleteFromDatabase");
-                DRIVER.errorMessageNormal("Book was not be deleted.");
+                PopUpMessages.errorMessageNormal("Book was not be deleted.");
                 return false;
             }
         } else {

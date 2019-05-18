@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import library.Driver;
+import util.PopUpMessages;
 
 /**
  *
@@ -120,17 +121,17 @@ public class GenreGUI extends javax.swing.JFrame {
             num = cstmt.executeUpdate();
 
         } catch (SQLException se) {
-            driver.errorMessageNormal("From GenreGUI.butAddGenreAP: " + se);
+            PopUpMessages.errorMessageNormal("From GenreGUI.butAddGenreAP: " + se);
             se.printStackTrace();
         }
 
         //execute addition of genre
         if (num == 1) {
-            driver.infoMessageNormal("Genre added successfullt to database");
+            PopUpMessages.infoMessageNormal("Genre added successfullt to database");
             this.dispose();
 
         } else {
-            driver.infoMessageNormal("Genre could not be added.");
+            PopUpMessages.infoMessageNormal("Genre could not be added.");
         }
 
     }//GEN-LAST:event_butAddGenreActionPerformed

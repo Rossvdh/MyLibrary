@@ -7,6 +7,7 @@ package gui;
 
 import library.Borrower;
 import library.Driver;
+import util.PopUpMessages;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -356,11 +357,11 @@ public class AddBorrower extends javax.swing.JFrame {
         borrower.setEmailAddress(tfEmail.getText());
 
         if (borrower.addToDatabase()) {
-            DRIVER.infoMessageNormal("Borrower successfully added to the database.");
+            PopUpMessages.infoMessageNormal("Borrower successfully added to the database.");
             logger.fine("Borrower successfully added to the database.");
             this.dispose();
         } else {
-            DRIVER.infoMessageNormal("Borrower could not be added.");
+            PopUpMessages.infoMessageNormal("Borrower could not be added.");
         }
     }
 
@@ -388,11 +389,11 @@ public class AddBorrower extends javax.swing.JFrame {
 
         if (borrower.deleteFromDatabase()) {
             logger.fine("Borrower successfully deleted.");
-            DRIVER.infoMessageNormal("Borrower successfully deleted.");
+            PopUpMessages.infoMessageNormal("Borrower successfully deleted.");
             this.dispose();
         } else {
             logger.fine("Borrower was not deleted.");
-            DRIVER.infoMessageNormal("Borrower was not deleted.");
+            PopUpMessages.infoMessageNormal("Borrower was not deleted.");
         }
     }
 
@@ -484,7 +485,7 @@ public class AddBorrower extends javax.swing.JFrame {
             }
             default: {
                 logger.warning("Invalid setVisiblePanel parameter. Must be 0, 1, or 2");
-                DRIVER.errorMessageNormal("Invalid setVisiblePanel parameter. Must be 0, 1, or 2");
+                PopUpMessages.errorMessageNormal("Invalid setVisiblePanel parameter. Must be 0, 1, or 2");
             }
         }
     }

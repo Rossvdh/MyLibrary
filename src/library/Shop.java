@@ -5,6 +5,8 @@
  */
 package library;
 
+import util.PopUpMessages;
+
 import javax.swing.*;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -105,11 +107,11 @@ public class Shop implements DatabaseEntry {
                     logger.fine("library.Shop.setIDFromName(). toString " + toString());
                 } else {
                     logger.warning("From Shop.setIDFromName: shop " + name + " not found");
-                    DRIVER.errorMessageNormal("From Shop.setIDFromName: shop " + name + " not found");
+                    PopUpMessages.errorMessageNormal("From Shop.setIDFromName: shop " + name + " not found");
                 }
             }
         } catch (SQLException se) {
-            DRIVER.errorMessageCritical("From Shop.setIDFromName: " + se);
+            PopUpMessages.errorMessageCritical("From Shop.setIDFromName: " + se);
             logger.warning("From Shop.setIDFromName: " + se);
         }
     }
@@ -162,7 +164,7 @@ public class Shop implements DatabaseEntry {
             num = cstmt.executeUpdate();
             return num == 1;
         } catch (SQLException se) {
-            DRIVER.errorMessageNormal("From Shop.addToDatabase: " + se);
+            PopUpMessages.errorMessageNormal("From Shop.addToDatabase: " + se);
             logger.log(Level.WARNING, se.toString(), se);
         }
 
@@ -201,7 +203,7 @@ public class Shop implements DatabaseEntry {
             }
             default: {
                 logger.warning("library.Shop.updateInDatabase() invalid field:" + field);
-                DRIVER.errorMessageNormal("Please select a valid field");
+                PopUpMessages.errorMessageNormal("Please select a valid field");
                 return false;
             }
         }
@@ -246,7 +248,7 @@ public class Shop implements DatabaseEntry {
 
                 return num == 1;
             } catch (SQLException se) {
-                DRIVER.errorMessageNormal("From Shop.deleteShop: " + se);
+                PopUpMessages.errorMessageNormal("From Shop.deleteShop: " + se);
                 logger.log(Level.WARNING, se.toString(), se);
             }
         }
@@ -264,12 +266,12 @@ public class Shop implements DatabaseEntry {
                 this.name = rs.getString(1);
                 rs.close();
             } else {
-                DRIVER.errorMessageNormal("Shop with ID " + id + " was not found.");
+                PopUpMessages.errorMessageNormal("Shop with ID " + id + " was not found.");
                 logger.warning("Shop with ID " + id + " was not found.");
             }
         } catch (SQLException se) {
             logger.log(Level.WARNING, se.toString(), se);
-            DRIVER.errorMessageNormal("From Shop.deleteShop: " + se);
+            PopUpMessages.errorMessageNormal("From Shop.deleteShop: " + se);
         }
     }
 
@@ -406,7 +408,7 @@ public class Shop implements DatabaseEntry {
                 }
                 default: {
                     logger.warning("library.Shop.search() invalid field");
-                    DRIVER.errorMessageNormal("Please select a valid field");
+                    PopUpMessages.errorMessageNormal("Please select a valid field");
                     return null;
                 }
             }

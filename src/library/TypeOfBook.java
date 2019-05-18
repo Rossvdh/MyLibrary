@@ -4,6 +4,8 @@ Ross van der Heyde
  */
 package library;
 
+import util.PopUpMessages;
+
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -233,7 +235,7 @@ public class TypeOfBook implements DatabaseEntry {
     @Override
     public boolean updateInDatabase(String field, String newValue) {
         if (!field.equalsIgnoreCase("type")) {
-            DRIVER.errorMessageNormal("Please select a valid field to update (i.e type)");
+            PopUpMessages.errorMessageNormal("Please select a valid field to update (i.e type)");
 
             return false;
         }

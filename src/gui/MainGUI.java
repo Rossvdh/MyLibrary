@@ -33,7 +33,7 @@ public class MainGUI extends javax.swing.JFrame {
         setExtendedState(MainGUI.MAXIMIZED_BOTH);//maximize window
 
         //add additional panels
-        tabPane.add(new AddPanel(driver));
+        tabPane.add(new AddPanel());
         tabPane.setTitleAt(0, "Add books"); //set title of panel on tabbed pane
 
         tabPane.add(new UpdateBookPanel(driver));
