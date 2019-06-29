@@ -7,6 +7,7 @@ package gui;
 import library.*;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -80,6 +81,7 @@ public class AddMultipleAuthors extends javax.swing.JFrame {
         labName.setText("Author/contributor name:");
 
         butNewAuthors.setText("Create new author");
+        butNewAuthors.addActionListener(evt -> createNewAuthor(evt));
 
         butAddRoles.setText("Create new roles");
         butAddRoles.addActionListener(evt -> butAddRolesActionPerformed(evt));
@@ -163,6 +165,24 @@ public class AddMultipleAuthors extends javax.swing.JFrame {
     }
 
     /**
+     * Shows the add new author window
+     *
+     * @param evt the button click event
+     */
+    private void createNewAuthor(ActionEvent evt) {
+        AddNewAuthors addNewAuthors = new AddNewAuthors();
+        addNewAuthors.setVisible(true);
+        addNewAuthors.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                //refresh combo authors
+                comboAuthor.setModel(DRIVER.getComboBoxModel(ComboBoxType.AUTHOR));
+            }
+        });
+
+    }
+
+    /**
      * Disposes of this window
      * @param evt the button click event
      */
@@ -191,10 +211,9 @@ public class AddMultipleAuthors extends javax.swing.JFrame {
 
     /**
      * Runs when the insert button is clicked. Displays the author in the
-     * authors text area
+     * authors text area and adds the author to the list of authors field
      * @param evt
      */
-    //get the author data, append to text area, add to list of authors
     private void butInsertActionPerformed(java.awt.event.ActionEvent evt) {
         Role role = new Role(comboRoles.getSelectedItem().toString());
 
@@ -204,7 +223,6 @@ public class AddMultipleAuthors extends javax.swing.JFrame {
 
         textArea.append(author.getName() + ", " + author.getRole().getRoleName() + "\n");
 
-        //clear author text field and role comboBox
         comboAuthor.setSelectedIndex(-1);
         comboRoles.setSelectedItem("Author");
     }

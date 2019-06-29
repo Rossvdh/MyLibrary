@@ -3,12 +3,11 @@
  Started 19 January 2014*/
 package gui;
 
-import java.awt.Color;
-import javax.swing.DefaultComboBoxModel;
-
 import library.*;
-import library.TypeOfBook;
 import util.PopUpMessages;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * A <code>JPanel</code> that provides functionality and interface for updating
@@ -566,7 +565,7 @@ public class UpdateBookPanel extends javax.swing.JPanel {
         int dew2 = (comboDewey1.getSelectedIndex() * 100) + comboDewey2.getSelectedIndex() * 10;
 
         //set model for dewey3
-        comboDewey3.setModel(driver.getDewey3Model(dew2, comboDewey2.getSelectedItem()));
+        comboDewey3.setModel(driver.getDewey3Model(dew2, (String) comboDewey2.getSelectedItem()));
     }//GEN-LAST:event_comboDewey2ItemStateChanged
 
     //set model of comboUpdate depending on whether fiction or nonFiction is selected
@@ -655,9 +654,9 @@ public class UpdateBookPanel extends javax.swing.JPanel {
     private javax.swing.JButton butClearTextPane;
     private javax.swing.JButton butDelete;
     private javax.swing.JButton butUpdate;
-    private javax.swing.JComboBox comboDewey1;
-    private javax.swing.JComboBox comboDewey2;
-    private javax.swing.JComboBox comboDewey3;
+    private javax.swing.JComboBox<String> comboDewey1;
+    private javax.swing.JComboBox<String> comboDewey2;
+    private javax.swing.JComboBox<String> comboDewey3;
     private javax.swing.JComboBox comboNewValue;
     private javax.swing.JComboBox comboUpdate;
     private javax.swing.ButtonGroup groupUpdate;

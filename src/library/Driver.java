@@ -297,7 +297,7 @@ public class Driver {
                                                   String level2Topic) {
 
         //declare comboBoxModel for comboDew2
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         model.addElement(level2Topic);//add 000 level topic to model
 
         try {

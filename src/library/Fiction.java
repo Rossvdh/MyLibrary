@@ -117,6 +117,7 @@ public class Fiction extends Book {
                 cstmt.setInt(4, type.getID());
                 cstmt.setInt(5, genre.getId());
 
+                logger.info("About to execute: " + cstmt.toString());
                 return cstmt.executeUpdate() == 1;
             } catch (SQLException se) {
                 logger.log(Level.WARNING, se.toString(), se);

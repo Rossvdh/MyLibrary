@@ -6,7 +6,10 @@ package library;
 
 import util.PopUpMessages;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +36,7 @@ public class Series implements DatabaseEntry {
     /**
      * Parameterized constructor for <code>Series</code>
      *
-     * @param name  Name of this <code>Series</code>
+     * @param name          Name of this <code>Series</code>
      * @param numberOfBooks number of books in this <code>Series</code>
      */
     public Series(String name, int numberOfBooks) {
@@ -144,6 +147,7 @@ public class Series implements DatabaseEntry {
     /**
      * Returns the has code value of this <code>Series</code>. NOte that this is
      * a generated method
+     *
      * @return hash code value
      */
     @Override
@@ -202,7 +206,7 @@ public class Series implements DatabaseEntry {
             logger.log(Level.WARNING, fns.toString(), fns);
         } catch (SQLException se) {
             logger.log(Level.WARNING, se.toString(), se);
-        }finally {
+        } finally {
             if (rs != null) {
                 try {
                     rs.close();
@@ -227,6 +231,7 @@ public class Series implements DatabaseEntry {
 
         try {
             cstmt.setString(1, name);
+            logger.info("About to execute " + cstmt.toString());
 
             ResultSet rs = cstmt.executeQuery();
 
